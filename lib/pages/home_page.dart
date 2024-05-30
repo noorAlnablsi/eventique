@@ -34,25 +34,25 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.menu,
-                      color: Color.fromARGB(255, 221, 140, 162),
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.circle_notifications,
-                      color:primary,
-                    )),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     IconButton(
+            //         onPressed: () {},
+            //         icon: Icon(
+            //           Icons.menu,
+            //           color: Color.fromARGB(255, 221, 140, 162),
+            //         )),
+            //     IconButton(
+            //         onPressed: () {},
+            //         icon: Icon(
+            //           Icons.circle_notifications,
+            //           color:primary,
+            //         )),
+            //   ],
+            // ),
 
-            Gap(18),
+            // Gap(18),
 
             Card(
               elevation: 20,

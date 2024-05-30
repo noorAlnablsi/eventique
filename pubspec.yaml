@@ -40,6 +40,13 @@ dependencies:
   curved_labeled_navigation_bar: ^2.0.2
   flutter_native_splash: ^2.4.0
   gap: ^3.0.1
+  typicons_flutter: ^0.5.0
+  provider: ^6.1.2
+  cached_network_image: ^3.3.1
+  carousel_slider: ^4.2.1
+  readmore: ^3.0.0
+  font_awesome_flutter: ^10.7.0
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:
