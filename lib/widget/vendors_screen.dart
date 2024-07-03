@@ -1,6 +1,6 @@
-import 'package:eventique/core/widget/categories_list.dart';
-import 'package:eventique/core/widget/search_bar.dart';
-import 'package:eventique/core/widget/services_grid.dart';
+import 'package:eventique/widget/categories_list.dart';
+import 'package:eventique/widget/search_bar.dart';
+import 'package:eventique/widget/services_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:typicons_flutter/typicons_flutter.dart';
 

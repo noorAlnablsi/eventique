@@ -1,4 +1,4 @@
-import 'package:eventique/core/widget/service_item.dart';
+import 'package:eventique/widget/service_item.dart';
 import 'package:eventique/models/one_service.dart';
 import 'package:eventique/providers/services_list.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +33,7 @@ class ServicesGrid extends StatelessWidget {
               itemCount: displayedServices.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 2 / 3.2,
+                childAspectRatio: 2 / 3.3,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
               ),
@@ -52,7 +52,7 @@ class ServicesGrid extends StatelessWidget {
               SizedBox(height: MediaQuery.of(context).size.height * 0.3),
               Text(
                 'No Services Are Available Yet',
-                style: bodySmallStyle!.copyWith(fontFamily: 'Irish Grover', fontSize: 22,color: Color.fromARGB(255, 227, 181, 193),),
+                style: bodySmallStyle!.copyWith(fontFamily: 'IrishGrover', fontSize: 22,color: Color.fromARGB(255, 227, 181, 193),),
               ),
             ]),
     );

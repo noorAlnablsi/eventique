@@ -1,4 +1,4 @@
-import 'package:eventique/providers/services_in_shoppinglist.dart';
+import 'package:eventique/providers/carts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +12,7 @@ class QuantitySelector extends StatefulWidget {
 class _QuantitySelectorState extends State<QuantitySelector> {
   @override
   Widget build(BuildContext context) {
-    final changeQuantity = Provider.of<ShoppingListsServices>(context);
+    final changeQuantity = Provider.of<Carts>(context);
     int quantity = changeQuantity.getQuantity(widget.serviceId);
 
     var primaryColor = Theme.of(context).primaryColor;

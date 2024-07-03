@@ -19,7 +19,7 @@ class _RateWithStarsState extends State<RateWithStars> {
     final reviewProvider = Provider.of<Reviews>(context);
     var ratingfromPro = reviewProvider.getCurrentRating(widget.serviceId);
     return Padding(
-      padding: const EdgeInsets.only(left: 34, top: 8),
+      padding: const EdgeInsets.only(left: 34, bottom: 24,),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

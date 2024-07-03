@@ -4,7 +4,8 @@ import 'package:eventique/core/resources/color.dart';
 import 'package:eventique/pages/chat%20_screen.dart';
 import 'package:eventique/pages/event_list.dart';
 import 'package:eventique/pages/home_page.dart';
-import 'package:eventique/pages/orders%20_page.dart';
+import 'package:eventique/pages/orders_screen.dart';
+import 'package:eventique/pages/cart.dart';
 import 'package:eventique/pages/vendors_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:typicons_flutter/typicons_flutter.dart';
@@ -21,7 +22,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
     HomePage(),
     VendorsScreen(),
     EventListPage(),
-    OrdersPage(),
+    OrdersScreen(),
     ChatScreenPage(),
   ];
 
@@ -30,6 +31,8 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
+        surfaceTintColor: const Color(0xFFFFFDF0),
+        shadowColor: Color(0xFFFFFDF0),
         actions: [
           //notifivation icon
           Container(
@@ -51,7 +54,11 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
                 Icons.notifications_none_rounded,
                 color: Color(0xff662465),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  // eventName
+            context, MaterialPageRoute(builder: (ctx) => TestCart()));
+              },
               padding: const EdgeInsets.only(bottom: 2),
             ),
           ),

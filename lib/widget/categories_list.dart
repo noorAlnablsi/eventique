@@ -1,5 +1,5 @@
 //the tags in vendors (services)screen
-import 'package:eventique/core/widget/category_tag_chip.dart';
+import 'package:eventique/widget/category_tag_chip.dart';
 import 'package:eventique/models/one_service.dart';
 import 'package:flutter/material.dart';
 

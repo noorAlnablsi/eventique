@@ -1,9 +1,11 @@
-import 'package:eventique/core/widget/description.dart';
-import 'package:eventique/core/widget/quantity_selector.dart';
-import 'package:eventique/core/widget/rate_with_stars.dart';
-import 'package:eventique/core/widget/reviews_grid.dart';
-import 'package:eventique/core/widget/vendor_tile.dart';
+import 'package:eventique/widget/description.dart';
+import 'package:eventique/widget/quantity_selector.dart';
+import 'package:eventique/widget/rate_with_stars.dart';
+import 'package:eventique/widget/reviews_grid.dart';
+import 'package:eventique/widget/vendor_tile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class MyTabBarView extends StatelessWidget {
   const MyTabBarView({
@@ -44,9 +46,11 @@ class MyTabBarView extends StatelessWidget {
         ),
         // Tab 2 content
         Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RateWithStars(serviceId: serviceId),
+            // RateWithStars(serviceId: serviceId),
+
             Expanded(
               child: ReviewsGrid(
                 serviceId: serviceId,

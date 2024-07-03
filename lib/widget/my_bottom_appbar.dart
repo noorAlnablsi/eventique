@@ -1,3 +1,4 @@
+import 'package:eventique/providers/carts.dart';
 import 'package:eventique/providers/reviews.dart';
 import 'package:eventique/providers/services_list.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +6,16 @@ import 'package:provider/provider.dart';
 
 class MyBottomAppBar extends StatefulWidget {
   const MyBottomAppBar(
-      {super.key, required this.price, required this.serviceId});
+      {super.key,
+      required this.price,
+      required this.serviceId,
+      required this.imgUrl,
+      required this.name,
+      });
   final double price;
   final int serviceId;
+  final String imgUrl;
+  final String name;
 
   @override
   State<MyBottomAppBar> createState() => _MyBottomAppBarState();
@@ -28,9 +36,13 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
     TextTheme texttheme = Theme.of(context).textTheme;
 
     final reviewProvider = Provider.of<Reviews>(context);
-    final int selectedIndex=  Provider.of<AllServices>(context).indexForBotomContent;
+    final quantity = Provider.of<Carts>(context).getQuantity(widget.serviceId);
+    final int selectedIndex =
+        Provider.of<AllServices>(context).indexForBotomContent;
+
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: BottomAppBar(
         shadowColor: Theme.of(context).primaryColor,
         elevation: 30,
@@ -40,21 +52,28 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
         child: selectedIndex == 0
             ? Row(
                 children: [
-                  Text(
-                    '\$${widget.price}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(fontWeight: FontWeight.w600, fontSize: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24),
+                    child: Text(
+                      '\$${widget.price * quantity}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontSize: 20, fontFamily: 'IrishGrover'),
+                    ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<Carts>(context, listen: false)
+                          .addServiceToCart(
+                              1, widget.serviceId, widget.price, widget.imgUrl,widget.name);
+                    },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Theme.of(context).primaryColor),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Add To List',
                       style: TextStyle(
                           fontFamily: 'IrishGrover',
@@ -82,7 +101,9 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                             setState(() {});
                           },
                           icon: Icon(
-                            _commentController.text.isNotEmpty ? Icons.clear : null,
+                            _commentController.text.isNotEmpty
+                                ? Icons.clear
+                                : null,
                             color: primarycolor,
                             size: 20,
                           ),
@@ -99,8 +120,8 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                           borderSide: BorderSide(color: primarycolor),
                         ),
                       ),
-                      style:
-                          texttheme.bodyMedium!.copyWith(fontWeight: FontWeight.w400),
+                      style: texttheme.bodyMedium!
+                          .copyWith(fontWeight: FontWeight.w400),
                     ),
                   ),
                   IconButton(

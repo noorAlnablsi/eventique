@@ -1,10 +1,10 @@
 import 'package:eventique/core/resources/color.dart';
-import 'package:eventique/core/widget/row_login_register.dart';
-import 'package:eventique/core/widget/text_Style.dart';
+import 'package:eventique/widget/row_login_register.dart';
+import 'package:eventique/widget/text_Style.dart';
 import 'package:gap/gap.dart';
-import '../core/widget/app_button.dart';
-import '../core/widget/app_textfield.dart';
-import '../core/widget/my_divider.dart';
+import '../widget/app_button.dart';
+import '../widget/app_textfield.dart';
+import '../widget/my_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

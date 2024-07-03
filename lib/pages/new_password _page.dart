@@ -1,8 +1,8 @@
 import 'package:eventique/core/resources/color.dart';
 import 'package:gap/gap.dart';
 
-import '../core/widget/app_button.dart';
-import '../core/widget/app_textfield.dart';
+import '../widget/app_button.dart';
+import '../widget/app_textfield.dart';
 import 'package:flutter/material.dart';
 
 class  NewPasswordPage extends StatelessWidget {

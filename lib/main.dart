@@ -1,28 +1,130 @@
+// import 'package:eventique/pages/navigation_bar_page.dart';
+// import 'package:eventique/pages/vendors_screen.dart';
+// import 'package:eventique/providers/orders.dart';
+// import 'package:eventique/providers/reviews.dart';
+// import 'package:eventique/providers/carts.dart';
+// import 'package:eventique/providers/services_list.dart';
+// import 'package:provider/provider.dart';
+
+// import 'pages/forgot_password_page.dart';
+// import 'pages/home_page.dart';
+// import 'pages/login_page.dart';
+// import 'pages/new_password%20_page.dart';
+// import 'pages/signup_page%20.dart';
+// import 'pages/splash_screen.dart';
+// import 'pages/splash_page.dart';
+// import 'pages/verification_page.dart';
+// import 'package:flutter/material.dart';
+
+// void main() {
+//   runApp(const MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(
+//           create: (ctx) => AllServices(),
+//         ),
+//         ChangeNotifierProvider(
+//           create: (ctx) => Reviews(),
+//         ),
+//         ChangeNotifierProvider(
+//           create: (ctx) => Carts(),
+//         ),
+//          ChangeNotifierProvider(
+//           create: (ctx) => Orders(),
+//         ),
+//       ],
+//       child: MaterialApp(
+//         debugShowCheckedModeBanner: false,
+//         home: NavigationBarPage(),
+//         theme: ThemeData(
+//           primaryColor: Color(0xff662465),
+//           scaffoldBackgroundColor: const Color(0xFFFFFDF0),
+//           appBarTheme: const AppBarTheme(
+//             color: Color(0xFFFFFDF0),
+//           ),
+//           textTheme: const TextTheme(
+//             bodyLarge: TextStyle(
+//                 fontSize: 22.0,
+//                 fontFamily: 'Bahnschrift',
+//                 color: Color(0xff662465),),
+//             bodyMedium: TextStyle(
+//                 fontSize: 14.0,
+//                 fontFamily: 'Bahnschrift',
+//                 fontWeight: FontWeight.bold,
+//                 color: Color(0xff662465)),
+//             bodySmall: TextStyle(
+//                 fontSize: 14.0,
+//                 fontFamily: 'Bahnschrift',
+//                 color: Color(0xff662465)),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+// // Color(0xffDD8CA1)
+
+
+
+
+
 import 'package:eventique/pages/navigation_bar_page.dart';
 import 'package:eventique/pages/vendors_screen.dart';
+import 'package:eventique/providers/orders.dart';
 import 'package:eventique/providers/reviews.dart';
-import 'package:eventique/providers/services_in_shoppinglist.dart';
+import 'package:eventique/providers/carts.dart';
 import 'package:eventique/providers/services_list.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/forgot_password_page.dart';
 import 'pages/home_page.dart';
 import 'pages/login_page.dart';
-import 'pages/new_password%20_page.dart';
-import 'pages/signup_page%20.dart';
 import 'pages/splash_screen.dart';
 import 'pages/splash_page.dart';
 import 'pages/verification_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Set up the global error handler to prevent the app from freezing
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    // Optionally log the error to the console
+    print('Caught by ErrorWidget.builder: ${details.exception}');
+    print('StackTrace: ${details.stack}');
+
+    // Return a simple error widget to prevent the app from freezing
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Error'),
+        backgroundColor: Colors.red,
+      ),
+      body: Center(
+        child: Text(
+          'An unexpected error occurred. Please try again later.',
+          style: TextStyle(
+            color: Colors.red,
+            fontSize: 24,
+          ),
+        ),
+      ),
+    );
+  };
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -33,34 +135,42 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => Reviews(),
         ),
-         ChangeNotifierProvider(
-          create: (ctx) => ShoppingListsServices(),
+        ChangeNotifierProvider(
+          create: (ctx) => Carts(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Orders(),
         ),
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false, home: NavigationBarPage(),
-           theme: ThemeData(
-            primaryColor: Color(0xff662465),
-            scaffoldBackgroundColor: const Color(0xFFFFFDF0),
-            appBarTheme: const AppBarTheme(
-              color: Color(0xFFFFFDF0),
+        debugShowCheckedModeBanner: false,
+        home: NavigationBarPage(),
+        theme: ThemeData(
+          primaryColor: Color(0xff662465),
+          scaffoldBackgroundColor: const Color(0xFFFFFDF0),
+          appBarTheme: const AppBarTheme(
+            color: Color(0xFFFFFDF0),
+          ),
+          textTheme: const TextTheme(
+            bodyLarge: TextStyle(
+              fontSize: 22.0,
+              fontFamily: 'Bahnschrift',
+              color: Color(0xff662465),
             ),
-            textTheme: const TextTheme(
-              bodyLarge: TextStyle(
-                  fontSize: 22.0,
-                  fontFamily: 'Bahnschrift',
-                  color: Color(0xff662465)),
-              bodyMedium: TextStyle(
-                  fontSize: 14.0,
-                  fontFamily: 'Bahnschrift',
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff662465)),
-              bodySmall: TextStyle(
-                  fontSize: 14.0,
-                  fontFamily: 'Bahnschrift',
-                  color: Color(0xff662465)),
+            bodyMedium: TextStyle(
+              fontSize: 14.0,
+              fontFamily: 'Bahnschrift',
+              fontWeight: FontWeight.bold,
+              color: Color(0xff662465),
             ),
-          ),),
+            bodySmall: TextStyle(
+              fontSize: 14.0,
+              fontFamily: 'Bahnschrift',
+              color: Color(0xff662465),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

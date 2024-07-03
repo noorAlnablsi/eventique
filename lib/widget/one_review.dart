@@ -28,19 +28,19 @@ class OneReview extends StatelessWidget {
             context: context,
             builder: (BuildContext dialogContext) {
               return AlertDialog(
-                backgroundColor: Color(0xFFFFFDF0),
+                backgroundColor: const Color(0xFFFFFDF0),
                 content: Text('Delete this review?',
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!
-                        .copyWith(fontSize: 18)),
+                        .copyWith(fontSize: 18,fontWeight: FontWeight.bold)),
                 actions: <Widget>[
                   TextButton(
                     child: Text('No',
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
-                            .copyWith(fontWeight: FontWeight.normal)),
+                            .copyWith(fontWeight: FontWeight.w500)),
                     onPressed: () {
                       Navigator.of(dialogContext).pop();
                     },
@@ -50,7 +50,7 @@ class OneReview extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
-                            .copyWith(fontWeight: FontWeight.normal)),
+                            .copyWith(fontWeight: FontWeight.w500)),
                     onPressed: () {
                       Provider.of<Reviews>(context, listen: false)
                           .deleteReview(serviceId, reviewIndex);
@@ -67,10 +67,11 @@ class OneReview extends StatelessWidget {
         }
       },
       child: Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           right: 16,
           left: 16,
           bottom: 16,
+          top: 8,
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,18 +93,18 @@ class OneReview extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(personName,
-                      style: Theme.of(context).textTheme.bodyMedium),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w800,fontSize: 15)),
                   (rating != 0)
                       ? RatingBarIndicator(
-                          unratedColor: Color.fromARGB(255, 207, 207, 207),
+                          unratedColor: const Color.fromARGB(255, 207, 207, 207),
                           rating: rating!,
-                          itemBuilder: (context, index) => Icon(
+                          itemBuilder: (context, index) => const Icon(
                             Icons.star,
                             color: Color(0xffEBC25C),
                           ),
@@ -112,13 +113,13 @@ class OneReview extends StatelessWidget {
                           direction: Axis.horizontal,
                         )
                       : Container(),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   ReadMoreText(
                     theComment,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 14.0,
                         fontFamily: 'Bahnschrift',
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: Color(0xff662465)),
                     trimLines: 3,
                     colorClickableText: const Color.fromARGB(255, 78, 152, 212),
@@ -128,11 +129,11 @@ class OneReview extends StatelessWidget {
                     moreStyle: Theme.of(context)
                         .textTheme
                         .bodyMedium!
-                        .copyWith(color: Color.fromARGB(255, 86, 162, 224)),
+                        .copyWith(color: const Color.fromARGB(255, 86, 162, 224)),
                     lessStyle: Theme.of(context)
                         .textTheme
                         .bodyMedium!
-                        .copyWith(color: Color.fromARGB(255, 86, 162, 224)),
+                        .copyWith(color: const Color.fromARGB(255, 86, 162, 224)),
                   ),
                 ],
               ),
