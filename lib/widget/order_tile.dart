@@ -8,7 +8,6 @@ class OrderTile extends StatelessWidget {
   const OrderTile({super.key, required this.order, required this.index});
   final OneOrder order;
   final int index;
-  final String eventName = 'My Birthday';
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class OrderTile extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (ctx) => OrderDetails(
-                  eventName: eventName, services: order.orderServices),
+                  eventName: order.eventName, services: order.orderServices),
             ),
           );
         },
@@ -52,7 +51,7 @@ class OrderTile extends StatelessWidget {
                     const SizedBox(height: 5),
                     Text(
                       // 'Event: ${order.eventName}',
-                      eventName,
+                      order.eventName,
                       softWrap: false,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

@@ -77,8 +77,7 @@ class OrdersScreen extends StatelessWidget {
     );
   }
 
-  Widget buildOrderList(
-      List<OneOrder> orders, List<OneOrder> allOrders, BuildContext context) {
+  Widget buildOrderList(List<OneOrder> orders, List<OneOrder> allOrders, BuildContext context) {
     return orders.isEmpty
         ? Center(
             child: Text(
@@ -96,7 +95,7 @@ class OrdersScreen extends StatelessWidget {
             itemBuilder: (ctx, i) {
               final globalRank =
                   allOrders.length - allOrders.indexOf(orders[i]);
-              return OrderTile(order: orders[i], index: globalRank);
+              return OrderTile(order: orders[i], index: globalRank,);
             },
           );
   }

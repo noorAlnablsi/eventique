@@ -1,17 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eventique/pages/service_details.dart';
+import 'package:eventique/providers/carts.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ServiceItem extends StatelessWidget {
-  const ServiceItem(
-      {super.key,
-      required this.imgurl,
-      required this.name,
-      required this.vendorName,
-      required this.rating,
-      required this.serviceId,
-      }
-      );
+  const ServiceItem({
+    super.key,
+    required this.imgurl,
+    required this.name,
+    required this.vendorName,
+    required this.rating,
+    required this.serviceId,
+  });
   final String imgurl;
   final String name, vendorName;
   final double rating;
@@ -23,10 +24,24 @@ class ServiceItem extends StatelessWidget {
     final TextStyle? bodyMediumStyle = Theme.of(context).textTheme.bodyMedium;
     final TextStyle? bodySmallStyle = Theme.of(context).textTheme.bodySmall;
 
+    final cartProvider = Provider.of<Carts>(context, listen: false);
+
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (ctx) => ServiceDetails(serviceId: serviceId,)));
+        if (cartProvider.chosenEventId.isNotEmpty) {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (ctx) => ServiceDetails(serviceId: serviceId)),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (ctx) => ServiceDetails(serviceId: serviceId)),
+          );
+        }
       },
       child: Container(
         // width: 2000,

@@ -1,17 +1,19 @@
+import 'package:eventique/core/resources/color.dart';
 import 'package:eventique/providers/carts.dart';
 import 'package:eventique/providers/reviews.dart';
 import 'package:eventique/providers/services_list.dart';
+import 'package:eventique/widget/choose_event.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MyBottomAppBar extends StatefulWidget {
-  const MyBottomAppBar(
-      {super.key,
-      required this.price,
-      required this.serviceId,
-      required this.imgUrl,
-      required this.name,
-      });
+  const MyBottomAppBar({
+    super.key,
+    required this.price,
+    required this.serviceId,
+    required this.imgUrl,
+    required this.name,
+  });
   final double price;
   final int serviceId;
   final String imgUrl;
@@ -23,10 +25,19 @@ class MyBottomAppBar extends StatefulWidget {
 
 class _MyBottomAppBarState extends State<MyBottomAppBar> {
   final TextEditingController _commentController = TextEditingController();
+  ScaffoldMessengerState? _scaffoldMessengerState;
+
+  // @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _scaffoldMessengerState = ScaffoldMessenger.of(context);
+  }
 
   @override
   void dispose() {
     _commentController.dispose();
+    // Hide any active Snackbar when the widget is disposed
+    _scaffoldMessengerState?.hideCurrentSnackBar();
     super.dispose();
   }
 
@@ -36,9 +47,9 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
     TextTheme texttheme = Theme.of(context).textTheme;
 
     final reviewProvider = Provider.of<Reviews>(context);
-    final quantity = Provider.of<Carts>(context).getQuantity(widget.serviceId);
-    final int selectedIndex =
-        Provider.of<AllServices>(context).indexForBotomContent;
+    final int selectedIndex =Provider.of<AllServices>(context).indexForBotomContent;
+    final cartProvider = Provider.of<Carts>(context);
+     final quantity = cartProvider.getQuantity(widget.serviceId);
 
     return Padding(
       padding:
@@ -46,8 +57,8 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
       child: BottomAppBar(
         shadowColor: Theme.of(context).primaryColor,
         elevation: 30,
-        surfaceTintColor: Color(0xFFFFFDF0),
-        color: Color(0xFFFFFDF0),
+        surfaceTintColor: const Color(0xFFFFFDF0),
+        color: const Color(0xFFFFFDF0),
         padding: EdgeInsets.symmetric(horizontal: selectedIndex == 0 ? 26 : 8),
         child: selectedIndex == 0
             ? Row(
@@ -65,16 +76,59 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                   const Spacer(),
                   ElevatedButton(
                     onPressed: () {
-                      Provider.of<Carts>(context, listen: false)
-                          .addServiceToCart(
-                              1, widget.serviceId, widget.price, widget.imgUrl,widget.name);
+                      cartProvider.chosenEventId.isEmpty?
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            surfaceTintColor: beige,
+                            backgroundColor: beige,
+                            content: ChooseEvent(
+                              imgUrl: widget.imgUrl,
+                              name: widget.name,
+                              price: widget.price,
+                              serviceId: widget.serviceId,
+                            ),
+                            
+                          );
+                        },
+                      ):
+
+                       {   // Add service to cart
+                              Provider.of<Carts>(context, listen: false)
+                                  .addServiceToCart(
+                                      widget.serviceId,
+                                      widget.price,
+                                      widget.imgUrl,
+                                      widget.name           ),
+
+                                           // Show snack bar
+                              _scaffoldMessengerState?.showSnackBar(
+                                SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 76, 27, 75),
+                                  content: Text(
+                                    'Added successfully',
+                                    style: TextStyle(
+                                      color: beige,
+                                    ),
+                                  ),
+                                  duration: const Duration(seconds: 1),
+                                ),
+                              )
+                    };
+
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(
                           Theme.of(context).primaryColor),
                     ),
                     child: const Text(
-                      'Add To List',
+                      'Add To Cart',
                       style: TextStyle(
                           fontFamily: 'IrishGrover',
                           fontSize: 18,
@@ -94,7 +148,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                         setState(() {});
                       },
                       decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(10),
+                        contentPadding: const EdgeInsets.all(10),
                         suffixIcon: IconButton(
                           onPressed: () {
                             _commentController.clear();

@@ -1,3 +1,7 @@
+//cahnges to find error
+// _tabController = TabController(length: 2, vsync: this);......1 instead of 2
+
+
 import 'package:eventique/widget/image_slider.dart';
 import 'package:eventique/widget/my_bottom_appbar.dart';
 import 'package:eventique/widget/my_tabBar.dart';
@@ -22,8 +26,14 @@ class _ServiceDetailsState extends State<ServiceDetails>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 1, vsync: this);
     _tabController.addListener(_handleTabSelection);
+
+  // Ensure the first tab is selected when the screen is re-entered
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    _tabController.index = 0; // Reset to the first tab
+    Provider.of<AllServices>(context, listen: false).changeIndexforBottom(0); // Update provider as well
+  });
   }
 
   @override
@@ -33,10 +43,6 @@ class _ServiceDetailsState extends State<ServiceDetails>
     super.dispose();
   }
 
-  // void _handleTabSelection() {
-  //   Provider.of<AllServices>(context, listen: false)
-  //       .changeIndexforBottom(_tabController.index);
-  // }
   void _handleTabSelection() {
   SchedulerBinding.instance.addPostFrameCallback((_) {
     if (mounted) {

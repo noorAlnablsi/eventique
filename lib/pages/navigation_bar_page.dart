@@ -55,9 +55,6 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
                 color: Color(0xff662465),
               ),
               onPressed: () {
-                Navigator.push(
-                  // eventName
-            context, MaterialPageRoute(builder: (ctx) => TestCart()));
               },
               padding: const EdgeInsets.only(bottom: 2),
             ),

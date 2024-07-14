@@ -78,6 +78,7 @@
 
 import 'package:eventique/pages/navigation_bar_page.dart';
 import 'package:eventique/pages/vendors_screen.dart';
+import 'package:eventique/providers/events.dart';
 import 'package:eventique/providers/orders.dart';
 import 'package:eventique/providers/reviews.dart';
 import 'package:eventique/providers/carts.dart';
@@ -140,6 +141,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => Orders(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Events(),
         ),
       ],
       child: MaterialApp(

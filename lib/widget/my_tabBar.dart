@@ -1,3 +1,12 @@
+//chanf=ges to find erro 
+// commented  // Tab(
+            //   child: Text(
+            //     'Reviews',
+            //     style: TextStyle(fontFamily: 'IrishGrover', fontSize: 20),
+            //   ),
+            // ),
+
+
 import 'package:flutter/material.dart';
 
 class MyTabBar extends StatelessWidget {
@@ -28,12 +37,12 @@ class MyTabBar extends StatelessWidget {
                 style: TextStyle(fontFamily: 'IrishGrover', fontSize: 20),
               ),
             ),
-            Tab(
-              child: Text(
-                'Reviews',
-                style: TextStyle(fontFamily: 'IrishGrover', fontSize: 20),
-              ),
-            ),
+            // Tab(
+            //   child: Text(
+            //     'Reviews',
+            //     style: TextStyle(fontFamily: 'IrishGrover', fontSize: 20),
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -1,3 +1,7 @@
+//changes to find error
+//commented tab 2
+
+
 import 'package:eventique/widget/description.dart';
 import 'package:eventique/widget/quantity_selector.dart';
 import 'package:eventique/widget/rate_with_stars.dart';
@@ -45,19 +49,19 @@ class MyTabBarView extends StatelessWidget {
           ),
         ),
         // Tab 2 content
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // RateWithStars(serviceId: serviceId),
+        // Column(
+        //   mainAxisAlignment: MainAxisAlignment.start,
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: [
+        //     // RateWithStars(serviceId: serviceId),
 
-            Expanded(
-              child: ReviewsGrid(
-                serviceId: serviceId,
-              ),
-            ),
-          ],
-        ),
+        //     Expanded(
+        //       child: ReviewsGrid(
+        //         serviceId: serviceId,
+        //       ),
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }

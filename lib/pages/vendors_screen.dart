@@ -8,13 +8,15 @@ class VendorsScreen extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            MySearchBar(),
-            const CategoriesList(),
-            ServicesGrid(),
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              MySearchBar(),
+              const CategoriesList(),
+              ServicesGrid(),
+            ],
+          ),
         ),
       ),
     );

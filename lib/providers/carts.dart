@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 class Carts with ChangeNotifier {
   //map each event id with its cart,each cart has cart servicess with the original service thats why i used another map to link them
-  final Map<int, Map<int, OneCartService>> _carts = {};
+  final Map<String, Map<int, OneCartService>> _carts = {};
 
 // gets all the carts for all events"not needed !"
-  Map<int, Map<int, OneCartService>> get carts => _carts;
+  Map<String, Map<int, OneCartService>> get carts => _carts;
 
 // gets an event cart(one cart only),if not found it returns empty map
-  Map<int, OneCartService> getCart(int eventId) {
+  Map<int, OneCartService> getCart(String eventId) {
     return _carts[eventId] ?? {};
   }
 
@@ -33,12 +33,24 @@ class Carts with ChangeNotifier {
     notifyListeners();
   }
 
-  void addServiceToCart(int eventId, int serviceId, double servicePrice,String imgUrl,String name) {
-    if (!_carts.containsKey(eventId)) {
-      _carts[eventId] = {};
+  String chosenEventId='';
+  void changeChosenEvent(String eventId) {
+    chosenEventId = eventId;
+    notifyListeners(); 
+  }
+
+
+  void addServiceToCart(int serviceId, double servicePrice,String imgUrl,String name) {
+    
+     if (chosenEventId.isEmpty) {
+      throw Exception('No event chosen');
     }
 
-    final eventCart = _carts[eventId]!;
+    if (!_carts.containsKey(chosenEventId)) {
+      _carts[chosenEventId] = {};
+    }
+
+    final eventCart = _carts[chosenEventId]!;
 
     if (eventCart.containsKey(serviceId)) {
       final existingService = eventCart[serviceId]!;
@@ -61,11 +73,12 @@ class Carts with ChangeNotifier {
       );
     }
     _quantities[serviceId] = 1;
+    chosenEventId='';
 
     notifyListeners();
   }
 
-   removeServiceFromCart(int eventId, int serviceId) {
+   removeServiceFromCart(String eventId, int serviceId) {
     if (_carts.containsKey(eventId)) {
       final eventCart = _carts[eventId]!;
       eventCart.remove(serviceId);
@@ -78,7 +91,7 @@ class Carts with ChangeNotifier {
 
 
   //when ordering ,the cart should become empty
-  void clearCart(int eventId) {
+  void clearCart(String eventId) {
     if (_carts.containsKey(eventId)) {
       _carts[eventId]!.clear();
       _carts.remove(eventId);
@@ -86,7 +99,7 @@ class Carts with ChangeNotifier {
     }
   }
 
-  double getOrderTotalPrice(int eventId) {
+  double getOrderTotalPrice(String eventId) {
     double total = 0.0;
     if (_carts.containsKey(eventId)) {
       _carts[eventId]!.forEach((key, cartService) {
