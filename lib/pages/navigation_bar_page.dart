@@ -18,8 +18,9 @@ class NavigationBarPage extends StatefulWidget {
 class _NavigationBarPageState extends State<NavigationBarPage> {
     List Screen=[
     HomePage(),
+     VendorsPage(),
     EventListPage(),
-    VendorsPage(),
+   
     OrdersPage(),
     ChatScreenPage(),
   ];

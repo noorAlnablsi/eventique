@@ -1,5 +1,7 @@
 import 'package:eventique/pages/navigation_bar_page.dart';
 import 'package:eventique/pages/one_package_details.dart';
+import 'package:eventique/pages/one_you&us.dart';
+import 'package:eventique/pages/tt.dart';
 import 'package:eventique/pages/vendors_page.dart';
 
 import 'pages/forgot_password_page.dart';
@@ -23,6 +25,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false, home: OnePackageDetails());
+        debugShowCheckedModeBanner: false, home: OnePackageDetailsPage());
   }
 }

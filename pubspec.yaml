@@ -40,6 +40,10 @@ dependencies:
   curved_labeled_navigation_bar: ^2.0.2
   flutter_native_splash: ^2.4.0
   gap: ^3.0.1
+  flutter_screenutil: ^5.9.3
+  carousel_slider: ^4.2.1
+  cached_network_image: ^3.3.1
+  flutter_staggered_grid_view: ^0.7.0
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +97,17 @@ flutter:
     - family: Quattrocento
       fonts:
         - asset: fonts/Quattrocento-Regular.ttf
+
+    - family: Roboto 
+      fonts:
+        - asset: fonts/Roboto-Regular.ttf   
+    - family: KaushanScript
+      fonts:
+        - asset: fonts/KaushanScript-Regular.ttf  
+
+    - family: Kanit
+      fonts:
+        - asset: fonts/Kanit-Bold.ttf    
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

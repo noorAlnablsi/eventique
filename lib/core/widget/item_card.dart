@@ -2,25 +2,25 @@
 import 'package:eventique/core/resources/color.dart';
 import 'package:flutter/cupertino.dart';
 
-class ContainerPakckage extends StatelessWidget {
-  const ContainerPakckage({
+class ItemCard extends StatelessWidget {
+  const ItemCard({
     Key? key,
-    required this.height,
-    required this.width,
+    // required this.height,
+    // required this.width,
     required this.firsttext,
     required this.secondtext,
     required this.image,
   }) : super(key: key);
-  final double height;
-  final double width;
+  // final double height;
+  // final double width;
   final String firsttext;
   final String secondtext;
   final String image;
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
-      width: width,
+      // height: height,
+      // width: width,
       decoration: BoxDecoration(
           color: Color.fromARGB(255, 232, 227, 249),
           borderRadius: BorderRadius.all(Radius.circular(15))),
