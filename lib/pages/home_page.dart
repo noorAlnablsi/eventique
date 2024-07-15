@@ -80,7 +80,7 @@ class HomePage extends StatelessWidget {
 
 Container(
   decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(20), // نفس حواف الـ Card السابقة
+    borderRadius: BorderRadius.circular(20), 
     gradient: LinearGradient(
       begin: Alignment.centerLeft,
       end: Alignment.centerRight,
@@ -92,10 +92,10 @@ Container(
     ),
     boxShadow: [
       BoxShadow(
-        color: Colors.blueGrey.withOpacity(0.5), // لون الظل (أزرق فاتح مع رمادي) وزيادة الشفافية
+        color: Colors.blueGrey.withOpacity(0.5), 
         spreadRadius: 5,
         blurRadius: 15,
-        offset: Offset(0, 10), // يحدد اتجاه وشدة الظل
+        offset: Offset(0, 10),// 
       ),
     ],
   ),
