@@ -2,7 +2,12 @@ import 'package:eventique/models/one_event.dart';
 import 'package:flutter/material.dart';
 
 class Events with ChangeNotifier {
-  final List<OneEvent> _events = [];
+  final List<OneEvent> _events = [
+    OneEvent(eventId: 'id1', name: 'Roro\'s Wedding', budget: 100, guestsNumber: 30, time: TimeOfDay(hour: 12, minute: 30), dateTime: DateTime(2023), eventType: EventType.wedding),
+    OneEvent(eventId: 'id2', name: 'lolo\'s birthday', budget: 100, guestsNumber: 30, time: TimeOfDay(hour: 12, minute: 30), dateTime: DateTime(2026), eventType: EventType.wedding),
+    OneEvent(eventId: 'id3', name: 'My birthday', budget: 100, guestsNumber: 30, time: TimeOfDay(hour: 12, minute: 30), dateTime: DateTime(2025), eventType: EventType.birthday),
+    OneEvent(eventId: 'idhihi', name: 'Eid', budget: 100, guestsNumber: 30, time: TimeOfDay(hour: 12, minute: 30), dateTime: DateTime(2023), eventType: EventType.holiday)
+  ];
 
   List<OneEvent> get events {
     return [..._events];

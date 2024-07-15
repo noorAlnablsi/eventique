@@ -1,15 +1,12 @@
 //changes to find error
-//commented tab 2
+//commented tab 2 
 
 
 import 'package:eventique/widget/description.dart';
 import 'package:eventique/widget/quantity_selector.dart';
-import 'package:eventique/widget/rate_with_stars.dart';
 import 'package:eventique/widget/reviews_grid.dart';
 import 'package:eventique/widget/vendor_tile.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class MyTabBarView extends StatelessWidget {
   const MyTabBarView({
@@ -31,8 +28,8 @@ class MyTabBarView extends StatelessWidget {
       controller: tabController,
       children: [
         // Tab 1 content
-        SingleChildScrollView(
-          child: Column(
+        ListView (
+          padding: EdgeInsets.all(0),
             children: [
               VendorTile(
                 vendorname: vendorname,
@@ -46,22 +43,11 @@ class MyTabBarView extends StatelessWidget {
                 description: description,
               ),
             ],
-          ),
         ),
         // Tab 2 content
-        // Column(
-        //   mainAxisAlignment: MainAxisAlignment.start,
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     // RateWithStars(serviceId: serviceId),
-
-        //     Expanded(
-        //       child: ReviewsGrid(
-        //         serviceId: serviceId,
-        //       ),
-        //     ),
-        //   ],
-        // ),
+        ReviewsGrid(
+          serviceId: serviceId,
+        ),
       ],
     );
   }

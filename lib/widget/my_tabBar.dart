@@ -37,12 +37,12 @@ class MyTabBar extends StatelessWidget {
                 style: TextStyle(fontFamily: 'IrishGrover', fontSize: 20),
               ),
             ),
-            // Tab(
-            //   child: Text(
-            //     'Reviews',
-            //     style: TextStyle(fontFamily: 'IrishGrover', fontSize: 20),
-            //   ),
-            // ),
+            Tab(
+              child: Text(
+                'Reviews',
+                style: TextStyle(fontFamily: 'IrishGrover', fontSize: 20),
+              ),
+            ),
           ],
         ),
       ),

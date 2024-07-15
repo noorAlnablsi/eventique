@@ -1,4 +1,5 @@
 import 'package:eventique/core/resources/color.dart';
+import 'package:eventique/models/one_event.dart';
 import 'package:eventique/providers/carts.dart';
 import 'package:eventique/providers/events.dart';
 import 'package:flutter/material.dart';
@@ -27,13 +28,13 @@ class _ChooseEventState extends State<ChooseEvent> {
 
   @override
   Widget build(BuildContext context) {
-    final cartProvider = Provider.of<Carts>(context,listen: false);
+    final cartProvider = Provider.of<Carts>(context, listen: false);
     final events = Provider.of<Events>(context).events;
 
     return SizedBox(
-      width: 300,  
+      width: 300,
       child: Column(
-        mainAxisSize: MainAxisSize.min, 
+        mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(height: 16),
           Text(
@@ -47,7 +48,7 @@ class _ChooseEventState extends State<ChooseEvent> {
           const SizedBox(height: 16),
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.4, 
+              maxHeight: MediaQuery.of(context).size.height * 0.4,
             ),
             child: events.isEmpty
                 ? Center(
@@ -61,25 +62,36 @@ class _ChooseEventState extends State<ChooseEvent> {
                     ),
                   )
                 : ListView.builder(
-                    shrinkWrap: true, 
+                    shrinkWrap: true,
                     itemCount: events.length,
                     itemBuilder: (context, index) {
                       final event = events[index];
                       return ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        leading: Icon(
-                          Icons.event,
-                          color: Theme.of(context).primaryColor,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        leading: // Icon
+                            Card(
+                          shape: CircleBorder(
+                            side: BorderSide(
+                              color: primary, // Stroke color
+                              width: 1, // Stroke width
+                            ),
+                          ),
+                          elevation: 6,
+                          color: beige,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 8),
+                            child: Icon(event.eventType.icon),
+                          ),
                         ),
                         title: Text(
                           event.name,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
-                        subtitle: Text(
-                          '${event.dateTime.toLocal().toString().split(' ')[0]} - ${event.time.format(context)}',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
+                        // subtitle: Text(
+                        //   '${event.dateTime.toLocal().toString().split(' ')[0]} - ${event.time.format(context)}',
+                        //   style: Theme.of(context).textTheme.bodyMedium,
+                        // ),
                         tileColor: _selectedEventId == event.eventId
                             ? Colors.grey[300]
                             : null,
@@ -89,17 +101,13 @@ class _ChooseEventState extends State<ChooseEvent> {
                           });
                           cartProvider.changeChosenEvent(event.eventId);
 
-                           // Add service to cart
-                              Provider.of<Carts>(context, listen: false)
-                                  .addServiceToCart(
-                                      widget.serviceId,
-                                      widget.price,
-                                      widget.imgUrl,
-                                      widget.name
-                                       );
-                          
+                          // Add service to cart
+                          Provider.of<Carts>(context, listen: false)
+                              .addServiceToCart(widget.serviceId, widget.price,
+                                  widget.imgUrl, widget.name);
+
                           //pop the popup
-                            Navigator.of(context).pop();
+                          Navigator.of(context).pop();
 
                           // Show snack bar
                           ScaffoldMessenger.of(context).showSnackBar(

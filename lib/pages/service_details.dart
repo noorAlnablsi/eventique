@@ -26,7 +26,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 1, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSelection);
 
   // Ensure the first tab is selected when the screen is re-entered

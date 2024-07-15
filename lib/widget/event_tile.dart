@@ -1,7 +1,9 @@
 import 'package:eventique/core/resources/color.dart';
 import 'package:eventique/models/one_event.dart';
 import 'package:eventique/pages/cart.dart';
+import 'package:eventique/providers/events.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EventTile extends StatelessWidget {
   const EventTile({
@@ -25,6 +27,8 @@ class EventTile extends StatelessWidget {
     // Themes
     final TextStyle? bodyMediumStyle = Theme.of(context).textTheme.bodyMedium;
 
+    final eventProvider = Provider.of<Events>(context, listen: false);
+
     return Card(
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Color(0xff662465), width: 1),
@@ -36,6 +40,46 @@ class EventTile extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: () {},
+        onLongPress: () async {
+          // Show a confirmation dialog
+          await showDialog<bool>(
+              context: context,
+              builder: (context) => AlertDialog(
+                    backgroundColor: const Color(0xFFFFFDF0),
+                    title: Text('Delete this event?',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    content: Text(
+                        controller == 1
+                            ? 'By deleting this event, you will cancel any accepted orders,and the money spent will not be refunded'
+                            : 'Remove event form list?',
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontSize: 14, fontWeight: FontWeight.bold)),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Cancel',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(fontWeight: FontWeight.w500)),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text('continue',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(fontWeight: FontWeight.w500)),
+                        onPressed: () {
+                          eventProvider.deleteEvent(eventId);
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ));
+        },
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
@@ -98,6 +142,7 @@ class EventTile extends StatelessWidget {
                     Alignment.centerRight, // Aligns the IconButton to the end
                 child: IconButton(
                   onPressed: () {
+                    controller == 1?
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -107,7 +152,8 @@ class EventTile extends StatelessWidget {
                           eventName: eventName,
                         ),
                       ),
-                    );
+                    ):
+                    print('navigate to share event');
                   },
                   icon: Icon(
                     controller == 1 ? Icons.trolley : Icons.share,

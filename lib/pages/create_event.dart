@@ -22,7 +22,6 @@ class _CreateEventState extends State<CreateEvent> {
   EventType? _selectedEventType;
   late final ConfettiController _confettiController;
   bool isPlaying = false;
-
   final _formKey = GlobalKey<FormState>();
   final FocusNode _timeFocusNode = FocusNode();
   final FocusNode _dateFocusNode = FocusNode();
@@ -399,7 +398,28 @@ class _CreateEventState extends State<CreateEvent> {
                     eventType: _selectedEventType!,
                   ),
                 );
-                Navigator.of(context).pop(); 
+
+                Navigator.of(context).pop();
+
+                // Schedule the Snackbar to show after the dialog is dismissed
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      backgroundColor: const Color.fromARGB(255, 76, 27, 75),
+                      content: Text(
+                        'Created successfully',
+                        style: TextStyle(
+                          color: beige,
+                        ),
+                      ),
+                      duration: const Duration(seconds: 1),
+                    ),
+                  );
+                });
               } catch (e) {
                 print('Error: $e');
               }

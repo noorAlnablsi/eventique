@@ -9,7 +9,7 @@ class VendorTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(24, 12, 30, 24),
+      padding: EdgeInsets.fromLTRB(24, 0, 30, 24),
       child: Row(
         children: [
           CachedNetworkImage(
