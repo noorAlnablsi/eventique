@@ -48,6 +48,16 @@ dependencies:
   firebase_storage: ^12.1.1
   flutter_facebook_auth: ^7.0.1
   easy_localization: ^3.0.7
+  gap: ^3.0.1
+  curved_labeled_navigation_bar: ^2.0.2
+  confetti: ^0.7.0
+  typicons_flutter: ^0.5.0
+  cached_network_image: ^3.3.1
+  carousel_slider: ^4.2.1
+  fl_chart: ^0.68.0
+  flutter_rating_bar: ^4.0.1
+  readmore: ^3.0.0
+  font_awesome_flutter: ^10.7.0
 
 dev_dependencies:
   flutter_test:

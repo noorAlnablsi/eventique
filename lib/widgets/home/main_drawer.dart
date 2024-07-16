@@ -1,3 +1,5 @@
+import 'package:eventique/screens/auth_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '/color.dart';
@@ -121,7 +123,13 @@ class MainDrawer extends StatelessWidget {
           buildListTile(
             Icons.logout,
             'Logout',
-            () {},
+            () {
+              FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                AuthScreen.routeName,
+                (route) => false,
+              );
+            },
           ),
         ],
       ),

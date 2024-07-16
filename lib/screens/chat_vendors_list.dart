@@ -26,33 +26,13 @@ class _ChatVendorsListScreenState extends State<ChatVendorsListScreen> {
         Provider.of<VendorsProvider>(context, listen: false).vendors;
     return Scaffold(
         backgroundColor: isLight ? white : darkBackground,
-        appBar: AppBar(
-          backgroundColor: isLight ? white : darkBackground,
-          shape: Border(
-            bottom: BorderSide(
-              color: isLight ? primary : white,
-              width: 1.6,
-            ),
-          ),
-          title: Padding(
-            padding: EdgeInsets.only(left: 10),
-            child: Text(
-              'Chats',
-              style: TextStyle(
-                color: isLight ? primary : white,
-                fontSize: 24,
-                fontFamily: 'IrishGrover',
-              ),
-            ),
-          ),
-        ),
         body: ListView.builder(
           itemBuilder: (ctx, i) => ChatListItem(
-            name: 'BEE cakes',
-            onTap: () {},
-            imageUrl: '',
+            name: vendorData[i].name,
+            vendorId: vendorData[i].id,
+            imageUrl: vendorData[i].imageUrl!,
           ),
-          itemCount: 10,
+          itemCount: vendorData.length,
         ));
   }
 }

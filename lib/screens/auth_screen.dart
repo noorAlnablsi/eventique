@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:eventique/screens/navigation_bar_page.dart';
+
 import '/color.dart';
 import '/providers/auth_provider.dart';
 import '/models/verifications_arguments.dart';
@@ -40,8 +42,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
       if (isLogin) {
         await Provider.of<Auth>(context, listen: false).login(email, password);
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            NavigationBarPage.routeName, (route) => false);
       } else {
         //this is the code to upload an image to fire storage
         String? imageURL;

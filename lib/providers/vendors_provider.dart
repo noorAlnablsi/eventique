@@ -7,14 +7,38 @@ import '/main.dart';
 class VendorsProvider with ChangeNotifier {
   List<Vendor> vendors = [
     Vendor(
-        id: '0',
-        name: 'name',
-        email: 'email',
-        phone: 'phone',
-        location: 'location',
-        description: 'description',
-        days: 'days',
-        time: 'time')
+      id: '0',
+      name: 'Bee Cake',
+      email: 'beeCake8@gmail.com',
+      phone: '0957515617',
+      location: 'location',
+      description: 'description',
+      days: 'days',
+      time: 'time',
+      imageUrl: '',
+    ),
+    Vendor(
+      id: '1',
+      name: 'dream Cake',
+      email: 'dreamCake8@gmail.com',
+      phone: '0957515618',
+      location: 'location',
+      description: 'description',
+      days: 'days',
+      time: 'time',
+      imageUrl: '',
+    ),
+    Vendor(
+      id: '2',
+      name: 'Al Qassaa Flowers',
+      email: 'qassaflowerCake8@gmail.com',
+      phone: '0957515619',
+      location: 'location',
+      description: 'description',
+      days: 'days',
+      time: 'time',
+      imageUrl: '',
+    )
   ];
 
   List<Vendor> get vendorsList {

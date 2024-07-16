@@ -1,0 +1,133 @@
+import '/color.dart';
+import 'package:eventique/models/one_event.dart';
+import 'package:eventique/screens/create_event.dart';
+import 'package:eventique/providers/events.dart';
+import 'package:eventique/widgets/event_tile.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class EventListPage extends StatelessWidget {
+  const EventListPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final eventProvider = Provider.of<Events>(context);
+
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              pinned: true,
+              backgroundColor: beige,
+              // shadowColor: Color(0xFFFFFDF0),
+              surfaceTintColor: beige,
+              elevation: 0,
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(50),
+                child: Container(
+                  padding: EdgeInsets.all(6),
+                  margin: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xffEFEEEA),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: TabBar(
+                    dividerColor: const Color(0xffEFEEEA),
+                    labelColor: Theme.of(context).primaryColor,
+                    unselectedLabelColor: const Color(0xffE791A5),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: const Color(0xFFFFFDF0),
+                    ),
+                    tabs: const [
+                      Tab(
+                        child: Text(
+                          'Planning',
+                          style: TextStyle(
+                              fontFamily: 'IrishGrover', fontSize: 20),
+                        ),
+                      ),
+                      Tab(
+                        child: Text(
+                          'Completed',
+                          style: TextStyle(
+                              fontFamily: 'IrishGrover', fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SliverFillRemaining(
+              child: TabBarView(
+                children: [
+                  Stack(children: [
+                    buildEventList(eventProvider.planningEvents, context, 1),
+                    Positioned(
+                      bottom: 32,
+                      right: 32,
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CreateEvent();
+                            },
+                          );
+                        },
+                        child: Icon(
+                          Icons.add,
+                          color: beige,
+                        ),
+                        backgroundColor: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        elevation: 4,
+                        tooltip: 'Add Service',
+                      ),
+                    ),
+                  ]),
+                  buildEventList(eventProvider.completedEvents, context, 2),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget buildEventList(
+    List<OneEvent> events, BuildContext context, int controller) {
+  return events.isEmpty
+      ? Center(
+          child: Text(
+            'No Events Yet',
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  fontFamily: 'IrishGrover',
+                  fontSize: 22,
+                  color: const Color.fromARGB(255, 227, 181, 193),
+                ),
+          ),
+        )
+      : ListView.builder(
+          padding: EdgeInsets.all(16.0),
+          itemCount: events.length,
+          itemBuilder: (ctx, i) {
+            return EventTile(
+              controller: controller,
+              eventDate: events[i].dateTime,
+              eventName: events[i].name,
+              eventType: events[i].eventType,
+              eventBudget: events[i].budget,
+              eventId: events[i].eventId,
+            );
+          },
+        );
+}

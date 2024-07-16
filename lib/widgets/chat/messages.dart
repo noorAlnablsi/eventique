@@ -1,21 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import '/widgets/chat/messageBubble.dart';
 
 class Messages extends StatelessWidget {
-  const Messages({super.key});
+  final String vendorId;
+
+  Messages(this.vendorId);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('chat')
-          .orderBy(
-            'createdAt',
-            descending: true,
-          )
+          .where('vendorId', isEqualTo: vendorId)
+          .orderBy('createdAt', descending: true)
           .snapshots(),
       builder: (ctx, chatSnapshot) {
         if (chatSnapshot.connectionState == ConnectionState.waiting) {
@@ -23,7 +22,22 @@ class Messages extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
+        if (chatSnapshot.hasError) {
+          return Center(
+            child: Text('An error occurred, please try again later.'),
+          );
+        }
+        if (!chatSnapshot.hasData || chatSnapshot.data == null) {
+          return Center(
+            child: Text('No messages yet.'),
+          );
+        }
         final chatDocs = chatSnapshot.data!.docs;
+        if (chatDocs.isEmpty) {
+          return Center(
+            child: Text('Start a new chat.'),
+          );
+        }
         return ListView.builder(
           reverse: true,
           itemCount: chatDocs.length,

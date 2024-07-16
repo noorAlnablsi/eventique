@@ -1,11 +1,10 @@
+import 'package:eventique/screens/navigation_bar_page.dart';
 import '/color.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import '/screens/home_screen.dart';
 import '/providers/auth_provider.dart';
 
 class MyDivider extends StatefulWidget {
@@ -16,35 +15,37 @@ class MyDivider extends StatefulWidget {
 }
 
 class _MyDividerState extends State<MyDivider> {
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  //final FirebaseAuth _auth = FirebaseAuth.instance;
   // final GoogleSignIn _googleSignIn = GoogleSignIn();
   bool _isLoading = false;
-  Future<UserCredential?> signInWithGoogle() async {
+  bool _isLoadingFB = false;
+
+  Future<void> googleSignIn() async {
     try {
-      // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      setState(() {
+        _isLoading = true;
+      });
+      UserCredential? userCredential =
+          await Provider.of<Auth>(context, listen: false).signInWithGoogle();
+      User? user = userCredential!.user;
+      //await handleSignIn(user, 'google');
 
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Google sign in completed successfully.'),
-          backgroundColor: primary,
+          backgroundColor: Colors.green,
         ),
       );
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
-      // Once signed in, return the UserCredential
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          NavigationBarPage.routeName, (route) => false);
     } catch (error) {
-      print('${error}+++++++++++++++++++++++++++++++++++++++++++++++++++++');
+      setState(() {
+        _isLoading = false;
+      });
+      print('$error+++++++++++++++++++++++++++++++++++++++++++++++++++++');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content:
@@ -52,10 +53,8 @@ class _MyDividerState extends State<MyDivider> {
           backgroundColor: Colors.red,
         ),
       );
-      return null;
     }
   }
-
   // Future<UserCredential?> signInWithFacebook() async {
   //   try {
   //     // Trigger the sign-in flow
@@ -70,6 +69,9 @@ class _MyDividerState extends State<MyDivider> {
   //     return FirebaseAuth.instance
   //         .signInWithCredential(facebookAuthCredential!);
   //   } catch (error) {
+  // setState(() {
+  //         _isLoadingFB = false;
+  //       });
   //     print(error);
   //     ScaffoldMessenger.of(context).showSnackBar(
   //       SnackBar(
@@ -94,8 +96,8 @@ class _MyDividerState extends State<MyDivider> {
           _isLoading = false;
         });
         // Navigate to home screen or wherever you need to
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+        Navigator.of(context).pushNamedAndRemoveUntil(
+            NavigationBarPage.routeName, (route) => false);
       } catch (error) {
         setState(() {
           _isLoading = false;
@@ -157,16 +159,7 @@ class _MyDividerState extends State<MyDivider> {
                 ),
               ),
               onPressed: () async {
-                setState(() {
-                  _isLoading = true;
-                });
-                UserCredential? userCredential = await signInWithGoogle();
-                User? user = userCredential!.user;
-                await handleSignIn(user, 'google');
-                ;
-                setState(() {
-                  _isLoading = false;
-                });
+                googleSignIn();
               },
               child: _isLoading
                   ? Center(
@@ -188,17 +181,17 @@ class _MyDividerState extends State<MyDivider> {
               ),
               onPressed: () async {
                 // setState(() {
-                //   _isLoading = true;
+                //   _isLoadingFB = true;
                 // });
                 // UserCredential? userCredential = await signInWithFacebook();
                 // User? user = userCredential!.user;
                 // await handleSignIn(user, 'facebook');
 
                 // setState(() {
-                //   _isLoading = false;
+                //   _isLoadingFB = false;
                 // });
               },
-              child: _isLoading
+              child: _isLoadingFB
                   ? Center(
                       child: CircularProgressIndicator(),
                     )

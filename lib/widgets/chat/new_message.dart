@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eventique/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:eventique/color.dart';
 
 class NewMessage extends StatefulWidget {
-  const NewMessage({super.key});
+  final String vendorId;
+
+  NewMessage(this.vendorId);
 
   @override
   State<NewMessage> createState() => _NewMessageState();
@@ -15,6 +15,7 @@ class NewMessage extends StatefulWidget {
 class _NewMessageState extends State<NewMessage> {
   final _controller = TextEditingController();
   var _enteredMessage = '';
+
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
     final user = FirebaseAuth.instance.currentUser;
@@ -29,6 +30,7 @@ class _NewMessageState extends State<NewMessage> {
         'userId': user.uid,
         'userName': userData['username'],
         'userImage': userData['image_url'],
+        'vendorId': widget.vendorId, // Add vendorId to message
       },
     );
     _controller.clear();

@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import '/main.dart';
 import '/shared_preferences/storage_manager.dart';
@@ -10,8 +12,8 @@ class Auth with ChangeNotifier {
   String _loginToken = '';
   int _userId = 0;
   var _userData = {
-    'userName': 'Taghreed Sweideh',
-    'userEmail': 'taghreedswidah9@gmail.com',
+    'userName': '',
+    'userEmail': '',
     'userPassword': '',
     'userImage': '',
   };
@@ -466,6 +468,68 @@ class Auth with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       throw error;
+    }
+  }
+
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        throw ('Google sign-in was canceled.');
+        // The user canceled the sign-in
+      }
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser.authentication;
+
+      if (googleAuth == null) {
+        // Authentication failed
+        throw ('Google authentication failed.');
+      }
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Sign in to Firebase with the Google credential
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Extract user information
+      final User? user = userCredential.user;
+      if (user != null) {
+        final String username = user.displayName ?? '';
+        final String email = user.email ?? '';
+        final String imageUrl = user.photoURL ?? '';
+
+        // Store user information in Firestore
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid) // Use user.uid as the document ID
+            .set({
+          'username': username,
+          'email': email,
+          'image_url': imageUrl,
+        });
+        _userData['userName'] = username;
+        _userData['userEmail'] = email;
+        _userData['userImage'] = imageUrl;
+        print(_userData['userName']);
+        print(_userData['userEmail']);
+        print(_userData['userImage']);
+        // Show success message and navigate
+        notifyListeners();
+      }
+      // Once signed in, return the UserCredential
+      return userCredential;
+    } catch (error) {
+      print("$error--------------------------");
+      throw (error);
     }
   }
 

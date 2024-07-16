@@ -1,5 +1,11 @@
 import 'package:eventique/providers/vendors_provider.dart';
 import 'package:eventique/screens/chat_vendors_list.dart';
+import 'package:eventique/providers/carts.dart';
+import 'package:eventique/providers/events.dart';
+import 'package:eventique/providers/orders.dart';
+import 'package:eventique/providers/reviews.dart';
+import 'package:eventique/providers/services_list.dart';
+import 'package:eventique/screens/navigation_bar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +47,22 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: VendorsProvider(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => AllServices(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Reviews(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Carts(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Orders(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Events(),
+        ),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
@@ -55,6 +76,7 @@ class MyApp extends StatelessWidget {
             VerificationScreen.routeName: (ctx) => VerificationScreen(),
             EnterEmailScreen.routeName: (ctx) => EnterEmailScreen(),
             NewPasswordScreen.routeName: (ctx) => NewPasswordScreen(),
+            NavigationBarPage.routeName: (context) => NavigationBarPage(),
             HomeScreen.routeName: (ctx) => HomeScreen(),
             ChatVendorsListScreen.routeName: (ctx) => ChatVendorsListScreen(),
             ChatScreen.routeName: (ctx) => ChatScreen(),

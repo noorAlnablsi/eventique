@@ -9,41 +9,23 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, Object> routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
+    final String vendorId = routeArgs['vendorId'] as String;
+    final String vendorName = routeArgs['vendorName'] as String;
+    final String vendorImageUrl = routeArgs['vendorImageUrl'] as String;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chats'),
+        title: Text(vendorName),
         backgroundColor: white,
-        actions: [
-          DropdownButton(
-            icon: Icon(
-              Icons.more_vert,
-              color: primary,
-            ),
-            items: [
-              DropdownMenuItem(
-                child: Container(
-                  child: Row(
-                    children: [Icon(Icons.logout), Text('Logout')],
-                  ),
-                ),
-                value: 'logout',
-              ),
-            ],
-            onChanged: (itemIdentifier) {
-              if (itemIdentifier == 'logout') {
-                FirebaseAuth.instance.signOut();
-              }
-            },
-          )
-        ],
       ),
       body: Container(
         child: Column(
           children: [
             Expanded(
-              child: Messages(),
+              child: Messages(vendorId),
             ),
-            NewMessage(),
+            NewMessage(vendorId),
           ],
         ),
       ),

@@ -1,14 +1,15 @@
 import 'package:eventique/color.dart';
+import 'package:eventique/screens/chats_screen.dart';
 import 'package:flutter/material.dart';
 
 class ChatListItem extends StatefulWidget {
   final String name;
   final String imageUrl;
-  final VoidCallback onTap;
+  final String vendorId;
   ChatListItem({
     required this.name,
     required this.imageUrl,
-    required this.onTap,
+    required this.vendorId,
   });
 
   @override
@@ -18,8 +19,17 @@ class ChatListItem extends StatefulWidget {
 class _ChatListItemState extends State<ChatListItem> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          ChatScreen.routeName,
+          arguments: {
+            'vendorId': widget.vendorId,
+            'vendorName': widget.name,
+            'vendorImageUrl': widget.imageUrl,
+          },
+        );
+      },
       child: Container(
         height: MediaQuery.of(context).size.height / 9,
         padding: EdgeInsets.symmetric(vertical: 10),
