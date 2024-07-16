@@ -1,11 +1,9 @@
-import 'package:eventique/color.dart';
-import 'package:eventique/providers/auth_provider.dart';
-import 'package:eventique/screens/profile_screen.dart';
-import 'package:eventique/screens/settings_screen.dart';
-import 'package:eventique/widgets/chat/chat_list_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import '/color.dart';
+import '/providers/auth_provider.dart';
+import '/screens/profile_screen.dart';
+import '/screens/settings_screen.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key});
