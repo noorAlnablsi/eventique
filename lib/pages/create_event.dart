@@ -131,42 +131,6 @@ class _CreateEventState extends State<CreateEvent> {
     final Color primaryColor = Theme.of(context).primaryColor;
     final eventProvider = Provider.of<Events>(context);
 
-    final borderSideWithFocusColor = BorderSide(color: primaryColor);
-    final borderSideWithoutFocusColor =
-        BorderSide(color: primaryColor.withOpacity(0.7));
-    final textStyle = TextStyle(
-        fontSize: 16, color: primaryColor, fontWeight: FontWeight.bold);
-    final hintTextStyle =
-        TextStyle(fontSize: 16, color: primaryColor.withOpacity(0.4));
-
-    final textFieldDecoration = InputDecoration(
-      hintStyle: hintTextStyle,
-      border: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        borderSide: borderSideWithoutFocusColor,
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        borderSide: borderSideWithFocusColor,
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        borderSide: borderSideWithoutFocusColor,
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        borderSide:
-            BorderSide(color: primaryColor.withOpacity(0.7)), // Adjusted color
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        borderSide:
-            BorderSide(color: primaryColor.withOpacity(0.7)), // Adjusted color
-      ),
-      suffixIconColor: const Color(0xffCCA0C7),
-      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
-    );
-
     return AlertDialog(
       backgroundColor: beige,
       surfaceTintColor: beige,
@@ -237,7 +201,9 @@ class _CreateEventState extends State<CreateEvent> {
                         suffixIcon: const Icon(Icons.edit),
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.trim().isEmpty) {
                           return 'Enter a name';
                         }
                         return null;
@@ -257,7 +223,9 @@ class _CreateEventState extends State<CreateEvent> {
                                   const Icon(Icons.calendar_today, size: 18),
                             ),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.trim().isEmpty) {
                                 return 'Select a date';
                               }
                               return null;
@@ -277,7 +245,9 @@ class _CreateEventState extends State<CreateEvent> {
                                   const Icon(Icons.access_time, size: 18),
                             ),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.trim().isEmpty) {
                                 return 'Select a time';
                               }
                               return null;
@@ -299,7 +269,9 @@ class _CreateEventState extends State<CreateEvent> {
                               suffixIcon: const Icon(Icons.people),
                             ),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.trim().isEmpty) {
                                 return 'Enter number';
                               }
                               final guests = int.tryParse(value);
@@ -321,7 +293,9 @@ class _CreateEventState extends State<CreateEvent> {
                               suffixIcon: const Icon(Icons.attach_money),
                             ),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.trim().isEmpty) {
                                 return 'Enter budget';
                               }
                               final budget = int.tryParse(value);
@@ -450,3 +424,35 @@ class _CreateEventState extends State<CreateEvent> {
     );
   }
 }
+
+final borderSideWithFocusColor = BorderSide(color: primary);
+final borderSideWithoutFocusColor = BorderSide(color: primary.withOpacity(0.7));
+final textStyle =
+    TextStyle(fontSize: 16, color: primary, fontWeight: FontWeight.bold);
+final hintTextStyle = TextStyle(fontSize: 16, color: primary.withOpacity(0.4));
+
+final textFieldDecoration = InputDecoration(
+  hintStyle: hintTextStyle,
+  border: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+    borderSide: borderSideWithoutFocusColor,
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+    borderSide: borderSideWithFocusColor,
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+    borderSide: borderSideWithoutFocusColor,
+  ),
+  errorBorder: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+    borderSide: BorderSide(color: primary.withOpacity(0.7)), // Adjusted color
+  ),
+  focusedErrorBorder: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+    borderSide: BorderSide(color: primary.withOpacity(0.7)), // Adjusted color
+  ),
+  suffixIconColor: const Color(0xffCCA0C7),
+  contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+);

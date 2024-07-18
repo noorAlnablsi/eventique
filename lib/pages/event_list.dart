@@ -127,6 +127,8 @@ Widget buildEventList(
               eventType: events[i].eventType,
               eventBudget: events[i].budget,
               eventId: events[i].eventId,
+              guests:  events[i].guestsNumber,
+              eventTime:  events[i].time,
             );
           },
         );

@@ -1,16 +1,15 @@
 import 'package:eventique/core/resources/color.dart';
 import 'package:eventique/models/one_cartService.dart';
+import 'package:eventique/models/service_in_order_details.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 final List<Color> colors = [
-  const Color.fromARGB(255, 225, 51, 51),
   const Color(0xFFF06292),
   const Color(0xFFBA68C8),
   const Color.fromARGB(255, 25, 124, 205),
   const Color.fromARGB(255, 64, 172, 161),
   const Color(0xFFFFB74D),
-  const Color(0xFF9E9D24),
   const Color.fromARGB(255, 200, 179, 238),
   const Color(0xFFFF8A65),
   const Color(0xFF4FC3F7),
@@ -19,38 +18,78 @@ final List<Color> colors = [
 class MyPieChart extends StatelessWidget {
   const MyPieChart({
     super.key,
-    required this.cart,
+    this.cart,
+    this.services,
     required this.totalPriceForOrder,
   });
 
-  final Map<int, OneCartService> cart;
+  final Map<int, OneCartService>? cart;
+  final List<ServiceInOrderDetails>? services;
   final double totalPriceForOrder;
 
   @override
   Widget build(BuildContext context) {
-    final sections = cart.entries.map((entry) {
-      final cartService = entry.value;
-      final percentage = (cartService.totalPrice * 100) / totalPriceForOrder;
-      final isSmallPercentage = percentage < 5;  // Define a threshold for small percentage
-      final isSmallVeryPercentage = percentage < 2;
+    List<PieChartSectionData> sections = [];
 
-      return PieChartSectionData(
-        color: colors[cartService.OneCartServiceId % colors.length],
-        value: cartService.totalPrice,
-        title: '${percentage.toStringAsFixed(1)}%',
-        titleStyle: TextStyle(
-          fontSize:isSmallVeryPercentage?5: isSmallPercentage ? 7 : 11,  // Adjust the font size for small percentages
-          fontWeight: FontWeight.bold,
-          color: beige,
-        ),
-        borderSide: BorderSide(
-          color: colors[cartService.OneCartServiceId % colors.length]
-              .withOpacity(0.9),
-          width: 1,
-        ),
-        radius: 34,
-      );
-    }).toList();
+    if (cart != null) {
+      sections = cart!.entries.map((entry) {
+        final cartService = entry.value;
+        final percentage = (cartService.totalPrice * 100) / totalPriceForOrder;
+        final isSmallPercentage =
+            percentage < 5; // Define a threshold for small percentage
+        final isSmallVeryPercentage = percentage < 2;
+
+        return PieChartSectionData(
+          color: colors[cartService.OneCartServiceId % colors.length],
+          value: cartService.totalPrice,
+          title: '${percentage.toStringAsFixed(1)}%',
+          titleStyle: TextStyle(
+            fontSize: isSmallVeryPercentage
+                ? 5
+                : isSmallPercentage
+                    ? 7
+                    : 11, // Adjust the font size for small percentages
+            fontWeight: FontWeight.bold,
+            color: beige,
+          ),
+          borderSide: BorderSide(
+            color: colors[cartService.OneCartServiceId % colors.length]
+                .withOpacity(0.9),
+            width: 1,
+          ),
+          radius: 34,
+        );
+      }).toList();
+    } else if (services != null) {
+      sections = services!.asMap().entries.map((entry) {
+        final index = entry.key;
+        final service = entry.value;
+        final percentage = (service.totalPrice * 100) / totalPriceForOrder;
+        final isSmallPercentage =
+            percentage < 5; // Define a threshold for small percentage
+        final isSmallVeryPercentage = percentage < 2;
+
+        return PieChartSectionData(
+          color: colors[index % colors.length],
+          value: service.totalPrice,
+          title: '${percentage.toStringAsFixed(1)}%',
+          titleStyle: TextStyle(
+            fontSize: isSmallVeryPercentage
+                ? 5
+                : isSmallPercentage
+                    ? 7
+                    : 11, // Adjust the font size for small percentages
+            fontWeight: FontWeight.bold,
+            color: beige,
+          ),
+          borderSide: BorderSide(
+            color: colors[index % colors.length].withOpacity(0.9),
+            width: 1,
+          ),
+          radius: 34,
+        );
+      }).toList();
+    }
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,7 +105,8 @@ class MyPieChart extends StatelessWidget {
               sectionsSpace: 3,
               centerSpaceRadius: 60,
             ),
-            swapAnimationDuration: Duration(milliseconds: 3000), // Duration of the animation
+            swapAnimationDuration:
+                Duration(milliseconds: 3000), // Duration of the animation
             swapAnimationCurve: Curves.easeInOutQuint, // Animation curve
           ),
         ),
@@ -80,35 +120,66 @@ class MyPieChart extends StatelessWidget {
                 SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: cart.entries.map((entry) {
-                      final cartService = entry.value;
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 12,
-                              height: 12,
-                              decoration: BoxDecoration(
-                                color: colors[cartService.OneCartServiceId %
-                                    colors.length],
-                                shape: BoxShape.circle,
+                    children: (cart != null
+                        ? cart!.entries.map((entry) {
+                            final cartService = entry.value;
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 12,
+                                    height: 12,
+                                    decoration: BoxDecoration(
+                                      color: colors[
+                                          cartService.OneCartServiceId %
+                                              colors.length],
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      '${cartService.name}',
+                                      style: const TextStyle(
+                                          fontSize: 13,
+                                          fontFamily: 'IrishGrover',
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                '${cartService.name}',
-                                style: const TextStyle(
-                                    fontSize: 13,
-                                    fontFamily: 'IrishGrover',
-                                    fontWeight: FontWeight.normal),
+                            );
+                          }).toList()
+                        : services!.asMap().entries.map((entry) {
+                            final index = entry.key;
+                            final service = entry.value;
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 12,
+                                    height: 12,
+                                    decoration: BoxDecoration(
+                                      color: colors[index % colors.length],
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      '${service.name}',
+                                      style: const TextStyle(
+                                          fontSize: 13,
+                                          fontFamily: 'IrishGrover',
+                                          fontWeight: FontWeight.normal),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
+                            );
+                          }).toList()),
                   ),
                 ),
                 Positioned(
@@ -134,7 +205,7 @@ class MyPieChart extends StatelessWidget {
               ],
             ),
           ),
-        ),
+        )
       ],
     );
   }

@@ -1,7 +1,5 @@
-//cahnges to find error
-// _tabController = TabController(length: 2, vsync: this);......1 instead of 2
-
-
+import 'package:eventique/core/resources/color.dart';
+import 'package:eventique/providers/saved.dart';
 import 'package:eventique/widget/image_slider.dart';
 import 'package:eventique/widget/my_bottom_appbar.dart';
 import 'package:eventique/widget/my_tabBar.dart';
@@ -29,11 +27,12 @@ class _ServiceDetailsState extends State<ServiceDetails>
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSelection);
 
-  // Ensure the first tab is selected when the screen is re-entered
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    _tabController.index = 0; // Reset to the first tab
-    Provider.of<AllServices>(context, listen: false).changeIndexforBottom(0); // Update provider as well
-  });
+    // Ensure the first tab is selected when the screen is re-entered
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _tabController.index = 0; // Reset to the first tab
+      Provider.of<AllServices>(context, listen: false)
+          .changeIndexforBottom(0); // Update provider as well
+    });
   }
 
   @override
@@ -44,75 +43,143 @@ class _ServiceDetailsState extends State<ServiceDetails>
   }
 
   void _handleTabSelection() {
-  SchedulerBinding.instance.addPostFrameCallback((_) {
-    if (mounted) {
-      Provider.of<AllServices>(context, listen: false).changeIndexforBottom(_tabController.index);
-    }
-  });
-}
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Provider.of<AllServices>(context, listen: false)
+            .changeIndexforBottom(_tabController.index);
+      }
+    });
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    final loadedService = Provider.of<AllServices>(context, listen: false)
+        .findById(widget.serviceId);
+    final svaedProvider = Provider.of<Saved>(context);
 
- @override
-Widget build(BuildContext context) {
-  final loadedService = Provider.of<AllServices>(context, listen: false).findById(widget.serviceId);
-  
-  return Scaffold(
-    bottomNavigationBar: MyBottomAppBar(
-      price: loadedService.price, 
-      serviceId: loadedService.serviceId, 
-      imgUrl: loadedService.imgsUrl![0],
-      name: loadedService.name,
-    ),
-    body: LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                pinned: true,
-                floating: false,
-                flexibleSpace: FlexibleSpaceBar(
-                  title: Text(
-                    loadedService.name,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFamily: 'IrishGrover'),
-                  ),
-                ),
-                bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(4.0),
-                  child: Container(
-                    height: 4.0,
-                    alignment: Alignment.center,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Theme.of(context).primaryColor,
-                            width: 1.0,
+    return Scaffold(
+      bottomNavigationBar: MyBottomAppBar(
+        price: loadedService.price,
+        serviceId: loadedService.serviceId,
+        imgUrl: loadedService.imgsUrl![0],
+        name: loadedService.name,
+      ),
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return Theme(
+            data: Theme.of(context).copyWith(
+              useMaterial3: false, // Disable Material 3 for NestedScrollView
+            ),
+            child: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  Theme(
+                    data: Theme.of(context).copyWith(
+                      useMaterial3: true, // Enable Material 3 for SliverAppBar
+                    ),
+                    child: SliverAppBar(
+                      pinned: true,
+                      floating: false,
+                      flexibleSpace: FlexibleSpaceBar(
+                        title: Text(
+                          loadedService.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(fontFamily: 'IrishGrover'),
+                        ),
+                      ),
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+                            if (svaedProvider.savedServices
+                                .contains(loadedService)) {
+                                  svaedProvider.delete(widget.serviceId);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 76, 27, 75),
+                                  content: Text(
+                                    'Removed From Saved',
+                                    style: TextStyle(
+                                      color: beige,
+                                    ),
+                                  ),
+                                  duration: const Duration(seconds: 1),
+                                ),
+                              );
+                            } else {
+                              svaedProvider.add(loadedService);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 76, 27, 75),
+                                  content: Text(
+                                    'Added To Saved',
+                                    style: TextStyle(
+                                      color: beige,
+                                    ),
+                                  ),
+                                  duration: const Duration(seconds: 1),
+                                ),
+                              );
+                            }
+                          },
+                          icon: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: 
+                            svaedProvider.savedServices.contains(loadedService)?
+                            Icon(Icons.bookmark, color: primary):
+                            Icon(Icons.bookmark_border,color:primary)
+                          ),
+                          tooltip: 'Add to Saved',
+                        )
+                      ],
+                      bottom: PreferredSize(
+                        preferredSize: const Size.fromHeight(4.0),
+                        child: Container(
+                          height: 4.0,
+                          alignment: Alignment.center,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 1.0,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                  SliverToBoxAdapter(
+                    child: ImageSliderScreen(imgList: loadedService.imgsUrl!),
+                  ),
+                  MyTabBar(tabController: _tabController),
+                ];
+              },
+              body: MyTabBarView(
+                tabController: _tabController,
+                serviceId: widget.serviceId,
+                description: loadedService.description,
+                vendorname: loadedService.vendorName,
+                serviceCategory: loadedService.category.name,
               ),
-              SliverToBoxAdapter(
-                child: ImageSliderScreen(imgList: loadedService.imgsUrl!,),
-              ),
-              MyTabBar(tabController: _tabController),
-            ];
-          },
-          body: MyTabBarView(
-            tabController: _tabController,
-            serviceId: widget.serviceId,
-            description: loadedService.description,
-            vendorname: loadedService.vendorName,
-            serviceCategory: loadedService.category.name
-          ),
-        );
-      },
-    ),
-  );
-}
-
-
+            ),
+          );
+        },
+      ),
+    );
+  }
 }

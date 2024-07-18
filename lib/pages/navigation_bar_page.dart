@@ -6,6 +6,7 @@ import 'package:eventique/pages/event_list.dart';
 import 'package:eventique/pages/home_page.dart';
 import 'package:eventique/pages/orders_screen.dart';
 import 'package:eventique/pages/cart.dart';
+import 'package:eventique/pages/saved.dart';
 import 'package:eventique/pages/vendors_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:typicons_flutter/typicons_flutter.dart';
@@ -30,7 +31,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         surfaceTintColor: const Color(0xFFFFFDF0),
         shadowColor: Color(0xFFFFFDF0),
         actions: [
@@ -55,6 +56,10 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
                 color: Color(0xff662465),
               ),
               onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => const SavedServices())));
               },
               padding: const EdgeInsets.only(bottom: 2),
             ),

@@ -46,4 +46,9 @@ class Events with ChangeNotifier {
     _events[eventIndex] = updatedEvent;
     notifyListeners();
   }
+
+  OneEvent findEventById(String eventId) {
+  return _events.firstWhere((event) => event.eventId == eventId);
+}
+
 }
