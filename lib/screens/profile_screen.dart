@@ -113,6 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Center(
                     child: UserImagePicker(
                         imagePickedFn: _uploadImage,
+                        defaultImageUrl: userInfo['userImage'],
                         imageRadius: 100,
                         iconRadius: 25,
                         iconSize: 25),

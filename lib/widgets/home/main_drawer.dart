@@ -124,11 +124,7 @@ class MainDrawer extends StatelessWidget {
             Icons.logout,
             'Logout',
             () {
-              FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                AuthScreen.routeName,
-                (route) => false,
-              );
+              Navigator.of(context).pushReplacementNamed('/');
             },
           ),
         ],

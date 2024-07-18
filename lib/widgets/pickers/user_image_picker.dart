@@ -4,12 +4,14 @@ import 'package:image_picker/image_picker.dart';
 
 class UserImagePicker extends StatefulWidget {
   final void Function(File? imagePicked) imagePickedFn;
+  final String? defaultImageUrl;
   final double imageRadius;
   final double iconRadius;
   final double iconSize;
 
   UserImagePicker({
     required this.imagePickedFn,
+    this.defaultImageUrl,
     this.imageRadius = 50.0,
     this.iconRadius = 18.0,
     this.iconSize = 18.0,
@@ -89,10 +91,13 @@ class _UserImagePickerState extends State<UserImagePicker> {
       children: <Widget>[
         CircleAvatar(
           radius: widget.imageRadius,
-          backgroundImage:
-              _pickedImage != null ? FileImage(_pickedImage!) : null,
+          backgroundImage: _pickedImage != null
+              ? FileImage(_pickedImage!)
+              : (widget.defaultImageUrl != null)
+                  ? NetworkImage(widget.defaultImageUrl!) as ImageProvider
+                  : null,
           backgroundColor: Color.fromRGBO(217, 217, 217, 1),
-          child: _pickedImage != null
+          child: _pickedImage != null || widget.defaultImageUrl != null
               ? null
               : Icon(
                   Icons.person,

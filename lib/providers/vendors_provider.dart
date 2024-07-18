@@ -12,10 +12,12 @@ class VendorsProvider with ChangeNotifier {
       email: 'beeCake8@gmail.com',
       phone: '0957515617',
       location: 'location',
-      description: 'description',
+      description:
+          'description heyyyyyyyyy slfjhd ioewhn lhfoihoi llshio sjlie jlsj',
       days: 'days',
       time: 'time',
       imageUrl: '',
+      coverImageUrl: '',
     ),
     Vendor(
       id: '1',
@@ -27,6 +29,7 @@ class VendorsProvider with ChangeNotifier {
       days: 'days',
       time: 'time',
       imageUrl: '',
+      coverImageUrl: '',
     ),
     Vendor(
       id: '2',
@@ -38,6 +41,7 @@ class VendorsProvider with ChangeNotifier {
       days: 'days',
       time: 'time',
       imageUrl: '',
+      coverImageUrl: '',
     )
   ];
 

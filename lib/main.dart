@@ -6,6 +6,7 @@ import 'package:eventique/providers/orders.dart';
 import 'package:eventique/providers/reviews.dart';
 import 'package:eventique/providers/services_list.dart';
 import 'package:eventique/screens/navigation_bar_page.dart';
+import 'package:eventique/screens/share_event_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,7 @@ import '/screens/profile_screen.dart';
 import '/screens/settings_screen.dart';
 import '/screens/email_rest_screen.dart';
 import '/screens/password_rest_screen.dart';
+import '/screens/vendor_profile_screen.dart';
 
 const String host = 'http://192.168.43.184:8000';
 Future<void> main() async {
@@ -81,9 +83,11 @@ class MyApp extends StatelessWidget {
             ChatVendorsListScreen.routeName: (ctx) => ChatVendorsListScreen(),
             ChatScreen.routeName: (ctx) => ChatScreen(),
             ProfileScreen.routeName: (ctx) => ProfileScreen(),
+            VendorProfileScreen.routeName: (ctx) => VendorProfileScreen(),
             PasswordRestScreen.routeName: (ctx) => PasswordRestScreen(),
             EmailRestScreen.routeName: (ctx) => EmailRestScreen(),
             SettingsScreen.routeName: (ctx) => SettingsScreen(),
+            ShareEventScreen.routeName: (ctx) => ShareEventScreen(),
           },
         ),
       ),

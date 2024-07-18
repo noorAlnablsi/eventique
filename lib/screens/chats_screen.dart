@@ -1,3 +1,5 @@
+import 'package:eventique/screens/vendor_profile_screen.dart';
+
 import '/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +11,57 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, Object> routeArgs =
-        ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
+    final Map<String, String?> routeArgs =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
     final String vendorId = routeArgs['vendorId'] as String;
     final String vendorName = routeArgs['vendorName'] as String;
     final String vendorImageUrl = routeArgs['vendorImageUrl'] as String;
     return Scaffold(
+      backgroundColor: white,
       appBar: AppBar(
-        title: Text(vendorName),
+        shape: Border(
+          bottom: BorderSide(
+            color: primary,
+            width: 1.6,
+          ),
+        ),
+        title: InkWell(
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 25,
+                backgroundColor: darkBackground,
+                backgroundImage: vendorImageUrl.isNotEmpty
+                    ? NetworkImage(vendorImageUrl)
+                    : null,
+                child: vendorImageUrl.isNotEmpty
+                    ? null
+                    : Icon(
+                        Icons.person,
+                        size: 25,
+                        color: white,
+                      ),
+              ),
+              SizedBox(
+                width: 16,
+              ),
+              Text(
+                vendorName,
+                style: TextStyle(
+                  color: primary,
+                  fontSize: 24,
+                  fontFamily: 'IrishGrover',
+                ),
+              ),
+            ],
+          ),
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              VendorProfileScreen.routeName,
+              arguments: vendorId,
+            );
+          },
+        ),
         backgroundColor: white,
       ),
       body: Container(
