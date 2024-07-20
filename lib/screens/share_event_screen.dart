@@ -1,12 +1,47 @@
 import 'package:eventique/color.dart';
+import 'package:eventique/widgets/pickers/multiple_image_picker.dart';
 import 'package:flutter/material.dart';
 
-class ShareEventScreen extends StatelessWidget {
+class ShareEventScreen extends StatefulWidget {
   static const routeName = '/share-event';
+
+  @override
+  _ShareEventScreenState createState() => _ShareEventScreenState();
+}
+
+class _ShareEventScreenState extends State<ShareEventScreen> {
+  final TextEditingController _descriptionController = TextEditingController();
+  List<String> _imageUrls = [];
+
+  void _onImagesUploaded(List<String> imageUrls) {
+    setState(() {
+      _imageUrls = imageUrls;
+    });
+  }
+
+  Future<void> _shareEvent() async {
+    if (_imageUrls.length < 3) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please upload at least three images')),
+      );
+      return;
+    }
+
+    final description = _descriptionController.text;
+
+    // Send the data to your backend (this is just a placeholder).
+    final data = {
+      'description': description,
+      'images': _imageUrls,
+    };
+
+    print('Sending to backend: $data');
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
@@ -45,7 +80,7 @@ class ShareEventScreen extends StatelessWidget {
               ),
             ),
             Text(
-              'your wonderful momments',
+              'your wonderful moments',
               style: TextStyle(
                 color: primary,
                 fontFamily: 'IrishGrover',
@@ -55,52 +90,12 @@ class ShareEventScreen extends StatelessWidget {
             SizedBox(
               height: size.height * 0.02,
             ),
-            Container(
-              height: size.height * 0.45,
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: white,
-                border: Border.all(color: secondary, width: 2),
-              ),
-              child: Center(
-                child: Text(
-                  'Please select at least three images',
-                  style: TextStyle(
-                    color: secondary.withOpacity(0.8),
-                    fontFamily: 'IrishGrover',
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: size.height * 0.01,
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: secondary.withOpacity(0.8),
-                fixedSize: Size(size.width * 0.4, size.height * 0.04),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: Text(
-                'Pick Images',
-                style: TextStyle(
-                  fontFamily: 'IrishGrover',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: white,
-                ),
-              ),
-            ),
+            MultiImagePicker(onImagesUploaded: _onImagesUploaded),
             SizedBox(
               height: size.height * 0.04,
             ),
             Text(
-              'Tell us about your event in one word !',
+              'Tell us about your event in one word!',
               style: TextStyle(
                 color: primary,
                 fontFamily: 'IrishGrover',
@@ -110,12 +105,32 @@ class ShareEventScreen extends StatelessWidget {
             SizedBox(
               height: size.height * 0.02,
             ),
-            TextField(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50),
+              child: TextField(
+                controller: _descriptionController,
+                decoration: InputDecoration(
+                  focusColor: secondary,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: darkBackground),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: secondary),
+                  ),
+                  errorBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+                maxLength: 20,
+                maxLines: 1,
+                cursorColor: secondary,
+              ),
+            ),
             SizedBox(
               height: size.height * 0.04,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: _shareEvent,
               style: ElevatedButton.styleFrom(
                 backgroundColor: primary.withOpacity(0.8),
                 fixedSize: Size(size.width * 0.4, size.height * 0.04),

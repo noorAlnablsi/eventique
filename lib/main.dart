@@ -7,6 +7,7 @@ import 'package:eventique/providers/reviews.dart';
 import 'package:eventique/providers/services_list.dart';
 import 'package:eventique/screens/navigation_bar_page.dart';
 import 'package:eventique/screens/share_event_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -73,7 +74,15 @@ class MyApp extends StatelessWidget {
           // darkTheme: themeProvider.darkTheme,
           themeMode: themeProvider.getThemeMode(),
           debugShowCheckedModeBanner: false,
-          home: AuthScreen(),
+          home: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (ctx, userSnapshot) {
+              if (userSnapshot.hasData) {
+                return NavigationBarPage();
+              }
+              return AuthScreen();
+            },
+          ),
           routes: {
             VerificationScreen.routeName: (ctx) => VerificationScreen(),
             EnterEmailScreen.routeName: (ctx) => EnterEmailScreen(),
