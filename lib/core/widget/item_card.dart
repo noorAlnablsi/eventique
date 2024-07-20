@@ -1,22 +1,25 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:eventique/core/resources/color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:eventique/core/resources/color.dart';
+
 class ItemCard extends StatelessWidget {
- const ItemCard({
-Key? key,
- required this.height,
-  required this.width,
-  required this.firsttext,
- required this.secondtext,
-required this.image,
- }) : super(key: key);
+  const ItemCard({
+    Key? key,
+    required this.height,
+    required this.width,
+    required this.firsttext,
+    required this.secondtext,
+    required this.image,
+    required this.color,
+  }) : super(key: key);
  final double height;
   final double width;
  final String firsttext;
  final String secondtext;
  final String image;
+ final Color color;
  @override
  Widget build(BuildContext context) {
 return InkWell(
@@ -24,7 +27,7 @@ return InkWell(
 },
 child: Container(
  decoration: BoxDecoration(
-color: Color.fromARGB(255, 232, 227, 249),
+color: color,
  borderRadius: BorderRadius.all(Radius.circular(15))),
 child: Padding(
  padding: const EdgeInsets.all(10.0),
