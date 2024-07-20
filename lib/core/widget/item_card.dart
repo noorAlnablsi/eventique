@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 class ItemCard extends StatelessWidget {
  const ItemCard({
 Key? key,
-// required this.height,
- // required this.width,
+ required this.height,
+  required this.width,
   required this.firsttext,
  required this.secondtext,
 required this.image,
  }) : super(key: key);
-// final double height;
- // final double width;
+ final double height;
+  final double width;
  final String firsttext;
  final String secondtext;
  final String image;
