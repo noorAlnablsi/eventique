@@ -31,13 +31,13 @@ import '/screens/email_rest_screen.dart';
 import '/screens/password_rest_screen.dart';
 import '/screens/vendor_profile_screen.dart';
 
-const String host = 'http://192.168.43.85:8000';
+const String host = 'http://192.168.137.1:8000';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   final authProvider = Auth();
-  await authProvider.loadUserData();
+  // await authProvider.loadUserData();
 
   runApp(
     ChangeNotifierProvider<ThemeProvider>(

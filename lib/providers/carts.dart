@@ -1,3 +1,4 @@
+//tasneem
 import 'package:eventique/models/one_cartService.dart';
 import 'package:flutter/material.dart';
 
@@ -33,16 +34,15 @@ class Carts with ChangeNotifier {
     notifyListeners();
   }
 
-  String chosenEventId='';
+  String chosenEventId = '';
   void changeChosenEvent(String eventId) {
     chosenEventId = eventId;
-    notifyListeners(); 
+    notifyListeners();
   }
 
-
-  void addServiceToCart(int serviceId, double servicePrice,String imgUrl,String name) {
-    
-     if (chosenEventId.isEmpty) {
+  void addServiceToCart(
+      int serviceId, double servicePrice, String imgUrl, String name) {
+    if (chosenEventId.isEmpty) {
       throw Exception('No event chosen');
     }
 
@@ -60,7 +60,7 @@ class Carts with ChangeNotifier {
         OneCartServiceId: serviceId,
         quantity: newQuantity,
         totalPrice: newTotalPrice,
-        imgUrl:imgUrl, 
+        imgUrl: imgUrl,
         name: name,
       );
     } else {
@@ -68,17 +68,17 @@ class Carts with ChangeNotifier {
         OneCartServiceId: serviceId,
         quantity: getQuantity(serviceId),
         totalPrice: getQuantity(serviceId) * servicePrice,
-        imgUrl:imgUrl, 
+        imgUrl: imgUrl,
         name: name,
       );
     }
     _quantities[serviceId] = 1;
-    chosenEventId='';
+    chosenEventId = '';
 
     notifyListeners();
   }
 
-   removeServiceFromCart(String eventId, int serviceId) {
+  removeServiceFromCart(String eventId, int serviceId) {
     if (_carts.containsKey(eventId)) {
       final eventCart = _carts[eventId]!;
       eventCart.remove(serviceId);
@@ -88,7 +88,6 @@ class Carts with ChangeNotifier {
       notifyListeners();
     }
   }
-
 
   //when ordering ,the cart should become empty
   void clearCart(String eventId) {

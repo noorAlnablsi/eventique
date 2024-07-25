@@ -1,3 +1,4 @@
+//taghreed
 import 'package:eventique/screens/auth_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -123,8 +124,9 @@ class MainDrawer extends StatelessWidget {
           buildListTile(
             Icons.logout,
             'Logout',
-            () {
-              Navigator.of(context).pushReplacementNamed('/');
+            () async {
+              await Provider.of<Auth>(context, listen: false).logout();
+              Navigator.of(context).popAndPushNamed(AuthScreen.routeName);
             },
           ),
         ],

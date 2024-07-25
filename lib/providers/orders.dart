@@ -1,3 +1,4 @@
+//tasneem
 import 'package:eventique/models/one_cartService.dart';
 import 'package:eventique/models/one_order.dart';
 import 'package:eventique/models/service_in_order_details.dart';
@@ -15,11 +16,11 @@ class Orders with ChangeNotifier {
   }
 
   List<OneOrder> get pendingOrders {
-    return _orders.where((order) => !
-    order.isProcessed).toList();
+    return _orders.where((order) => !order.isProcessed).toList();
   }
 
-  void addOrder(List<OneCartService> orderServices, double orderPrice, String eventName) {
+  void addOrder(
+      List<OneCartService> orderServices, double orderPrice, String eventName) {
     // Map each OneCartService to ServiceInOrderDetails to not make a whole new list of ServiceInOrderDetails, so i used the cart list
     List<ServiceInOrderDetails> serviceInOrderDetails =
         orderServices.map((cartService) {
@@ -29,7 +30,11 @@ class Orders with ChangeNotifier {
         totalPrice: cartService.totalPrice,
         imgUrl: cartService.imgUrl,
         name: cartService.name,
-        status: cartService.OneCartServiceId%3==0? Status.rejected: cartService.OneCartServiceId%3==1 ?Status.accepted:Status.pending, //initial status
+        status: cartService.OneCartServiceId % 3 == 0
+            ? Status.rejected
+            : cartService.OneCartServiceId % 3 == 1
+                ? Status.accepted
+                : Status.pending, //initial status
       );
     }).toList();
 
@@ -56,4 +61,3 @@ extension OrderStatusExtension on OneOrder {
         service.status == Status.accepted || service.status == Status.rejected);
   }
 }
-

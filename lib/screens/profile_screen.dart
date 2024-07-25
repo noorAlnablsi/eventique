@@ -1,5 +1,5 @@
+//taghreed
 import 'dart:io';
-
 import 'package:eventique/widgets/pickers/user_image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +26,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Provider.of<Auth>(context, listen: false).userData['userName'] = newName;
     });
     Provider.of<Auth>(context, listen: false).updateUserName(newName);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('name updated successfully.'),
+        backgroundColor: Colors.green,
+      ),
+    );
   }
 
   void _navigateToRestEmail() {
@@ -59,6 +65,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Provider.of<Auth>(context, listen: false).userData['userImage'] =
             imageURL;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('image updated successfully.'),
+          backgroundColor: Colors.green,
+        ),
+      );
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -139,9 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: media.height * 0.02),
                   ProfileItem(
                     title: 'Password',
-                    userInfo: userInfo['userPassword']!.isNotEmpty
-                        ? userInfo['userPassword']!
-                        : '*********',
+                    userInfo: '*********',
                     subtitle: '',
                     iconData: Icons.lock,
                     isLight: isLight,

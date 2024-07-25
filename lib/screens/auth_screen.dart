@@ -1,7 +1,6 @@
+//taghreed
 import 'dart:io';
-
 import 'package:eventique/screens/navigation_bar_page.dart';
-
 import '/color.dart';
 import '/providers/auth_provider.dart';
 import '/models/verifications_arguments.dart';
@@ -42,8 +41,13 @@ class _AuthScreenState extends State<AuthScreen> {
 
       if (isLogin) {
         await Provider.of<Auth>(context, listen: false).login(email, password);
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            NavigationBarPage.routeName, (route) => false);
+        Navigator.of(context).popAndPushNamed(NavigationBarPage.routeName);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('sign in completed successfully.'),
+            backgroundColor: Colors.green,
+          ),
+        );
       } else {
         //this is the code to upload an image to fire storage
         String? imageURL;
@@ -65,11 +69,17 @@ class _AuthScreenState extends State<AuthScreen> {
           confirmPassword,
         );
 
-        Navigator.of(context).pushNamed(
+        Navigator.of(context).popAndPushNamed(
           VerificationScreen.routeName,
           arguments: VerificationArguments(
             email: email,
             type: 'signup',
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('OTP code sended successfully.'),
+            backgroundColor: Colors.green,
           ),
         );
       }

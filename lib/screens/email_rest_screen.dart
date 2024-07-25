@@ -1,3 +1,4 @@
+//taghreed
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '/color.dart';
@@ -26,8 +27,11 @@ class _EmailRestScreenState extends State<EmailRestScreen> {
         _isLoading = true;
       });
 
-      print('enter email function');
+      print('enter new email function');
       await Provider.of<Auth>(context, listen: false).emailRest(userEmail);
+      setState(() {
+        _isLoading = false;
+      });
       //this may cause error we will
       Navigator.of(context).pushNamedAndRemoveUntil(
         VerificationScreen.routeName,
@@ -37,14 +41,23 @@ class _EmailRestScreenState extends State<EmailRestScreen> {
         ),
         (route) => false,
       );
-      setState(() {
-        _isLoading = false;
-      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('OTP code sended successfully.'),
+          backgroundColor: Colors.green,
+        ),
+      );
     } catch (error) {
       print(error.toString());
       setState(() {
         _isLoading = false;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred. Please try again.'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 

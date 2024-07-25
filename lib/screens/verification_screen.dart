@@ -1,11 +1,12 @@
+//taghreed
 import 'dart:async';
+import 'package:eventique/screens/navigation_bar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '/color.dart';
 import '/models/verifications_arguments.dart';
 import '/providers/auth_provider.dart';
 import '/screens/auth_screen.dart';
-import '/screens/home_screen.dart';
 import '/screens/new_password_screen.dart';
 import '/widgets/auth/otp_field.dart';
 
@@ -79,7 +80,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
             ),
             onPressed: () {
               if (type == 'signup') {
-                Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
+                Navigator.of(context)
+                    .popAndPushNamed(NavigationBarPage.routeName);
               } else {
                 Navigator.of(context).popAndPushNamed(AuthScreen.routeName);
               }
@@ -106,31 +108,46 @@ class _VerificationScreenState extends State<VerificationScreen> {
       if (args.type == 'signup') {
         await Provider.of<Auth>(context, listen: false)
             .signUpVerificationCode(args.email.trim(), verificationCode.trim());
-        Navigator.of(context).popAndPushNamed(HomeScreen.routeName);
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.of(context).popAndPushNamed(NavigationBarPage.routeName);
       } else if (args.type == 'forgotPassword') {
         await Provider.of<Auth>(context, listen: false)
             .forgetVerificationCode(args.email.trim(), verificationCode.trim());
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            NewPasswordScreen.routeName,
-            arguments: args.email,
-            (route) => false);
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.of(context).pushNamed(
+          NewPasswordScreen.routeName,
+          arguments: args.email,
+        );
       } else if (args.type == 'resetEmail') {
         await Provider.of<Auth>(context, listen: false)
             .RestVerificationCode(args.email.trim(), verificationCode.trim());
+        setState(() {
+          _isLoading = false;
+        });
         Navigator.of(context).popAndPushNamed(AuthScreen.routeName);
       }
-
-      setState(() {
-        _isLoading = false;
-      });
-      //show popup verified
-      _showDialog(context, args.type, 'content');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Your email has been changed successfully.'),
+          backgroundColor: Colors.green,
+        ),
+      );
     } catch (error) {
       print(error.toString());
       setState(() {
         correct = false;
         _isLoading = false;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred while sign-up. Please try again.'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 

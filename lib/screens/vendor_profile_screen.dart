@@ -1,3 +1,4 @@
+//taghreed
 import 'package:eventique/color.dart';
 import 'package:eventique/models/vendor_model.dart';
 import 'package:eventique/providers/vendors_provider.dart';

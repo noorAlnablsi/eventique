@@ -1,4 +1,4 @@
-
+//tasneem
 import 'package:eventique/models/one_review.dart';
 import 'package:flutter/material.dart';
 
@@ -112,29 +112,37 @@ class Reviews with ChangeNotifier {
     ]
   };
 
-  void addReview(int serviceId, String theComment, String imgurl, String personName) {
+  void addReview(
+      int serviceId, String theComment, String imgurl, String personName) {
     if (_reviewsForServiceMap.containsKey(serviceId)) {
       _reviewsForServiceMap[serviceId]!.add(OneReview(
-          theComment: theComment, personName: personName, imgurl: imgurl, rating: _currentRatings[serviceId] ?? 0.0));
+          theComment: theComment,
+          personName: personName,
+          imgurl: imgurl,
+          rating: _currentRatings[serviceId] ?? 0.0));
     } else {
       _reviewsForServiceMap[serviceId] = [
         OneReview(
-            theComment: theComment, personName: personName, imgurl: imgurl, rating: _currentRatings[serviceId] ?? 0.0)
+            theComment: theComment,
+            personName: personName,
+            imgurl: imgurl,
+            rating: _currentRatings[serviceId] ?? 0.0)
       ];
     }
     _currentRatings[serviceId] = 0.0;
     notifyListeners();
   }
 
-   void deleteReview(int serviceId, int reviewIndex) {
-    if (_reviewsForServiceMap.containsKey(serviceId) && reviewIndex >= 0 && reviewIndex < _reviewsForServiceMap[serviceId]!.length) {
+  void deleteReview(int serviceId, int reviewIndex) {
+    if (_reviewsForServiceMap.containsKey(serviceId) &&
+        reviewIndex >= 0 &&
+        reviewIndex < _reviewsForServiceMap[serviceId]!.length) {
       _reviewsForServiceMap[serviceId]!.removeAt(reviewIndex);
       notifyListeners();
     }
   }
 
-
-    double getCurrentRating(int serviceId) {
+  double getCurrentRating(int serviceId) {
     return _currentRatings[serviceId] ?? 0.0;
   }
 
@@ -142,7 +150,6 @@ class Reviews with ChangeNotifier {
     _currentRatings[serviceId] = rating;
     notifyListeners();
   }
-  
 
   List<OneReview> getReviewsForService(int serviceId) {
     return _reviewsForServiceMap[serviceId]!;

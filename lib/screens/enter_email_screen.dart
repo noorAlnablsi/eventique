@@ -1,3 +1,4 @@
+//taghreed
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '/color.dart';
@@ -29,6 +30,7 @@ class _EnterEmailScreenState extends State<EnterEmailScreen> {
       print('enter email function');
       await Provider.of<Auth>(context, listen: false)
           .emailForgetPassword(userEmail);
+      print('in forgetpassword screen email:$userEmail');
       //this may cause error we will
       Navigator.of(context).pushNamedAndRemoveUntil(
         VerificationScreen.routeName,

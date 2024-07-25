@@ -1,3 +1,4 @@
+//taghreed
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '/color.dart';
@@ -30,19 +31,31 @@ class _PasswordRestScreenState extends State<PasswordRestScreen> {
       print('new password function');
       await Provider.of<Auth>(context, listen: false)
           .passwordRest(oldPassword, password, confirmPassword);
+      setState(() {
+        _isLoading = false;
+      });
       //this may cause error we will
       Navigator.of(context).pushNamedAndRemoveUntil(
         AuthScreen.routeName,
         (route) => false,
       );
-      setState(() {
-        _isLoading = false;
-      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Password changed successfully.'),
+          backgroundColor: Colors.green,
+        ),
+      );
     } catch (error) {
       print(error.toString());
       setState(() {
         _isLoading = false;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred. Please try again.'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
