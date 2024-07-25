@@ -1,3 +1,9 @@
+//noor and taghreeed edit
+import 'package:eventique/providers/home_provider.dart';
+import 'package:eventique/screens/one_package_details.dart';
+import 'package:eventique/screens/one_you&us.dart';
+import 'package:provider/provider.dart';
+
 import '/color.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -8,6 +14,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final homeProvider = Provider.of<HomeProvider>(context);
+    final loadedPackages = homeProvider.allPackages;
+    final loadedYouAndUs = homeProvider.allYouAndUs;
+
     return Scaffold(
       backgroundColor: white,
       body: Padding(
@@ -15,50 +25,9 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Card(
-            //   elevation: 20,
-            //   shape: RoundedRectangleBorder(
-            //     borderRadius: BorderRadius.all(Radius.circular(20)),
-            //   ),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //         borderRadius: BorderRadius.circular(8),
-            //         gradient: LinearGradient(
-            //             begin: Alignment.centerLeft,
-            //             end: Alignment.centerRight,
-            //             stops: [
-            //               0,
-            //               0.99
-            //             ],
-            //             colors: [
-            //               primary,
-            //               Color.fromARGB(255, 255, 224, 248)
-            //             ])),
-            //     width: 313,
-            //     height: 74,
-            //     child: TextButton(
-            //       onPressed: () {},
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //         children: [
-            //           Text(
-            //             "Create Your Event",
-            //             style: TextStyle(
-            //                 color: Color.fromARGB(255, 255, 253, 240)),
-            //           ),
-            //           IconButton(
-            //               onPressed: () {}, icon: Icon(Icons.arrow_forward))
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
-
             Center(
               child: Container(
-                margin: EdgeInsets.only(
-                    // top: size.height * 0.001,
-                    bottom: size.height * 0.04),
+                margin: EdgeInsets.only(bottom: size.height * 0.04),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   gradient: LinearGradient(
@@ -90,60 +59,68 @@ class HomeScreen extends StatelessWidget {
                             fontSize: 20,
                             fontFamily: 'IrishGrover'),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_forward),
-                      ),
+                      Icon(Icons.arrow_forward),
                     ],
                   ),
                 ),
               ),
             ),
-
-            Text("Packages",
-                style: TextStyle(
-                  fontSize: 28,
-                  fontFamily: 'IrishGrover',
-                  color: primary,
-                )),
-            Text(
-              "Everything you need in one place at discounted prices.",
-              style: TextStyle(
-                  fontFamily: 'IrishGrover', fontSize: 16, color: primary),
+            //start the packages
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text("Packages",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontFamily: 'IrishGrover',
+                    color: primary,
+                  )),
             ),
-
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                "Everything you need in one place at discounted prices.",
+                style: TextStyle(
+                    fontFamily: 'IrishGrover', fontSize: 16, color: primary),
+              ),
+            ),
             SizedBox(
               height: size.width * 0.04,
             ),
-
-            Container(
+            SizedBox(
               height: size.height * 0.2,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 20,
-                itemBuilder: (context, index) {
+                itemCount: loadedPackages.length,
+                itemBuilder: (ctx, i) {
                   return InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      //here i will pass the id
+                      Navigator.of(context).pushNamed(
+                        OnePackageDetailsPage.routeName,
+                        arguments: loadedPackages[i].id,
+                      );
+                    },
                     child: Container(
-                      margin: EdgeInsets.all(8),
+                      margin: EdgeInsets.only(right: 10),
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage("assets/images/Rectangle (3).png"),
+                          image: AssetImage(loadedPackages[i].imageUrl!),
                         ),
                       ),
                       child: Center(
-                          child: Column(
-                        children: [
-                          Gap(100),
-                          Text(
-                            "birthday",
-                            style: TextStyle(
-                                color: onPrimary,
-                                fontFamily: 'Kanit',
-                                fontSize: 20),
-                          ),
-                        ],
-                      )),
+                        child: Column(
+                          children: [
+                            Gap(100),
+                            Text(
+                              loadedPackages[i].name!,
+                              style: TextStyle(
+                                  color: onPrimary,
+                                  fontFamily: 'Kanit',
+                                  fontSize: 20),
+                            ),
+                          ],
+                        ),
+                      ),
                       width: size.width / 2,
                     ),
                   );
@@ -153,45 +130,53 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               height: size.width * 0.06,
             ),
-
-            Text(
-              "You & Us",
-              style: TextStyle(
-                fontSize: 28,
-                color: primary,
-                fontFamily: 'IrishGrover',
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                "You & Us",
+                style: TextStyle(
+                  fontSize: 28,
+                  color: primary,
+                  fontFamily: 'IrishGrover',
+                ),
               ),
             ),
             SizedBox(
               height: size.width * 0.02,
             ),
-
-            Text(
-              "Your Joy Our Craft !",
-              style: TextStyle(
-                fontSize: 18,
-                color: primary,
-                fontFamily: 'IrishGrover',
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                "Your Joy Our Craft !",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: primary,
+                  fontFamily: 'IrishGrover',
+                ),
               ),
             ),
             SizedBox(
               height: size.width * 0.06,
             ),
-
             Expanded(
                 child: ListView.builder(
-                    itemCount: 18,
-                    itemBuilder: (context, index) {
+                    itemCount: loadedYouAndUs.length,
+                    itemBuilder: (ctx, index) {
                       return InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                              YouAndUsPage.routeName,
+                              arguments: loadedYouAndUs[index].id);
+                        },
                         child: Card(
                           child: Container(
                             height: 129,
                             width: 302,
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image: AssetImage(
-                                      "assets/images/Rectangle.png")),
+                                image: AssetImage(
+                                    loadedYouAndUs[index].imagesUrl![0]),
+                              ),
                             ),
                             child: Row(
                               children: [
@@ -211,7 +196,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       Gap(15),
                                       Text(
-                                        "Magical",
+                                        loadedYouAndUs[index].description!,
                                         style: TextStyle(
                                             fontFamily: 'KaushanScript',
                                             fontSize: 20,
