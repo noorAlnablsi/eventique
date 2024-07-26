@@ -18,7 +18,7 @@ class ServiceItem extends StatelessWidget {
       this.fromSaved});
   final String imgurl;
   final String name, vendorName;
-  final double rating;
+  final double? rating;
   final int serviceId;
   bool? fromSaved;
 
@@ -133,8 +133,10 @@ class ServiceItem extends StatelessWidget {
                           color: Color(0xffEBC25C),
                           size: 18,
                         ),
+                        
                         Text(
-                          rating.toString(),
+                          rating!=null?
+                          rating.toString():'',
                           style: bodyMediumStyle!.copyWith(
                             color: const Color(0xffEBC25C),
                             fontSize: 14,

@@ -174,7 +174,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                 serviceId: widget.serviceId,
                 description: loadedService.description,
                 vendorname: loadedService.vendorName,
-                serviceCategory: loadedService.category.name,
+                serviceCategoryId: loadedService.categoryId,
               ),
             ),
           );

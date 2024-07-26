@@ -1,6 +1,8 @@
 import 'package:eventique/core/resources/color.dart';
+import 'package:eventique/models/one_service.dart';
 import 'package:eventique/widget/search_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SearchResultsScreen extends StatefulWidget {
   const SearchResultsScreen({super.key});
@@ -11,23 +13,27 @@ class SearchResultsScreen extends StatefulWidget {
 
 class _SearchResultsScreenState extends State<SearchResultsScreen> {
   final TextEditingController _controller = TextEditingController();
-  List<String> _searchResults = [];
-  final List<String> _items = [
-    'Dream Cake',
-    'Salad',
-    'Royal Hall',
-    'Batata',
-    'Bandora',
-    'Red Roses',
-    'Taboleh',
-    'Lala Photography'
+  List<OneService> _searchResults = [];
+
+  final List<OneService> _items = [
+    // 'Dream Cake',
+    // 'Salad',
+    // 'Royal Hall',
+    // 'Batata',
+    // 'Bandora',
+    // 'Red Roses',
+    // 'Taboleh',
+    // 'Lala Photography'
   ];
 
   void _onSearchChanged(String text) {
     setState(() {
-      _searchResults = _items
-          .where((item) => item.toLowerCase().contains(text.toLowerCase()))
-          .toList();
+      // _searchResults=Provider.of...Search(text.toLowerCase());
+
+      //delete below
+      // _searchResults = _items
+      //     .where((item) => item.toLowerCase().contains(text.toLowerCase()))
+      //     .toList();
     });
   }
 
@@ -84,17 +90,18 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
       ),
       body: _controller.text.isEmpty
           ? Container() // Blank page
-          : ListView.builder(padding: EdgeInsets.symmetric(vertical: 20),
-              itemCount: _searchResults.length,
-              itemBuilder: (context, index) {
-                return SearchTile(
-                  serviceName: _searchResults[index],
-                  serviceUrl: 'https://i.postimg.cc/jSD6s14x/photo-2024-04-25-23-30-29.jpg',
-                  serviceId: 1,
-                  serviceCompany: 'Bee',
-                );
-              },
-            ),
+          : Container(),
+          // ListView.builder(padding: EdgeInsets.symmetric(vertical: 20),
+          //     itemCount: _searchResults.length,
+          //     itemBuilder: (context, index) {
+          //       return SearchTile(
+          //         serviceName: _searchResults[index],
+          //         serviceUrl: 'https://i.postimg.cc/jSD6s14x/photo-2024-04-25-23-30-29.jpg',
+          //         serviceId: 1,
+          //         serviceCompany: 'Bee',
+          //       );
+          //     },
+          //   ),
     );
   }
 }

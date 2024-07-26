@@ -14,7 +14,7 @@ class EventDetails extends StatefulWidget {
     required this.eventId,
   });
 
-  final String eventId;
+  final int eventId;
 
   @override
   State<EventDetails> createState() => _EventDetailsState();

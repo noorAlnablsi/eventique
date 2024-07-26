@@ -1,35 +1,76 @@
 import 'package:eventique/core/resources/color.dart';
-import 'package:eventique/pages/cart.dart';
-import 'package:eventique/pages/event_details.dart';
-import 'package:eventique/providers/events.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class EventTile extends StatelessWidget {
-  const EventTile({
-    super.key,
-    required this.eventName,
-    required this.eventDate,
-    required this.controller,
-    required this.eventTypeId,
-    required this.eventBudget,
-    required this.eventId,
-    required this.guests,
-    required this.eventTime,
-  });
-
-  final String eventName;
-  final double eventBudget;
-  final int eventId;
-  final DateTime eventDate;
-  final int controller;
-  final int eventTypeId;
-  final int guests;
-  final TimeOfDay eventTime;
+class SharedEvents extends StatelessWidget {
+   SharedEvents({super.key});
+  final events=[1];
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle? bodyMediumStyle = Theme.of(context).textTheme.bodyMedium;
+    return 
+    Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'My Shared Events',
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(fontFamily: 'IrishGrover'),
+        ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(4.0),
+          child: Container(
+            height: 4.0,
+            alignment: Alignment.center,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                    width: 1.0,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      body: events.isEmpty
+        ? Center(
+            child: Text(
+              'You did\'nt share any event yet',
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    fontFamily: 'IrishGrover',
+                    fontSize: 22,
+                    color: const Color.fromARGB(255, 227, 181, 193),
+                  ),
+            ),
+          )
+        : ListView.builder(
+            padding: EdgeInsets.all(16.0),
+            itemCount: events.length,
+            itemBuilder: (ctx, i) {
+              return SharedEventTile(
+                // eventDate: events[i].dateTime,
+                // eventName: events[i].name,
+                // eventType: events[i].eventType,
+                // eventBudget: events[i].budget,
+                // eventId: events[i].eventId,
+                // guests:  events[i].guestsNumber,
+                // eventTime:  events[i].time,
+              );
+            },
+          ),
+    );
+  }
+}
+
+class SharedEventTile extends StatelessWidget {
+  const SharedEventTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+        final TextStyle? bodyMediumStyle = Theme.of(context).textTheme.bodyMedium;
 
     return Card(
       shape: RoundedRectangleBorder(
@@ -42,14 +83,12 @@ class EventTile extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (ctx) => EventDetails(
-                eventId: eventId,
-              ),
-            ),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (ctx) => you and us screen
+          //   ),
+          // );
         },
         onLongPress: () async {
           await showDialog<bool>(
@@ -57,17 +96,15 @@ class EventTile extends StatelessWidget {
             builder: (context) => AlertDialog(
               backgroundColor: const Color(0xFFFFFDF0),
               title: Text(
-                'Delete this event?',
+                'Delete this event ?',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              content: Text(
-                controller == 1
-                    ? 'By deleting this event, you will cancel any accepted orders, and the money spent will not be refunded.'
-                    : 'Remove event from list?',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: 14, fontWeight: FontWeight.bold),
-              ),
+              // content: Text(
+              //   'Remove event from list?',
+              //   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              //       fontSize: 14, fontWeight: FontWeight.bold),
+              // ),
               actions: <Widget>[
                 TextButton(
                   child: Text('Cancel',
@@ -86,7 +123,7 @@ class EventTile extends StatelessWidget {
                           .bodyMedium!
                           .copyWith(fontWeight: FontWeight.w500)),
                   onPressed: () {
-                    Provider.of<Events>(context, listen: false).deleteEvent(eventId);
+                    //delete event
                     Navigator.of(context).pop();
                   },
                 ),
@@ -109,10 +146,12 @@ class EventTile extends StatelessWidget {
                 elevation: 6,
                 color: beige,
                 margin: const EdgeInsets.only(left: 8),
-                // child: Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                //   child: Icon(eventType.icon),
-                // ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  child: 
+                  // Icon(eventType.icon),
+                  Icon(Icons.abc),
+                ),
               ),
               Expanded(
                 child: Padding(
@@ -121,7 +160,7 @@ class EventTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        eventName,
+                        'eventName',
                         softWrap: false,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -133,7 +172,8 @@ class EventTile extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        '${eventDate.toLocal()}'.split(' ')[0],
+                        'eventDate',
+                        // '${eventDate.toLocal()}'.split(' ')[0],
                         softWrap: false,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -144,30 +184,6 @@ class EventTile extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  onPressed: () {
-                    controller == 1
-                        ? Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (ctx) => TestCart(
-                                eventBudget: eventBudget,
-                                eventId: eventId,
-                                eventName: eventName,
-                              ),
-                            ),
-                          )
-                        : print('navigate to share event');
-                  },
-                  icon: Icon(
-                    controller == 1 ? Icons.trolley : Icons.share,
-                    color: secondary,
-                    size: controller == 1 ? 32 : 24,
                   ),
                 ),
               ),

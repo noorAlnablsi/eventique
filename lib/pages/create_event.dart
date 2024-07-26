@@ -63,6 +63,7 @@ class _CreateEventState extends State<CreateEvent> {
     super.dispose();
   }
 
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -130,6 +131,7 @@ class _CreateEventState extends State<CreateEvent> {
   Widget build(BuildContext context) {
     final Color primaryColor = Theme.of(context).primaryColor;
     final eventProvider = Provider.of<Events>(context);
+    final List<EventType> eventTypes=eventProvider.eventTypes;
 
     return AlertDialog(
       backgroundColor: beige,
@@ -322,18 +324,20 @@ class _CreateEventState extends State<CreateEvent> {
                           }
                           return null;
                         },
-                        items: EventType.values.map((EventType type) {
-                          return DropdownMenuItem<EventType>(
-                            value: type,
-                            child: Text(type.name, style: textStyle),
+                        items:eventTypes.map((eventType) {
+                          return DropdownMenuItem(
+                            value: eventType,
+                            child:  Text(eventType.name, style: textStyle),
                           );
-                        }).toList(),
+                        }
+                         ).toList(),
                         onChanged: (EventType? newValue) {
                           setState(() {
                             _selectedEventType = newValue;
                           });
                         },
-                        dropdownColor: beige),
+                        dropdownColor: beige,
+                        ),
                   ],
                 ),
               ],
@@ -361,16 +365,12 @@ class _CreateEventState extends State<CreateEvent> {
 
                 // Create the event
                 eventProvider.addEvent(
-                  OneEvent(
-                    eventId: DateTime.now().toString(),
-                    name: _nameController.text,
-                    budget: double.parse(_budgetController.text),
-                    guestsNumber: int.parse(_guestsController.text),
-                    time: TimeOfDay(hour: hour, minute: minute),
-                    dateTime:
-                        DateFormat('yyyy-MM-dd').parse(_dateController.text),
-                    eventType: _selectedEventType!,
-                  ),
+                  _nameController.text,
+                  double.parse(_budgetController.text),
+                  int.parse(_guestsController.text),
+                  DateFormat('yyyy-MM-dd').parse(_dateController.text),
+                  TimeOfDay(hour: hour, minute: minute),
+                  _selectedEventType!.id,
                 );
 
                 Navigator.of(context).pop();

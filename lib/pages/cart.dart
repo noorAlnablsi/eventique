@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class TestCart extends StatelessWidget {
   const TestCart({super.key,required this.eventId,required this.eventName,required this.eventBudget});
   final String eventName;
-  final String eventId ;
+  final int eventId ;
   final double eventBudget ;
 
   @override
@@ -37,16 +37,43 @@ class TestCart extends StatelessWidget {
       ),
       body: Container(
           child: cart.isEmpty
-              ? Center(
-                  child: Text(
-                    'Cart Is Empty',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontFamily: 'IrishGrover',
-                          fontSize: 22,
-                          color: const Color.fromARGB(255, 227, 181, 193),
-                        ),
-                  ),
-                )
+              ? Stack(
+                children: [
+                  Center(
+                      child: Text(
+                        'Cart Is Empty',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              fontFamily: 'IrishGrover',
+                              fontSize: 22,
+                              color: const Color.fromARGB(255, 227, 181, 193),
+                            ),
+                      ),
+                    ),
+                     // Positioned circle button
+                            Positioned(
+                              bottom: 46,
+                              right: 32,
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: ((context) =>const VendorsScreen())));
+                                  cartProvider.chosenEventId=eventId.toString();
+                                },
+                                 child: Icon(
+                                  Icons.add,
+                                  color: beige, 
+                                ),
+                                backgroundColor: Theme.of(context).primaryColor, 
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                elevation:
+                                    4, 
+                                tooltip:
+                                    'Add Service',
+                              ),
+                            ),
+                ],
+              )
               : SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -108,7 +135,7 @@ class TestCart extends StatelessWidget {
                               child: FloatingActionButton(
                                 onPressed: () {
                                   Navigator.push(context, MaterialPageRoute(builder: ((context) =>const VendorsScreen())));
-                                  cartProvider.chosenEventId=eventId;
+                                  cartProvider.chosenEventId=eventId.toString();
                                 },
                                  child: Icon(
                                   Icons.add,

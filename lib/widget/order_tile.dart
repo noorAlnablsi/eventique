@@ -74,7 +74,7 @@ class OrderTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${order.orderPrice.toStringAsFixed(2)} \$',
+                      'Total: ${order.orderPrice.toStringAsFixed(2)} \$',
                       softWrap: false,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -85,7 +85,18 @@ class OrderTile extends StatelessWidget {
                         fontSize: 15,
                       ),
                     ),
-                    const SizedBox(height: 5),
+                    Text(
+                      'Paid: ${order.orderPrice.toStringAsFixed(2)} \$',
+                      softWrap: false,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: bodyMediumStyle.copyWith(
+                        // color: Color(0xffDD8CA1),
+                        fontFamily: 'IrishGrover',
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15,
+                      ),
+                    ),
                     Text(
                       '${order.dateTime.toLocal()}'.split(' ')[0],
                       softWrap: false,

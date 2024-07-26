@@ -124,7 +124,7 @@ Widget buildEventList(
               controller: controller,
               eventDate: events[i].dateTime,
               eventName: events[i].name,
-              eventType: events[i].eventType,
+              eventTypeId: events[i].eventTypeId,
               eventBudget: events[i].budget,
               eventId: events[i].eventId,
               guests:  events[i].guestsNumber,
