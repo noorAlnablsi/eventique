@@ -15,7 +15,7 @@ class CartTile extends StatelessWidget {
 
   final Map<int, OneCartService> cart;
   final int i;
-  final String eventId;
+  final int eventId;
 
   @override
   Widget build(BuildContext context) {

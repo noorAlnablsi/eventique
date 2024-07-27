@@ -3,13 +3,15 @@ import 'package:eventique/models/one_service.dart';
 class Package {
   int? id;
   String? name;
-  String? description;
+  double? oldPrice;
+  double? newPrice;
   String? imageUrl;
   List<OneService>? packageServices;
   Package({
     this.id,
     this.name,
-    this.description,
+    this.oldPrice,
+    this.newPrice,
     this.imageUrl,
     this.packageServices,
   });

@@ -1,4 +1,3 @@
-//tasneem
 import 'package:eventique/models/one_cartService.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +9,7 @@ class Carts with ChangeNotifier {
   Map<String, Map<int, OneCartService>> get carts => _carts;
 
 // gets an event cart(one cart only),if not found it returns empty map
-  Map<int, OneCartService> getCart(String eventId) {
+  Map<int, OneCartService> getCart(int eventId) {
     return _carts[eventId] ?? {};
   }
 
@@ -78,7 +77,7 @@ class Carts with ChangeNotifier {
     notifyListeners();
   }
 
-  removeServiceFromCart(String eventId, int serviceId) {
+  removeServiceFromCart(int eventId, int serviceId) {
     if (_carts.containsKey(eventId)) {
       final eventCart = _carts[eventId]!;
       eventCart.remove(serviceId);
@@ -90,7 +89,7 @@ class Carts with ChangeNotifier {
   }
 
   //when ordering ,the cart should become empty
-  void clearCart(String eventId) {
+  void clearCart(int eventId) {
     if (_carts.containsKey(eventId)) {
       _carts[eventId]!.clear();
       _carts.remove(eventId);
@@ -98,7 +97,7 @@ class Carts with ChangeNotifier {
     }
   }
 
-  double getOrderTotalPrice(String eventId) {
+  double getOrderTotalPrice(int eventId) {
     double total = 0.0;
     if (_carts.containsKey(eventId)) {
       _carts[eventId]!.forEach((key, cartService) {
@@ -107,4 +106,9 @@ class Carts with ChangeNotifier {
     }
     return total;
   }
+
+  // double getPaidPrice(String eventId) {
+  //   double paid = 0.0;
+  //   return paid;
+  // }
 }

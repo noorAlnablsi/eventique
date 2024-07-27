@@ -61,38 +61,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
     });
   }
 
-  void _showDialog(BuildContext context, String type, String content) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title: Text(
-          'An error Occurred',
-          style: TextStyle(color: Theme.of(context).colorScheme.error),
-        ),
-        content: Text(content),
-        actions: [
-          OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              side: BorderSide(
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ),
-            onPressed: () {
-              if (type == 'signup') {
-                Navigator.of(context)
-                    .popAndPushNamed(NavigationBarPage.routeName);
-              } else {
-                Navigator.of(context).popAndPushNamed(AuthScreen.routeName);
-              }
-            },
-            child: const Text('Continue'),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _submitVerificationCode() async {
     final args =
         ModalRoute.of(context)!.settings.arguments as VerificationArguments;
@@ -145,6 +113,52 @@ class _VerificationScreenState extends State<VerificationScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('An error occurred while sign-up. Please try again.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  void _resendVerificationCode() async {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as VerificationArguments;
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      if (args.type == 'signup') {
+        // await Provider.of<Auth>(context, listen: false)
+        //     .resendSignUpVerificationCode(args.email.trim());
+        
+      } else if (args.type == 'forgotPassword') {
+        // await Provider.of<Auth>(context, listen: false)
+        //     .resendForgetVerificationCode(args.email.trim());
+      
+      } else if (args.type == 'resetEmail') {
+        // await Provider.of<Auth>(context, listen: false)
+        //     .resendRestVerificationCode(args.email.trim());
+      }
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Verification code has been resent successfully.'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (error) {
+      print(error.toString());
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'An error occurred while resending the code. Please try again.'),
           backgroundColor: Colors.red,
         ),
       );
@@ -239,27 +253,40 @@ class _VerificationScreenState extends State<VerificationScreen> {
               height: size.height * 0.05,
             ),
             Center(
-                child: RichText(
-              text: TextSpan(
-                // style: TextStyle(backgroundColor: Colors.amber),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: ' send in  ',
-                      style: TextStyle(
-                          fontFamily: 'CENSCBK',
-                          fontSize: 18,
-                          color: onPrimary)),
-                  TextSpan(
-                    text: '$_remainingSeconds\s',
-                    style: TextStyle(
-                        fontFamily: 'CENSCBK',
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: onPrimary),
-                  ),
-                ],
-              ),
-            )),
+                child: _remainingSeconds == 0
+                    ? TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Resend code again',
+                          style: TextStyle(
+                            fontFamily: 'CENSCBK',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: secondary,
+                          ),
+                        ),
+                      )
+                    : RichText(
+                        text: TextSpan(
+                          // style: TextStyle(backgroundColor: Colors.amber),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: ' send in  ',
+                                style: TextStyle(
+                                    fontFamily: 'CENSCBK',
+                                    fontSize: 18,
+                                    color: onPrimary)),
+                            TextSpan(
+                              text: '$_remainingSeconds\s',
+                              style: TextStyle(
+                                  fontFamily: 'CENSCBK',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: onPrimary),
+                            ),
+                          ],
+                        ),
+                      )),
             SizedBox(
               height: size.height * 0.15,
             ),

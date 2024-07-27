@@ -29,7 +29,7 @@ class _ChooseEventState extends State<ChooseEvent> {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<Carts>(context, listen: false);
-    final events = Provider.of<Events>(context).events;
+    final events = Provider.of<Events>(context).planningEvents;
 
     return SizedBox(
       width: 300,
@@ -79,11 +79,11 @@ class _ChooseEventState extends State<ChooseEvent> {
                           ),
                           elevation: 6,
                           color: beige,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 8),
-                            child: Icon(event.eventType.icon),
-                          ),
+                          // child: Padding(
+                          //   padding: const EdgeInsets.symmetric(
+                          //       horizontal: 8, vertical: 8),
+                          //   child: Icon(event.eventType.icon),
+                          // ),
                         ),
                         title: Text(
                           event.name,
@@ -98,9 +98,10 @@ class _ChooseEventState extends State<ChooseEvent> {
                             : null,
                         onTap: () {
                           setState(() {
-                            _selectedEventId = event.eventId;
+                            _selectedEventId = event.eventId.toString();
                           });
-                          cartProvider.changeChosenEvent(event.eventId);
+                          cartProvider
+                              .changeChosenEvent(event.eventId.toString());
 
                           // Add service to cart
                           Provider.of<Carts>(context, listen: false)

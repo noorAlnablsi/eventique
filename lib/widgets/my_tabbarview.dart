@@ -1,11 +1,13 @@
 //changes to find error
 //commented tab 2
 
+import 'package:eventique/providers/services_list.dart';
 import 'package:eventique/widgets/description.dart';
 import 'package:eventique/widgets/quantity_selector.dart';
 import 'package:eventique/widgets/reviews_grid.dart';
 import 'package:eventique/widgets/vendor_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MyTabBarView extends StatelessWidget {
   const MyTabBarView({
@@ -14,15 +16,21 @@ class MyTabBarView extends StatelessWidget {
     required this.serviceId,
     required this.description,
     required this.vendorname,
-    required this.serviceCategory,
+    required this.serviceCategoryId,
   });
   final TabController tabController;
-  final int serviceId;
+  final int serviceId, serviceCategoryId;
   final String description;
-  final String vendorname, serviceCategory;
+  final String vendorname;
 
   @override
   Widget build(BuildContext context) {
+    final allServices = Provider.of<AllServices>(context);
+    final categories = allServices.categories;
+    final String categoryName = categories
+        .firstWhere((element) => element.id == serviceCategoryId)
+        .name;
+
     return TabBarView(
       controller: tabController,
       children: [
@@ -33,9 +41,9 @@ class MyTabBarView extends StatelessWidget {
             VendorTile(
               vendorname: vendorname,
             ),
-            (serviceCategory != 'venue' &&
-                    serviceCategory != 'photography' &&
-                    serviceCategory != 'transportation')
+            (categoryName != 'venue' &&
+                    categoryName != 'photography' &&
+                    categoryName != 'transportation')
                 ? QuantitySelector(serviceId: serviceId)
                 : Container(),
             Description(

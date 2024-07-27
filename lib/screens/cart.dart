@@ -1,12 +1,11 @@
-//tasneem
-import 'package:eventique/color.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '/screens/vendors_screen.dart';
+import '/color.dart';
+import 'package:eventique/screens/vendors_screen.dart';
 import 'package:eventique/providers/carts.dart';
 import 'package:eventique/providers/orders.dart';
-import '/widgets/cart_tile.dart';
-import '/widgets/my_pie_chart.dart';
+import 'package:eventique/widgets/cart_tile.dart';
+import 'package:eventique/widgets/my_pie_chart.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TestCart extends StatelessWidget {
   const TestCart(
@@ -15,7 +14,7 @@ class TestCart extends StatelessWidget {
       required this.eventName,
       required this.eventBudget});
   final String eventName;
-  final String eventId;
+  final int eventId;
   final double eventBudget;
 
   @override
@@ -42,15 +41,44 @@ class TestCart extends StatelessWidget {
       ),
       body: Container(
           child: cart.isEmpty
-              ? Center(
-                  child: Text(
-                    'Cart Is Empty',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontFamily: 'IrishGrover',
-                          fontSize: 22,
-                          color: const Color.fromARGB(255, 227, 181, 193),
+              ? Stack(
+                  children: [
+                    Center(
+                      child: Text(
+                        'Cart Is Empty',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              fontFamily: 'IrishGrover',
+                              fontSize: 22,
+                              color: const Color.fromARGB(255, 227, 181, 193),
+                            ),
+                      ),
+                    ),
+                    // Positioned circle button
+                    Positioned(
+                      bottom: 46,
+                      right: 32,
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) =>
+                                      const VendorsScreen())));
+                          cartProvider.chosenEventId = eventId.toString();
+                        },
+                        child: Icon(
+                          Icons.add,
+                          color: beige,
                         ),
-                  ),
+                        backgroundColor: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        elevation: 4,
+                        tooltip: 'Add Service',
+                      ),
+                    ),
+                  ],
                 )
               : SingleChildScrollView(
                   child: Padding(
@@ -115,7 +143,8 @@ class TestCart extends StatelessWidget {
                                       MaterialPageRoute(
                                           builder: ((context) =>
                                               const VendorsScreen())));
-                                  cartProvider.chosenEventId = eventId;
+                                  cartProvider.chosenEventId =
+                                      eventId.toString();
                                 },
                                 child: Icon(
                                   Icons.add,
@@ -247,7 +276,7 @@ class TestCart extends StatelessWidget {
                                         softWrap: false,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: bodyMediumStyle.copyWith(
+                                        style: bodyMediumStyle!.copyWith(
                                           color: Color(0xffCCA0C7),
                                         ),
                                       ),

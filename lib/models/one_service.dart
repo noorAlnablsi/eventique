@@ -1,31 +1,21 @@
-//tasneem
-enum ServiceCategories {
-  venue,
-  catering,
-  flowers,
-  cake,
-  accesories,
-  photography,
-  entertainment,
-  decoration,
-  transportation,
-}
-
 class OneService {
+  final int serviceId;
+  final int categoryId;
+  final String name;
+  final double? rating; // Nullable
+  final String vendorName;
+  final List<String> imgsUrl;
+  final double price;
+  final String description;
+
   OneService({
+    required this.serviceId,
+    required this.categoryId,
     required this.name,
+    required this.rating,
     required this.vendorName,
     required this.imgsUrl,
-    required this.rating,
-    required this.category,
-    required this.description,
     required this.price,
-    required this.serviceId,
+    required this.description,
   });
-
-  final String name, vendorName, description;
-  final double rating, price;
-  final ServiceCategories category;
-  final List<String>? imgsUrl;
-  final int serviceId;
 }

@@ -7,153 +7,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class HomeProvider with ChangeNotifier {
-  List<Package> _packages = [
-    Package(
-        id: 0,
-        name: 'birthday',
-        description: 'this is package one',
-        imageUrl: 'assets/images/Rectangle (3).png',
-        packageServices: [
-          OneService(
-            serviceId: 1,
-            category: ServiceCategories.cake,
-            name: 'Dream Cake',
-            rating: 4.5,
-            vendorName: 'Bee',
-            imgsUrl: [
-              'https://i.postimg.cc/jSD6s14x/photo-2024-04-25-23-30-29.jpg',
-              'https://i.postimg.cc/1XznvgWm/photo-2024-04-25-23-30-28.jpg',
-              'https://i.postimg.cc/y6rkV8QR/photo-2024-04-25-23-30-27.jpg'
-            ],
-            price: 24,
-            description:
-                'Indulge in our signature Velvet Symphony, a luxurious cake thats as much a feast for the eyes as it is for the palate. Each layer of this sumptuous treat is a harmonious blend of rich, moist red velvet cake, intertwined with delicate swirls of classic cream cheese frosting. Adorned with a crown of hand-piped rosettes and a sprinkle of edible gold dust, this cake is the perfect centerpiece for any celebration. Experience a taste of opulence with every slice',
-          ),
-          OneService(
-            serviceId: 2,
-            category: ServiceCategories.flowers,
-            name: 'Red Roses',
-            rating: 4.1,
-            vendorName: 'Sufian',
-            imgsUrl: [
-              'https://i.postimg.cc/1XznvgWm/photo-2024-04-25-23-30-28.jpg',
-              'https://i.postimg.cc/jSD6s14x/photo-2024-04-25-23-30-29.jpg',
-              'https://i.postimg.cc/y6rkV8QR/photo-2024-04-25-23-30-27.jpg'
-            ],
-            description:
-                'They arrived in pristine condition, each rose vibrant and fragrant. Theyve been sitting on my dining table for over a week and still look as fresh as day one',
-            price: 30,
-          ),
-        ]),
-    Package(
-      id: 1,
-      name: 'holiday',
-      description: 'this is package two',
-      imageUrl: 'assets/images/Rectangle.png',
-      packageServices: [
-        OneService(
-          serviceId: 3,
-          category: ServiceCategories.venue,
-          name: 'Royal Hall',
-          rating: 3,
-          vendorName: 'mimi',
-          imgsUrl: [
-            'https://i.postimg.cc/y6rkV8QR/photo-2024-04-25-23-30-27.jpg',
-            'https://i.postimg.cc/jSD6s14x/photo-2024-04-25-23-30-29.jpg',
-            'https://i.postimg.cc/1XznvgWm/photo-2024-04-25-23-30-28.jpg',
-          ],
-          price: 49,
-          description: 'The staff was attentive, the ballroom was stunning',
-        ),
-        OneService(
-          serviceId: 4,
-          category: ServiceCategories.catering,
-          name: 'taboleh',
-          rating: 1.1,
-          vendorName: 'soso',
-          imgsUrl: [
-            'https://cdn.pixabay.com/photo/2016/10/25/13/29/smoked-salmon-salad-1768890_1280.jpg',
-            'https://i.postimg.cc/y6rkV8QR/photo-2024-04-25-23-30-27.jpg',
-            'https://i.postimg.cc/jSD6s14x/photo-2024-04-25-23-30-29.jpg',
-            'https://i.postimg.cc/1XznvgWm/photo-2024-04-25-23-30-28.jpg',
-          ],
-          price: 188,
-          description:
-              'Refresh your senses with our Garden Fresco Salad, a vibrant tapestry of the seasons best. Crisp romaine lettuce, heirloom cherry tomatoes, and cool cucumber ribbons lay the foundation for a refreshing experience. Tossed with crunchy croutons, a sprinkle of feta cheese, and a light, zesty lemon-herb vinaigrette, this salad is a celebration of freshness. Perfect for a healthy lunch or a side to any entrée, our Garden Fresco Salad invites you to savor the bounty of the garden in every bite.',
-        ),
-      ],
-    ),
-  ];
-  List<YouAndUs> _youAndUs = [
-    YouAndUs(
-      id: 0,
-      description: 'Magical',
-      imagesUrl: ['assets/images/Rectangle.png'],
-      eventServices: [
-        OneService(
-          serviceId: 1,
-          category: ServiceCategories.cake,
-          name: 'Dream Cake',
-          rating: 4.5,
-          vendorName: 'Bee',
-          imgsUrl: [
-            'https://i.postimg.cc/jSD6s14x/photo-2024-04-25-23-30-29.jpg',
-            'https://i.postimg.cc/1XznvgWm/photo-2024-04-25-23-30-28.jpg',
-            'https://i.postimg.cc/y6rkV8QR/photo-2024-04-25-23-30-27.jpg'
-          ],
-          price: 24,
-          description:
-              'Indulge in our signature Velvet Symphony, a luxurious cake thats as much a feast for the eyes as it is for the palate. Each layer of this sumptuous treat is a harmonious blend of rich, moist red velvet cake, intertwined with delicate swirls of classic cream cheese frosting. Adorned with a crown of hand-piped rosettes and a sprinkle of edible gold dust, this cake is the perfect centerpiece for any celebration. Experience a taste of opulence with every slice',
-        ),
-        OneService(
-          serviceId: 2,
-          category: ServiceCategories.flowers,
-          name: 'Red Roses',
-          rating: 4.1,
-          vendorName: 'Sufian',
-          imgsUrl: [
-            'https://i.postimg.cc/1XznvgWm/photo-2024-04-25-23-30-28.jpg',
-            'https://i.postimg.cc/jSD6s14x/photo-2024-04-25-23-30-29.jpg',
-            'https://i.postimg.cc/y6rkV8QR/photo-2024-04-25-23-30-27.jpg'
-          ],
-          description:
-              'They arrived in pristine condition, each rose vibrant and fragrant. Theyve been sitting on my dining table for over a week and still look as fresh as day one',
-          price: 30,
-        ),
-        OneService(
-          serviceId: 3,
-          category: ServiceCategories.venue,
-          name: 'Royal Hall',
-          rating: 3,
-          vendorName: 'mimi',
-          imgsUrl: [
-            'https://i.postimg.cc/y6rkV8QR/photo-2024-04-25-23-30-27.jpg',
-            'https://i.postimg.cc/jSD6s14x/photo-2024-04-25-23-30-29.jpg',
-            'https://i.postimg.cc/1XznvgWm/photo-2024-04-25-23-30-28.jpg',
-          ],
-          price: 49,
-          description: 'The staff was attentive, the ballroom was stunning',
-        ),
-        OneService(
-          serviceId: 4,
-          category: ServiceCategories.catering,
-          name: 'taboleh',
-          rating: 1.1,
-          vendorName: 'soso',
-          imgsUrl: [
-            'https://cdn.pixabay.com/photo/2016/10/25/13/29/smoked-salmon-salad-1768890_1280.jpg',
-            'https://i.postimg.cc/y6rkV8QR/photo-2024-04-25-23-30-27.jpg',
-            'https://i.postimg.cc/jSD6s14x/photo-2024-04-25-23-30-29.jpg',
-            'https://i.postimg.cc/1XznvgWm/photo-2024-04-25-23-30-28.jpg',
-          ],
-          price: 188,
-          description:
-              'Refresh your senses with our Garden Fresco Salad, a vibrant tapestry of the seasons best. Crisp romaine lettuce, heirloom cherry tomatoes, and cool cucumber ribbons lay the foundation for a refreshing experience. Tossed with crunchy croutons, a sprinkle of feta cheese, and a light, zesty lemon-herb vinaigrette, this salad is a celebration of freshness. Perfect for a healthy lunch or a side to any entrée, our Garden Fresco Salad invites you to savor the bounty of the garden in every bite.',
-        ),
-      ],
-    ),
-  ];
-
+  List<Package> _packages = [];
+  List<YouAndUs> _youAndUs = [];
+  YouAndUs _oneYouAndUs = YouAndUs();
   //packages
   List<Package> get allPackages {
     return [..._packages];
@@ -168,14 +24,91 @@ class HomeProvider with ChangeNotifier {
     return [..._youAndUs];
   }
 
-  YouAndUs findYouAndUsById(int id) {
-    return _youAndUs.firstWhere((element) => element.id == id);
+  // YouAndUs findYouAndUsById(int id) {
+  //   return _youAndUs.firstWhere((element) => element.id == id);
+  // }
+
+  YouAndUs get oneYourAndUs {
+    return _oneYouAndUs;
+  }
+
+  Future<void> findYouAndUsById(int id) async {
+    final url = Uri.parse('$host/api/shares/$id');
+    print(url);
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'locale': 'en',
+        },
+      );
+
+      final responseData = json.decode(response.body);
+      print(responseData);
+      final oneYouAndUs = responseData;
+
+      // Check for null before parsing
+      if (oneYouAndUs == null) {
+        throw Exception("Data not found");
+      }
+
+      List<String> imageUrls = [];
+      if (oneYouAndUs['images'] != null) {
+        oneYouAndUs['images'].forEach((image) {
+          imageUrls.add(image['url']);
+        });
+      }
+
+      List<OneService> fetchedServices = [];
+      if (oneYouAndUs['services'] != null) {
+        oneYouAndUs['services'].forEach((service) {
+          List<String> serviceImageUrls = [];
+          if (service['images'] != null) {
+            service['images'].forEach((image) {
+              serviceImageUrls.add(image['url']);
+            });
+          }
+
+          fetchedServices.add(OneService(
+            serviceId: service['id'], // Use 'id' directly from service object
+            categoryId: service['category_id'],
+            name: service['name']['en'] ?? '', // Handle potential null value
+            rating: service['rating'] != null
+                ? service['rating'].toDouble()
+                : 0.0, // Convert to double
+            vendorName:
+                service['vendorName'] ?? '', // Handle potential null value
+            imgsUrl: serviceImageUrls,
+            price: service['price'] != null
+                ? service['price'].toDouble()
+                : 0.0, // Convert to double
+            description: service['description']['en'] ??
+                '', // Handle potential null value
+          ));
+        });
+      }
+
+      YouAndUs eventDetails = YouAndUs(
+        id: oneYouAndUs['id'] ?? 0, // Handle potential null value
+        description:
+            oneYouAndUs['description'] ?? '', // Handle potential null value
+        imagesUrl: imageUrls,
+        eventServices: fetchedServices,
+      );
+      print('Fetched event details: $eventDetails');
+      _oneYouAndUs = eventDetails;
+      notifyListeners(); // Notify listeners about the update
+    } catch (error) {
+      print(error);
+      throw error;
+    }
   }
 
 //fetch all packages from backend
 //very basic may need edit
   Future<void> fetchPackages() async {
-    final url = Uri.parse('$host/api/getallpackages');
+    final url = Uri.parse('$host/api/packages');
     print(url);
     try {
       final response = await http.get(
@@ -186,18 +119,50 @@ class HomeProvider with ChangeNotifier {
         },
       );
       final responseData = json.decode(response.body);
-      print(responseData);
-      final packages = responseData['data'] as List<dynamic>;
+      printFullJson(
+          responseData); // Use custom print function to print full JSON
+
+      final packages = responseData['data'];
       final List<Package> temp = [];
       packages.forEach((package) {
+        List<OneService> fetchedServices = [];
+        if (package['services'] != null) {
+          package['services'].forEach((service) {
+            List<String> serviceImageUrls = [];
+            if (service['images'] != null) {
+              service['images'].forEach((image) {
+                serviceImageUrls.add(image['url']);
+              });
+            }
+
+            fetchedServices.add(OneService(
+              serviceId: service['id'],
+              categoryId: service['category_id'],
+              name: service['name'],
+              rating: (service['average_rating'] as num?)
+                  ?.toDouble(), // Proper type casting
+              vendorName: service['company_name'],
+              imgsUrl: serviceImageUrls,
+              price:
+                  (service['price'] as num).toDouble(), // Proper type casting
+              description: service['description'],
+            ));
+          });
+        }
+
         temp.add(Package(
           id: package['id'],
           name: package['name'],
+          oldPrice:
+              (package['old_price'] as num).toDouble(), // Proper type casting
+          newPrice:
+              (package['new_price'] as num).toDouble(), // Proper type casting
+          packageServices: fetchedServices,
         ));
       });
-      print(temp);
+      print('this is temp packages:$temp');
       _packages = temp;
-      print(_packages);
+      print('this is packages which will i will see:$_packages');
       notifyListeners();
     } catch (error) {
       print(error);
@@ -205,10 +170,14 @@ class HomeProvider with ChangeNotifier {
     }
   }
 
+  void printFullJson(dynamic json) {
+    const JsonEncoder encoder = JsonEncoder.withIndent('  ');
+    print(encoder.convert(json));
+  }
+
 //fetch all you and us fromm backend
-//very basic may need edit
   Future<void> fetchYouAndUs() async {
-    final url = Uri.parse('$host/api/getyouandus');
+    final url = Uri.parse('$host/api/shares');
     print(url);
     try {
       final response = await http.get(
@@ -220,19 +189,48 @@ class HomeProvider with ChangeNotifier {
       );
       final responseData = json.decode(response.body);
       print(responseData);
-      final youAndUsList = responseData['data'] as List<dynamic>;
+      final youAndUsList = responseData['data'];
       final List<YouAndUs> temp = [];
       youAndUsList.forEach((element) {
+        List<String> imageUrls = [];
+        element['images'].forEach((image) {
+          imageUrls.add(image['url']);
+        });
+
+        List<OneService> fetchedServices = [];
+        if (element['services'] != null) {
+          element['services'].forEach((service) {
+            List<String> serviceImageUrls = [];
+            if (service['images'] != null) {
+              service['images'].forEach((image) {
+                serviceImageUrls.add(image['url']);
+              });
+            }
+
+            fetchedServices.add(OneService(
+              serviceId: service['service_id'],
+              categoryId: service['category_id'],
+              name: service['name'],
+              rating: service['rating'],
+              vendorName: service['vendorName'],
+              imgsUrl: serviceImageUrls,
+              price: service['price'],
+              description: service['description'],
+            ));
+          });
+        }
+
         temp.add(
           YouAndUs(
-            id: element['id'],
-            description: element['name'],
-          ),
+              id: element['id'],
+              description: element['description'],
+              imagesUrl: imageUrls,
+              eventServices: fetchedServices),
         );
       });
-      print(temp);
+      print('this is temp shares:$temp');
       _youAndUs = temp;
-      print(_youAndUs);
+      print('this is you and us will showed:$_youAndUs');
       notifyListeners();
     } catch (error) {
       print(error);

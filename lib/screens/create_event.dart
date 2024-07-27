@@ -1,10 +1,9 @@
-//tasneem
 import 'package:confetti/confetti.dart';
-import 'package:easy_localization/easy_localization.dart';
 import '/color.dart';
 import 'package:eventique/models/one_event.dart';
 import 'package:eventique/providers/events.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CreateEvent extends StatefulWidget {
@@ -131,42 +130,7 @@ class _CreateEventState extends State<CreateEvent> {
   Widget build(BuildContext context) {
     final Color primaryColor = Theme.of(context).primaryColor;
     final eventProvider = Provider.of<Events>(context);
-
-    final borderSideWithFocusColor = BorderSide(color: primaryColor);
-    final borderSideWithoutFocusColor =
-        BorderSide(color: primaryColor.withOpacity(0.7));
-    final textStyle = TextStyle(
-        fontSize: 16, color: primaryColor, fontWeight: FontWeight.bold);
-    final hintTextStyle =
-        TextStyle(fontSize: 16, color: primaryColor.withOpacity(0.4));
-
-    final textFieldDecoration = InputDecoration(
-      hintStyle: hintTextStyle,
-      border: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        borderSide: borderSideWithoutFocusColor,
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        borderSide: borderSideWithFocusColor,
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        borderSide: borderSideWithoutFocusColor,
-      ),
-      errorBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        borderSide:
-            BorderSide(color: primaryColor.withOpacity(0.7)), // Adjusted color
-      ),
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(12.0)),
-        borderSide:
-            BorderSide(color: primaryColor.withOpacity(0.7)), // Adjusted color
-      ),
-      suffixIconColor: const Color(0xffCCA0C7),
-      contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
-    );
+    final List<EventType> eventTypes = eventProvider.eventTypes;
 
     return AlertDialog(
       backgroundColor: beige,
@@ -238,7 +202,9 @@ class _CreateEventState extends State<CreateEvent> {
                         suffixIcon: const Icon(Icons.edit),
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.trim().isEmpty) {
                           return 'Enter a name';
                         }
                         return null;
@@ -258,7 +224,9 @@ class _CreateEventState extends State<CreateEvent> {
                                   const Icon(Icons.calendar_today, size: 18),
                             ),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.trim().isEmpty) {
                                 return 'Select a date';
                               }
                               return null;
@@ -278,7 +246,9 @@ class _CreateEventState extends State<CreateEvent> {
                                   const Icon(Icons.access_time, size: 18),
                             ),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.trim().isEmpty) {
                                 return 'Select a time';
                               }
                               return null;
@@ -300,7 +270,9 @@ class _CreateEventState extends State<CreateEvent> {
                               suffixIcon: const Icon(Icons.people),
                             ),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.trim().isEmpty) {
                                 return 'Enter number';
                               }
                               final guests = int.tryParse(value);
@@ -322,7 +294,9 @@ class _CreateEventState extends State<CreateEvent> {
                               suffixIcon: const Icon(Icons.attach_money),
                             ),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.trim().isEmpty) {
                                 return 'Enter budget';
                               }
                               final budget = int.tryParse(value);
@@ -337,30 +311,31 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                     const SizedBox(height: 16),
                     DropdownButtonFormField<EventType>(
-                        iconEnabledColor: const Color(0xffCCA0C7),
-                        value: _selectedEventType,
-                        decoration: textFieldDecoration.copyWith(
-                          hintText: "Event Type",
-                          suffixIcon: null,
-                        ),
-                        validator: (value) {
-                          if (_selectedEventType == null) {
-                            return 'Select event type';
-                          }
-                          return null;
-                        },
-                        items: EventType.values.map((EventType type) {
-                          return DropdownMenuItem<EventType>(
-                            value: type,
-                            child: Text(type.name, style: textStyle),
-                          );
-                        }).toList(),
-                        onChanged: (EventType? newValue) {
-                          setState(() {
-                            _selectedEventType = newValue;
-                          });
-                        },
-                        dropdownColor: beige),
+                      iconEnabledColor: const Color(0xffCCA0C7),
+                      value: _selectedEventType,
+                      decoration: textFieldDecoration.copyWith(
+                        hintText: "Event Type",
+                        suffixIcon: null,
+                      ),
+                      validator: (value) {
+                        if (_selectedEventType == null) {
+                          return 'Select event type';
+                        }
+                        return null;
+                      },
+                      items: eventTypes.map((eventType) {
+                        return DropdownMenuItem(
+                          value: eventType,
+                          child: Text(eventType.name, style: textStyle),
+                        );
+                      }).toList(),
+                      onChanged: (EventType? newValue) {
+                        setState(() {
+                          _selectedEventType = newValue;
+                        });
+                      },
+                      dropdownColor: beige,
+                    ),
                   ],
                 ),
               ],
@@ -388,16 +363,12 @@ class _CreateEventState extends State<CreateEvent> {
 
                 // Create the event
                 eventProvider.addEvent(
-                  OneEvent(
-                    eventId: DateTime.now().toString(),
-                    name: _nameController.text,
-                    budget: double.parse(_budgetController.text),
-                    guestsNumber: int.parse(_guestsController.text),
-                    time: TimeOfDay(hour: hour, minute: minute),
-                    dateTime:
-                        DateFormat('yyyy-MM-dd').parse(_dateController.text),
-                    eventType: _selectedEventType!,
-                  ),
+                  _nameController.text,
+                  double.parse(_budgetController.text),
+                  int.parse(_guestsController.text),
+                  DateFormat('yyyy-MM-dd').parse(_dateController.text),
+                  TimeOfDay(hour: hour, minute: minute),
+                  _selectedEventType!.id,
                 );
 
                 Navigator.of(context).pop();
@@ -451,3 +422,35 @@ class _CreateEventState extends State<CreateEvent> {
     );
   }
 }
+
+final borderSideWithFocusColor = BorderSide(color: primary);
+final borderSideWithoutFocusColor = BorderSide(color: primary.withOpacity(0.7));
+final textStyle =
+    TextStyle(fontSize: 16, color: primary, fontWeight: FontWeight.bold);
+final hintTextStyle = TextStyle(fontSize: 16, color: primary.withOpacity(0.4));
+
+final textFieldDecoration = InputDecoration(
+  hintStyle: hintTextStyle,
+  border: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+    borderSide: borderSideWithoutFocusColor,
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+    borderSide: borderSideWithFocusColor,
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+    borderSide: borderSideWithoutFocusColor,
+  ),
+  errorBorder: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+    borderSide: BorderSide(color: primary.withOpacity(0.7)), // Adjusted color
+  ),
+  focusedErrorBorder: OutlineInputBorder(
+    borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+    borderSide: BorderSide(color: primary.withOpacity(0.7)), // Adjusted color
+  ),
+  suffixIconColor: const Color(0xffCCA0C7),
+  contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+);

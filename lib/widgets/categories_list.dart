@@ -1,7 +1,9 @@
 //the tags in vendors (services)screen
+import 'package:eventique/providers/services_list.dart';
 import 'package:eventique/widgets/category_tag_chip.dart';
 import 'package:eventique/models/one_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 final List<Color> colors = [
   Color(0XffF9EAE3),
@@ -17,12 +19,14 @@ class CategoriesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final allServices = Provider.of<AllServices>(context);
+    final categories = allServices.categories;
+
     return Container(
       height: 42,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount:
-            ServiceCategories.values.length + 1, //  one for the 'All' category
+        itemCount: categories.length + 1, // one for the 'All' category
         itemBuilder: (context, index) {
           if (index == 0) {
             return CategoryTag(
@@ -30,10 +34,11 @@ class CategoriesList extends StatelessWidget {
               color: Color(0XffFFE0D3),
             );
           } else {
-            int enumIndex = index - 1;
+            int categoryIndex = index - 1;
+            final category = categories[categoryIndex];
             return CategoryTag(
-              title: ServiceCategories.values[enumIndex].name,
-              color: colors[enumIndex % colors.length],
+              title: category.name, // use the category name
+              color: colors[categoryIndex % colors.length],
             );
           }
         },

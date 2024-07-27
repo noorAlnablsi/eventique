@@ -26,9 +26,11 @@ class Auth with ChangeNotifier {
 
   Future<void> loadUserData() async {
     final userData = await StorageManager.loadUserData();
-    _loginToken = userData['loginToken'];
-    if (_loginToken.isNotEmpty) {
+    if (userData != null && userData['loginToken'] != null) {
+      _loginToken = userData['loginToken'];
       _isAuthenticated = true;
+    } else {
+      _isAuthenticated = false;
     }
     notifyListeners();
   }

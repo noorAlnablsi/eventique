@@ -8,8 +8,56 @@ import '/color.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _loadingPackages = false;
+  bool _loadingShares = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchAllPackages();
+    fetchAllShares();
+  }
+
+  Future<void> fetchAllPackages() async {
+    try {
+      setState(() {
+        _loadingPackages = true;
+      });
+      await Provider.of<HomeProvider>(context, listen: false).fetchPackages();
+      setState(() {
+        _loadingPackages = false;
+      });
+    } catch (error) {
+      setState(() {
+        _loadingPackages = false;
+      });
+      print(error);
+    }
+  }
+
+  Future<void> fetchAllShares() async {
+    try {
+      setState(() {
+        _loadingShares = true;
+      });
+      await Provider.of<HomeProvider>(context, listen: false).fetchYouAndUs();
+      setState(() {
+        _loadingShares = false;
+      });
+    } catch (error) {
+      setState(() {
+        _loadingShares = false;
+      });
+      print(error);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,47 +134,50 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               height: size.width * 0.04,
             ),
-            SizedBox(
-              height: size.height * 0.2,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: loadedPackages.length,
-                itemBuilder: (ctx, i) {
-                  return InkWell(
-                    onTap: () {
-                      //here i will pass the id
-                      Navigator.of(context).pushNamed(
-                        OnePackageDetailsPage.routeName,
-                        arguments: loadedPackages[i].id,
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(loadedPackages[i].imageUrl!),
-                        ),
-                      ),
-                      child: Center(
-                        child: Column(
-                          children: [
-                            Gap(100),
-                            Text(
-                              loadedPackages[i].name!,
-                              style: TextStyle(
-                                  color: onPrimary,
-                                  fontFamily: 'Kanit',
-                                  fontSize: 20),
+            _loadingPackages
+                ? CircularProgressIndicator()
+                : SizedBox(
+                    height: size.height * 0.2,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: loadedPackages.length,
+                      itemBuilder: (ctx, i) {
+                        return InkWell(
+                          onTap: () {
+                            //here i will pass the id
+                            Navigator.of(context).pushNamed(
+                              OnePackageDetailsPage.routeName,
+                              arguments: loadedPackages[i].id,
+                            );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 10),
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    'assets/images/Rectangle (3).png'),
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                      width: size.width / 2,
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Gap(100),
+                                  Text(
+                                    loadedPackages[i].name!,
+                                    style: TextStyle(
+                                        color: onPrimary,
+                                        fontFamily: 'Kanit',
+                                        fontSize: 20),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            width: size.width / 2,
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            ),
+                  ),
             SizedBox(
               height: size.width * 0.06,
             ),
@@ -158,59 +209,62 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               height: size.width * 0.06,
             ),
-            Expanded(
-                child: ListView.builder(
-                    itemCount: loadedYouAndUs.length,
-                    itemBuilder: (ctx, index) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                              YouAndUsPage.routeName,
-                              arguments: loadedYouAndUs[index].id);
-                        },
-                        child: Card(
-                          child: Container(
-                            height: 129,
-                            width: 302,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    loadedYouAndUs[index].imagesUrl![0]),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  height: 135,
-                                  width: 110,
-                                  color: Color.fromARGB(209, 255, 255, 255),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "It was ..",
-                                        style: TextStyle(
-                                            fontFamily: 'Roboto',
-                                            fontSize: 16,
-                                            color: onPrimary),
-                                      ),
-                                      Gap(15),
-                                      Text(
-                                        loadedYouAndUs[index].description!,
-                                        style: TextStyle(
-                                            fontFamily: 'KaushanScript',
-                                            fontSize: 20,
-                                            color: onPrimary),
-                                      )
-                                    ],
+            _loadingShares
+                ? Center(child: CircularProgressIndicator())
+                : Expanded(
+                    child: ListView.builder(
+                        itemCount: loadedYouAndUs.length,
+                        itemBuilder: (ctx, index) {
+                          return InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                  YouAndUsPage.routeName,
+                                  arguments: loadedYouAndUs[index].id);
+                            },
+                            child: Card(
+                              child: Container(
+                                height: 129,
+                                width: 302,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        loadedYouAndUs[index].imagesUrl![0]),
                                   ),
                                 ),
-                              ],
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 135,
+                                      width: 110,
+                                      color: Color.fromARGB(209, 255, 255, 255),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "It was ..",
+                                            style: TextStyle(
+                                                fontFamily: 'Roboto',
+                                                fontSize: 16,
+                                                color: onPrimary),
+                                          ),
+                                          Gap(15),
+                                          Text(
+                                            loadedYouAndUs[index].description!,
+                                            style: TextStyle(
+                                                fontFamily: 'KaushanScript',
+                                                fontSize: 20,
+                                                color: onPrimary),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    }))
+                          );
+                        }))
           ],
         ),
       ),

@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:eventique/providers/accepted_services.dart';
+import 'package:eventique/providers/saved.dart';
 import 'package:eventique/providers/vendors_provider.dart';
 import 'package:eventique/screens/chat_vendors_list.dart';
 import 'package:eventique/providers/home_provider.dart';
@@ -31,13 +33,13 @@ import '/screens/email_rest_screen.dart';
 import '/screens/password_rest_screen.dart';
 import '/screens/vendor_profile_screen.dart';
 
-const String host = 'http://192.168.137.1:8000';
+const String host = 'http://192.168.1.102:8000';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   final authProvider = Auth();
-  // await authProvider.loadUserData();
+  await authProvider.loadUserData();
 
   runApp(
     ChangeNotifierProvider<ThemeProvider>(
@@ -50,11 +52,13 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   final Auth authProvider;
 
-  const MyApp({super.key, required this.authProvider});
+  MyApp({super.key, Auth? authProvider})
+      : authProvider = authProvider ?? Auth();
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final token = authProvider.token;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
@@ -79,7 +83,13 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Orders(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => Events(),
+          create: (ctx) => Events(token),
+        ),
+        ChangeNotifierProvider.value(
+          value: Saved(token),
+        ),
+        ChangeNotifierProvider.value(
+          value: AcceptedServicesPro(),
         ),
       ],
       child: Consumer<Auth>(

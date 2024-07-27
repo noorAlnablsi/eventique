@@ -1,29 +1,36 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eventique/color.dart';
 import 'package:eventique/screens/service_details.dart';
 import 'package:eventique/providers/carts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/saved.dart';
+
 class ServiceItem extends StatelessWidget {
-  const ServiceItem({
-    super.key,
-    required this.imgurl,
-    required this.name,
-    required this.vendorName,
-    required this.rating,
-    required this.serviceId,
-  });
+  ServiceItem(
+      {super.key,
+      required this.imgurl,
+      required this.name,
+      required this.vendorName,
+      required this.rating,
+      required this.serviceId,
+      this.fromSaved});
   final String imgurl;
   final String name, vendorName;
-  final double rating;
+  final double? rating;
   final int serviceId;
+  bool? fromSaved;
 
   @override
   Widget build(BuildContext context) {
     // Themes
     final TextStyle? bodyMediumStyle = Theme.of(context).textTheme.bodyMedium;
     final TextStyle? bodySmallStyle = Theme.of(context).textTheme.bodySmall;
+    final svaedProvider = Provider.of<Saved>(context, listen: false);
 
+//couple of lines below to handle the case where user add to cart from inside the cart itself(from the add circle)
+//he will be directed to the grid then to service details,but when going back ,he will go the the cart immediately not the grid
     final cartProvider = Provider.of<Carts>(context, listen: false);
 
     return GestureDetector(
@@ -84,32 +91,59 @@ class ServiceItem extends StatelessWidget {
               ),
               //rating
               Positioned(
-                  top: 8,
-                  right: 5,
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.star,
-                          color: Color(0xffEBC25C),
-                          size: 18,
-                        ),
-                        Text(
-                          rating.toString(),
-                          style: bodyMediumStyle!.copyWith(
-                            color: const Color(0xffEBC25C),
-                            fontSize: 14,
+                  top: fromSaved != null ? -6 : 8,
+                  right: fromSaved != null ? -16 : 5,
+                  child: fromSaved != null
+                      ? TextButton(
+                          onPressed: () {
+                            svaedProvider.delete(serviceId);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 76, 27, 75),
+                                content: Text(
+                                  'Removed from Saved',
+                                  style: TextStyle(
+                                    color: beige,
+                                  ),
+                                ),
+                                duration: const Duration(seconds: 1),
+                              ),
+                            );
+                          },
+                          child: Icon(
+                            Icons.bookmark,
+                            color: primary,
                           ),
-                        ),
-                      ],
-                    ),
-                  ))
+                        )
+                      : Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.star,
+                                color: Color(0xffEBC25C),
+                                size: 18,
+                              ),
+                              Text(
+                                rating != null ? rating.toString() : '',
+                                style: bodyMediumStyle!.copyWith(
+                                  color: const Color(0xffEBC25C),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ))
             ]),
             Text(
               name,
