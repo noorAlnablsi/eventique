@@ -5,3 +5,5 @@ Color onPrimary = Color.fromARGB(255, 42, 44, 87);
 Color secondary=Color.fromARGB(255, 218, 138, 159);
 Color white= Color.fromARGB(255, 255, 255, 255);
 Color beige=Color(0xFFFFFDF0);
+
+String token='8|5qXy1sEuumAyBKQNFlSlqBbDjeUmy0P5wuHqDMrS126dae48';

@@ -146,7 +146,7 @@ class AllServices with ChangeNotifier {
   List<Category> _categories = [];
   final CategoryService _categoryService = CategoryService();
   final ServicesService _servicesService= ServicesService();
-  // final SearchService _searchService=SearchService();
+  final SearchService _searchService=SearchService();
 
   Future<void> _fetchCategories() async {
     final fetchedCategories = await _categoryService.fetchCategories();
@@ -193,12 +193,18 @@ class AllServices with ChangeNotifier {
   }
 
 // below we are handling the search
-  final List<OneService> searchResults=[];
-  // Future<void> getSearchInAll(String text) async {
-  //   final fetchAllServices = await _searchService.getSearchInAll(text);
-  //   _allServices = fetchAllServices;
-  //   notifyListeners();
-  // }
+  //  List<OneService> searchResults=[];
+  Future<List<OneService>> getSearchInAll(String text,) async {
+    if(chosenCategory=='All'){
+      final fetchAllServices = await _searchService.getSearchInAll(text);
+    return fetchAllServices;
+    }
+    else{
+      final fetchAllServices = await _searchService.getSearchInCategory(text,_categories.firstWhere((element) => element.name==chosenCategory).id);
+    return fetchAllServices;
+    }
+    
+  }
 
 
 
@@ -321,31 +327,97 @@ class ServicesService {
 }
 
 
-// class SearchService {
-//   final String apiUrl = 'http://192.168.1.102:8000/api/categories';
+class SearchService {
+  final String apiUrl1 = 'http://192.168.1.102:8000/api/search/all';
 
-//   Future<List<OneService>> getSearchInAll(String text) async {
-//     print('I am in getSearchInAllllllllllllllll and going to get them');
+  Future<List<OneService>> getSearchInAll(String text) async {
+    print('I am in getSearchInAllllllllllllllll and going to get them');
 
-//     final response = await http.post(
-//       Uri.parse(apiUrl),
-//       headers: {
-//         'Accept': 'application/json',
-//         'locale': 'en', // or 'en' depending on your requirement
-//       },
-//       body:{} ,
-//     );
+    final response = await http.post(
+      Uri.parse(apiUrl1),
+      headers: {
+        'Accept': 'application/json',
+        'locale': 'en', // or 'en' depending on your requirement
+      },
+      body:{
+        'search_text':text
+      } ,
+    );
 
-//     if (response.statusCode == 200) {
-//       print('I am in the getSearchInAlllllllllll 200');
-//       final data = jsonDecode(response.body);
-//       return 
-      
-//     } else {
-//       throw Exception('Failed to load categories');
-//     }
-//   }
-// }
+    if (response.statusCode == 200) {
+      print('iam in getSearchInAlllllllllllllllllll 200');
+      final data = jsonDecode(response.body);
+      final allServices = data['services'] as List;
+
+      return allServices.map((e) {
+        List<String> imageUrls = [];
+        if (e['images'] != null) {
+          imageUrls = (e['images'] as List)
+              .map((img) => img['url'].toString())
+              .toList();
+        }
+
+        return OneService(
+          serviceId: e['id'],
+          categoryId: e['category_id'],
+          description: e['description'],
+          imgsUrl: imageUrls,
+          name: e['name'],
+          price: double.parse(e['price'].toString()),  // Ensure price is parsed as double
+          rating: e['average_rating'] != null ? double.parse(e['average_rating'].toString()) : null,  // Ensure rating is parsed as double
+          vendorName: e['company_name'],
+        );
+      }).toList();
+    } else {
+      throw Exception('Failed to load categories');
+    }
+  }
+
+  Future<List<OneService>> getSearchInCategory(String text,int categoryId) async {
+    final String apiUrl2 = 'http://192.168.1.102:8000/api/search/$categoryId';
+
+    print('I am in getSearchIncatttttttttt and going to get them');
+
+    final response = await http.post(
+      Uri.parse(apiUrl2),
+      headers: {
+        'Accept': 'application/json',
+        'locale': 'en', // or 'en' depending on your requirement
+      },
+      body:{
+        'search_text':text
+      } ,
+    );
+
+    if (response.statusCode == 200) {
+      print('iam in getSearchIncatttttttttt 200');
+      final data = jsonDecode(response.body);
+      final allServices = data['services'] as List;
+
+      return allServices.map((e) {
+        List<String> imageUrls = [];
+        if (e['images'] != null) {
+          imageUrls = (e['images'] as List)
+              .map((img) => img['url'].toString())
+              .toList();
+        }
+
+        return OneService(
+          serviceId: e['id'],
+          categoryId: e['category_id'],
+          description: e['description'],
+          imgsUrl: imageUrls,
+          name: e['name'],
+          price: double.parse(e['price'].toString()),  // Ensure price is parsed as double
+          rating: e['average_rating'] != null ? double.parse(e['average_rating'].toString()) : null,  // Ensure rating is parsed as double
+          vendorName: e['company_name'],
+        );
+      }).toList();
+    }  else {
+      throw Exception('Failed to load categories');
+    }
+  }
+}
 
 
 

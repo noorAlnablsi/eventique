@@ -111,14 +111,14 @@ class _EventDetailsState extends State<EventDetails> {
                   try {
                     // edit the event
                     if (changeText == 'Budget') {
-                      eventProvider.editEvent(widget.eventId,
-                          budget: double.tryParse(_changeController.text));
+                      eventProvider.editEvent(null, double.tryParse(_changeController.text),null,null,null,null,widget.eventId);
+                    
                     } else if (changeText == 'Guests') {
-                      eventProvider.editEvent(widget.eventId,
-                          guestsNumber: int.parse(_changeController.text));
+                      eventProvider.editEvent(null,null,int.parse(_changeController.text),null,null,null,widget.eventId);
+                      
                     } else if (changeText == 'Name') {
-                      eventProvider.editEvent(widget.eventId,
-                          name: _changeController.text);
+                      eventProvider.editEvent( _changeController.text,null,null,null,null,null,widget.eventId);
+                      
                     }
                     setState(() {});
 
@@ -201,7 +201,7 @@ class _EventDetailsState extends State<EventDetails> {
       );
       if (picked != null) {
         setState(() {
-          eventProvider.editEvent(widget.eventId, dateTime: picked);
+          eventProvider.editEvent(null,null,null,null,picked,null,widget.eventId);
         });
         WidgetsBinding.instance.addPostFrameCallback((_) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -252,7 +252,7 @@ class _EventDetailsState extends State<EventDetails> {
       );
       if (picked != null) {
         setState(() {
-          eventProvider.editEvent(widget.eventId, time: picked);
+          eventProvider.editEvent(null,null,null,picked,null,null,widget.eventId);
           WidgetsBinding.instance.addPostFrameCallback((_) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

@@ -114,7 +114,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                                 ),
                               );
                             } else {
-                              svaedProvider.add(loadedService);
+                              svaedProvider.add(loadedService.serviceId);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   behavior: SnackBarBehavior.floating,

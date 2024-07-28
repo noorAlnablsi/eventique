@@ -72,6 +72,7 @@
 
 // }
 import 'dart:convert';
+import 'package:eventique/core/resources/color.dart';
 import 'package:eventique/models/one_event.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -102,7 +103,6 @@ class Events with ChangeNotifier {
   }
 
   final EventsService _eventsService = EventsService();
-  final String token = '2|ei7vEz3vrdq8wjb18LMVat4MztPVXFMSTF7jkry9389e0d83';
 
   void addEvent(String name, double budget, int guestsNumber, DateTime date,
       TimeOfDay time, int eventTypeId) {
@@ -131,15 +131,26 @@ class Events with ChangeNotifier {
   }
 
   void editEvent(
-      {String? name,
-      double? budget,
-      int? guestsNumber,
-      TimeOfDay? time,
-      DateTime? dateTime,
-      int? eventTypeId}) {
-    
-    // _eventsService.editEvent();
-  }
+  String? name,
+  double? budget,
+  int? guestsNumber,
+  TimeOfDay? time,
+  DateTime? dateTime,
+  int? eventTypeId,
+  int eventId
+) {
+  _eventsService.editEvent(
+    name,
+    budget,
+    guestsNumber,
+    dateTime,
+    time,
+    eventTypeId,
+    token,
+    eventId
+  );
+}
+
 
   OneEvent findEventById(int eventId) {
     return _planningEvents.firstWhere((event) => event.eventId == eventId);
@@ -315,37 +326,48 @@ class EventsService {
   }
 
 
-// void editEvent(String? name, double? budget, int? guestsNumber, DateTime? date,TimeOfDay? time, int? eventTypeId, String? token) async {
-//     print('I am in addEventttttttttttttttttttttttt and going to get them');
-//     // Format DateTime and TimeOfDay
-//     final String formattedDate;
-//     if(date!=null){
-//        formattedDate = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-//     }
-//     final String formattedTime ;
-//     if(time!=null){
-//        formattedTime ='${time.hour}:${time.minute.toString().padLeft(2, '0')}';
-//     }
+void editEvent(String? name, double? budget, int? guestsNumber, DateTime? date, TimeOfDay? time, int? eventTypeId, String token,int eventId) async {
+  print('I am in editEvent and going to edit the event');
+  final String apiUrl ='http://192.168.1.102:8000/api/events/$eventId';
+  
+  // Format DateTime and TimeOfDay
+  String? formattedDate;
+  if (date != null) {
+    formattedDate = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
+  
+  String? formattedTime;
+  if (time != null) {
+    formattedTime = '${time.hour}:${time.minute.toString().padLeft(2, '0')}';
+  }
+  
+  // Create the body map and add non-null fields
+  final Map<String, String> body = {};
+  if (name != null) body['name'] = name;
+  if (formattedDate != null) body['date'] = formattedDate;
+  if (formattedTime != null) body['time'] = formattedTime;
+  if (budget != null) body['budget'] = budget.toString();
+  if (guestsNumber != null) body['guests'] = guestsNumber.toString();
+  if (eventTypeId != null) body['event_type_id'] = eventTypeId.toString();
 
-//     final response = await http.post(Uri.parse(apiUrl), headers: {
-//       'Accept': 'application/json',
-//       'locale': 'ar',
-//       'Authorization': 'Bearer $token',
-//     }, body: {
-//       name!=null? "name": name:,
-//       "date": formattedDate:,
-//       "time": formattedTime,
-//       "budget": budget.toString().toString(),
-//       "guests": guestsNumber.toString(),
-//       "event_type_id": eventTypeId.toString(),
-//     });
-//     if (response.statusCode == 200) {
-//       print('I am in the addEventttttttttttttttttttttttt 200');
-//     } else {
-//       print(response.body);
-//       throw Exception('Failed addEventttttttttttttttttttttttt');
-//     }
-//   }
+  final response = await http.put(
+    Uri.parse(apiUrl),
+    headers: {
+      'Accept': 'application/json',
+      'locale': 'ar',
+      'Authorization': 'Bearer $token',
+    },
+    body: body,
+  );
+  
+  if (response.statusCode == 200) {
+    print('Event edited successfully');
+  } else {
+    print(response.body);
+    throw Exception('Failed to edit event');
+  }
+}
+
 
 }
 
