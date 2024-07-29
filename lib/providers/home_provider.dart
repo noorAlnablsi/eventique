@@ -10,6 +10,7 @@ class HomeProvider with ChangeNotifier {
   List<Package> _packages = [];
   List<YouAndUs> _youAndUs = [];
   YouAndUs _oneYouAndUs = YouAndUs();
+
   //packages
   List<Package> get allPackages {
     return [..._packages];
@@ -187,7 +188,18 @@ class HomeProvider with ChangeNotifier {
           'locale': 'en',
         },
       );
+
       final responseData = json.decode(response.body);
+      // Print the response in chunks
+      const chunkSize = 800;
+      String responseBody = response.body;
+      for (int i = 0; i < responseBody.length; i += chunkSize) {
+        print(responseBody.substring(
+            i,
+            i + chunkSize > responseBody.length
+                ? responseBody.length
+                : i + chunkSize));
+      }
       print(responseData);
       final youAndUsList = responseData['data'];
       final List<YouAndUs> temp = [];

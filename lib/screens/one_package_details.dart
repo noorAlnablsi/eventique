@@ -47,7 +47,7 @@ class OnePackageDetailsPage extends StatelessWidget {
                         fontSize: 20),
                   ),
                   TextSpan(
-                      text: '\$100',
+                      text: '\$${packageData.oldPrice}',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -59,7 +59,7 @@ class OnePackageDetailsPage extends StatelessWidget {
                           color: primary,
                           fontSize: 20)),
                   TextSpan(
-                      text: ' \$75',
+                      text: ' \$${packageData.newPrice}',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,

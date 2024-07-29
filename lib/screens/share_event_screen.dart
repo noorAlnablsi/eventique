@@ -1,7 +1,9 @@
 //taghreed
 import 'package:eventique/color.dart';
+import 'package:eventique/providers/share_event_provider.dart';
 import 'package:eventique/widgets/pickers/multiple_image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ShareEventScreen extends StatefulWidget {
   static const routeName = '/share-event';
@@ -11,6 +13,7 @@ class ShareEventScreen extends StatefulWidget {
 }
 
 class _ShareEventScreenState extends State<ShareEventScreen> {
+  bool _isLoading = false;
   final TextEditingController _descriptionController = TextEditingController();
   List<String> _imageUrls = [];
 
@@ -27,16 +30,26 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
       );
       return;
     }
-
+    final id = ModalRoute.of(context)!.settings.arguments as int;
     final description = _descriptionController.text;
-
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      await Provider.of<ShareEventProvider>(context, listen: false)
+          .shareEvent(id, description, _imageUrls);
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (error) {
+      print(error);
+      setState(() {
+        _isLoading = false;
+      });
+    }
     // Send the data to your backend (this is just a placeholder).
-    final data = {
-      'description': description,
-      'images': _imageUrls,
-    };
 
-    print('Sending to backend: $data');
+    print('Sending to backend: $id,\n $description,\n $_imageUrls');
   }
 
   @override
@@ -130,25 +143,27 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
             SizedBox(
               height: size.height * 0.04,
             ),
-            ElevatedButton(
-              onPressed: _shareEvent,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primary.withOpacity(0.8),
-                fixedSize: Size(size.width * 0.4, size.height * 0.04),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: Text(
-                'Share',
-                style: TextStyle(
-                  fontFamily: 'IrishGrover',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: white,
-                ),
-              ),
-            ),
+            _isLoading
+                ? CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: _shareEvent,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primary.withOpacity(0.8),
+                      fixedSize: Size(size.width * 0.4, size.height * 0.04),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      'Share',
+                      style: TextStyle(
+                        fontFamily: 'IrishGrover',
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: white,
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),

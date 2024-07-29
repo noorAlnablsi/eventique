@@ -1,5 +1,6 @@
 //noor and taghreeed edit
 import 'package:eventique/providers/home_provider.dart';
+import 'package:eventique/screens/create_event.dart';
 import 'package:eventique/screens/one_package_details.dart';
 import 'package:eventique/screens/one_you&us.dart';
 import 'package:provider/provider.dart';
@@ -96,7 +97,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: size.width * 0.9,
                 height: size.height * 0.1,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return CreateEvent();
+                      },
+                    );
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
