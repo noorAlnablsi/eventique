@@ -1,5 +1,7 @@
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
+import 'package:eventique/screens/saved_screen.dart';
+import 'package:eventique/screens/wallet_screen.dart';
 import 'package:eventique/widgets/home/main_drawer.dart';
 import '/color.dart';
 import 'package:eventique/screens/chat_vendors_list.dart';
@@ -36,6 +38,36 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
         surfaceTintColor: const Color(0xFFFFFDF0),
         shadowColor: Color(0xFFFFFDF0),
         actions: [
+          //wallet icon
+          Container(
+            margin: const EdgeInsets.only(
+              top: 12,
+              bottom: 12,
+            ),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            child: IconButton(
+              icon: const Icon(
+                Icons.wallet_rounded,
+                color: primary,
+              ),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: ((context) => WalletScreen())));
+              },
+              padding: const EdgeInsets.only(bottom: 2),
+            ),
+          ),
           //notifivation icon
           Container(
             margin: const EdgeInsets.all(12),
@@ -56,7 +88,12 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
                 Icons.notifications_none_rounded,
                 color: Color(0xff662465),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => const SavedServices())));
+              },
               padding: const EdgeInsets.only(bottom: 2),
             ),
           ),

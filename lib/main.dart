@@ -2,7 +2,9 @@
 
 import 'package:eventique/providers/accepted_services.dart';
 import 'package:eventique/providers/saved.dart';
+import 'package:eventique/providers/share_event_provider.dart';
 import 'package:eventique/providers/vendors_provider.dart';
+import 'package:eventique/providers/wallet_provider.dart';
 import 'package:eventique/screens/chat_vendors_list.dart';
 import 'package:eventique/providers/home_provider.dart';
 import 'package:eventique/providers/carts.dart';
@@ -14,6 +16,7 @@ import 'package:eventique/screens/navigation_bar_page.dart';
 import 'package:eventique/screens/one_package_details.dart';
 import 'package:eventique/screens/one_you&us.dart';
 import 'package:eventique/screens/share_event_screen.dart';
+import 'package:eventique/screens/wallet_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,7 +36,7 @@ import '/screens/email_rest_screen.dart';
 import '/screens/password_rest_screen.dart';
 import '/screens/vendor_profile_screen.dart';
 
-const String host = 'http://192.168.1.102:8000';
+const String host = 'http://192.168.1.9:8000';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -59,6 +62,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final token = authProvider.token;
+    final id = authProvider.userId;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
@@ -80,7 +84,7 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Carts(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => Orders(),
+          create: (ctx) => Orders(token, id),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Events(token),
@@ -91,6 +95,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: AcceptedServicesPro(),
         ),
+        ChangeNotifierProvider.value(
+          value: WalletProvider(token, id),
+        ),
+        ChangeNotifierProvider.value(
+          value: ShareEventProvider(token),
+        ),
       ],
       child: Consumer<Auth>(
         builder: (ctx, auth, _) => MaterialApp(
@@ -98,6 +108,7 @@ class MyApp extends StatelessWidget {
           themeMode: themeProvider.getThemeMode(),
           debugShowCheckedModeBanner: false,
           home: auth.isAuthenticated ? NavigationBarPage() : AuthScreen(),
+          //home: WalletScreen(),
           routes: {
             AuthScreen.routeName: (ctx) => AuthScreen(),
             VerificationScreen.routeName: (ctx) => VerificationScreen(),
@@ -115,6 +126,7 @@ class MyApp extends StatelessWidget {
             ShareEventScreen.routeName: (ctx) => ShareEventScreen(),
             OnePackageDetailsPage.routeName: (ctx) => OnePackageDetailsPage(),
             YouAndUsPage.routeName: (ctx) => YouAndUsPage(),
+            WalletScreen.routeName: (ctx) => WalletScreen(),
           },
         ),
       ),
