@@ -1,16 +1,9 @@
-//tasneem
-enum Status {
-  pending,
-  accepted,
-  rejected,
-}
-
 class ServiceInOrderDetails {
   final int orderServiceId;
   final int quantity;
   final double totalPrice;
   final String imgUrl;
-  final Status status;
+  final String status;
   final String name;
 
   ServiceInOrderDetails(

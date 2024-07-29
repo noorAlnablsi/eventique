@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:eventique/main.dart';
 import 'package:eventique/models/one_event.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -71,7 +72,7 @@ class Events with ChangeNotifier {
 
 //.........................http................................................
 class EventTypesService {
-  final String apiUrl = 'http://192.168.1.102:8000/api/event-type';
+  final String apiUrl = '$host/api/event-type';
 
   Future<List<EventType>> fetchEventTypes() async {
     print('I am in fetchEventTypessssssss and going to get them');
@@ -97,11 +98,9 @@ class EventTypesService {
 }
 
 class EventsService {
-  final String apiUrl = 'http://192.168.1.102:8000/api/events';
-  final String apiUrl1 =
-      'http://192.168.1.102:8000/api/events/orderBy/planning';
-  final String apiUrl2 =
-      'http://192.168.1.102:8000/api/events/orderBy/completed';
+  final String apiUrl = '$host/api/events';
+  final String apiUrl1 = '$host/api/events/orderBy/planning';
+  final String apiUrl2 = '$host/api/events/orderBy/completed';
 
   void addEvent(String name, double budget, int guestsNumber, DateTime date,
       TimeOfDay time, int eventTypeId, String token) async {
@@ -134,8 +133,7 @@ class EventsService {
   }
 
   void deleteEvent(int eventId, String token) async {
-    final String apiUrl2 =
-        'http://192.168.1.102:8000/api/events/$eventId/delete';
+    final String apiUrl2 = '$host/api/events/$eventId/delete';
     print('I am in deleteEventtttttttttttt ');
 
     final response = await http.delete(
@@ -242,7 +240,7 @@ class EventsService {
       String token,
       int eventId) async {
     print('I am in editEvent and going to edit the event');
-    final String apiUrl = 'http://192.168.1.102:8000/api/events/$eventId';
+    final String apiUrl = '$host/api/events/$eventId';
 
     // Format DateTime and TimeOfDay
     String? formattedDate;

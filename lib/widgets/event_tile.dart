@@ -1,3 +1,5 @@
+import 'package:eventique/screens/share_event_screen.dart';
+
 import '/color.dart';
 import 'package:eventique/screens/cart.dart';
 import 'package:eventique/screens/event_details.dart';
@@ -167,7 +169,10 @@ class EventTile extends StatelessWidget {
                               ),
                             ),
                           )
-                        : print('navigate to share event');
+                        : Navigator.of(context).pushNamed(
+                            ShareEventScreen.routeName,
+                            arguments: eventId,
+                          );
                   },
                   icon: Icon(
                     controller == 1 ? Icons.trolley : Icons.share,

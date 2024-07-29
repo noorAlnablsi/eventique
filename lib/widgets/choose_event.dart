@@ -100,8 +100,7 @@ class _ChooseEventState extends State<ChooseEvent> {
                           setState(() {
                             _selectedEventId = event.eventId.toString();
                           });
-                          cartProvider
-                              .changeChosenEvent(event.eventId.toString());
+                          cartProvider.changeChosenEvent(event.eventId);
 
                           // Add service to cart
                           Provider.of<Carts>(context, listen: false)

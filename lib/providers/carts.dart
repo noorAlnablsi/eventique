@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class Carts with ChangeNotifier {
   //map each event id with its cart,each cart has cart servicess with the original service thats why i used another map to link them
-  final Map<String, Map<int, OneCartService>> _carts = {};
+  final Map<int, Map<int, OneCartService>> _carts = {};
 
 // gets all the carts for all events"not needed !"
-  Map<String, Map<int, OneCartService>> get carts => _carts;
+  Map<int, Map<int, OneCartService>> get carts => _carts;
 
 // gets an event cart(one cart only),if not found it returns empty map
   Map<int, OneCartService> getCart(int eventId) {
@@ -33,15 +33,15 @@ class Carts with ChangeNotifier {
     notifyListeners();
   }
 
-  String chosenEventId = '';
-  void changeChosenEvent(String eventId) {
+  int chosenEventId = -1;
+  void changeChosenEvent(int eventId) {
     chosenEventId = eventId;
     notifyListeners();
   }
 
   void addServiceToCart(
       int serviceId, double servicePrice, String imgUrl, String name) {
-    if (chosenEventId.isEmpty) {
+    if (chosenEventId == -1) {
       throw Exception('No event chosen');
     }
 
@@ -72,7 +72,7 @@ class Carts with ChangeNotifier {
       );
     }
     _quantities[serviceId] = 1;
-    chosenEventId = '';
+    chosenEventId = -1;
 
     notifyListeners();
   }
@@ -106,9 +106,4 @@ class Carts with ChangeNotifier {
     }
     return total;
   }
-
-  // double getPaidPrice(String eventId) {
-  //   double paid = 0.0;
-  //   return paid;
-  // }
 }

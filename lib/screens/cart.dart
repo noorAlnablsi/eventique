@@ -64,7 +64,7 @@ class TestCart extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: ((context) =>
                                       const VendorsScreen())));
-                          cartProvider.chosenEventId = eventId.toString();
+                          cartProvider.chosenEventId = eventId;
                         },
                         child: Icon(
                           Icons.add,
@@ -143,8 +143,7 @@ class TestCart extends StatelessWidget {
                                       MaterialPageRoute(
                                           builder: ((context) =>
                                               const VendorsScreen())));
-                                  cartProvider.chosenEventId =
-                                      eventId.toString();
+                                  cartProvider.chosenEventId = eventId;
                                 },
                                 child: Icon(
                                   Icons.add,
@@ -291,9 +290,8 @@ class TestCart extends StatelessWidget {
                             //eventId below in gettotalPrice and after and in clear cart
                             Provider.of<Orders>(context, listen: false)
                                 .addOrder(
+                              eventId,
                               cart.values.toList(),
-                              orderTotalPrice,
-                              eventName,
                             );
                             cartProvider.clearCart(eventId);
                           },
