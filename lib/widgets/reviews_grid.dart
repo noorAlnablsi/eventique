@@ -10,20 +10,16 @@ class ReviewsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listOfReviews =
-        Provider.of<Reviews>(context).getReviewsForService(serviceId);
-    return
-        //  listOfReviews.isEmpty
-        //     ? Text(
-        //         'No Reviews Are Available',
-        //         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-        //               fontFamily: 'IrishGrover',
-        //               fontSize: 22,
-        //               color: Theme.of(context).primaryColor.withOpacity(0.3),
-        //             ),
-        //       )
-        //     :
-        ListView.builder(
+    final reviewsProvider = Provider.of<Reviews>(context);
+    
+    // Trigger the data fetching when the widget is built.
+    if (reviewsProvider.reviewsForService(serviceId).isEmpty) {
+      reviewsProvider.getReviewsForService(serviceId);
+    }
+
+    final listOfReviews = reviewsProvider.reviewsForService(serviceId);
+
+    return ListView.builder(
       itemCount: listOfReviews.length + 1,
       padding: EdgeInsets.zero,
       itemBuilder: (BuildContext context, int index) {
@@ -36,8 +32,10 @@ class ReviewsGrid extends StatelessWidget {
                 theComment: listOfReviews[index - 1].theComment,
                 serviceId: serviceId,
                 reviewIndex: index - 1,
+                personId:listOfReviews[index - 1].personId
               );
       },
     );
   }
 }
+

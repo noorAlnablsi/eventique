@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eventique/providers/auth_provider.dart';
 import 'package:eventique/providers/reviews.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -14,16 +15,17 @@ class OneReview extends StatelessWidget {
     required this.imgurl,
     required this.serviceId,
     required this.reviewIndex,
+    required this.personId,
   });
   final double? rating;
   final String personName, theComment, imgurl;
-  final int serviceId, reviewIndex;
+  final int serviceId, reviewIndex,personId;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onLongPress: () {
-        if (personName == 'me') {
+        if (personId ==  Provider.of<Auth>(context,listen: false).userId) {
           showDialog<void>(
             context: context,
             builder: (BuildContext dialogContext) {

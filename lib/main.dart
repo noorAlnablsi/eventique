@@ -33,7 +33,8 @@ import '/screens/email_rest_screen.dart';
 import '/screens/password_rest_screen.dart';
 import '/screens/vendor_profile_screen.dart';
 
-const String host = 'http://192.168.1.102:8000';
+const String host = 'http://192.168.1.106:8000';
+// const String host = 'http://192.168.1.108:8000';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     final token = authProvider.token;
+    final id=authProvider.userId;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
@@ -74,13 +76,13 @@ class MyApp extends StatelessWidget {
           create: (ctx) => AllServices(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => Reviews(),
+          create: (ctx) => Reviews(token),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Carts(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => Orders(),
+          create: (ctx) => Orders(token,id),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Events(token),
@@ -116,8 +118,33 @@ class MyApp extends StatelessWidget {
             OnePackageDetailsPage.routeName: (ctx) => OnePackageDetailsPage(),
             YouAndUsPage.routeName: (ctx) => YouAndUsPage(),
           },
+           theme: ThemeData(
+          // useMaterial3: false,
+          primaryColor: Color(0xff662465),
+          scaffoldBackgroundColor: const Color(0xFFFFFDF0),
+          appBarTheme: const AppBarTheme(
+            color: Color(0xFFFFFDF0),
+          ),
+          textTheme: const TextTheme(
+            bodyLarge: TextStyle(
+                fontSize: 22.0,
+                fontFamily: 'Bahnschrift',
+                color: Color(0xff662465),),
+            bodyMedium: TextStyle(
+                fontSize: 14.0,
+                fontFamily: 'Bahnschrift',
+                fontWeight: FontWeight.bold,
+                color: Color(0xff662465)),
+            bodySmall: TextStyle(
+                fontSize: 14.0,
+                fontFamily: 'Bahnschrift',
+                color: Color(0xff662465)),
+          ),
         ),
       ),
+    
+        ),
+      
     );
   }
 }

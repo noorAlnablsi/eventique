@@ -1,5 +1,7 @@
 //taghreed
+import 'package:eventique/providers/saved.dart';
 import 'package:eventique/screens/auth_screen.dart';
+import 'package:eventique/screens/saved_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -103,7 +105,13 @@ class MainDrawer extends StatelessWidget {
             Icons.bookmarks,
             'Saved Services',
             () {
-              Navigator.of(context).pushReplacementNamed('/');
+              Provider.of<Saved>(context, listen: false).fetchSaved();
+              Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (ctx) =>SavedServices(),
+            ),
+          );
             },
           ),
           buildListTile(Icons.share, 'Shared Events', () {}),

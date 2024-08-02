@@ -76,7 +76,7 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                   const Spacer(),
                   ElevatedButton(
                     onPressed: () {
-                      cartProvider.chosenEventId.isEmpty?
+                      cartProvider.chosenEventId==-1?
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {

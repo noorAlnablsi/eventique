@@ -116,15 +116,15 @@ class ServiceInOrderDetailsTile extends StatelessWidget {
               // Status card
               Card(
                 margin: const EdgeInsets.only(left: 10),
-                color: service.status == Status.pending
+                color: service.status == 'pending'
                     ? Color(0xffCCA0C7)
-                    : service.status == Status.accepted
+                    : service.status == 'accepted'
                         ? Colors.green
                         : Color.fromARGB(205, 43, 43, 43),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                   child: Text(
-                    service.status.name.toString(),
+                    service.status,
                     style: bodyMediumStyle.copyWith(color: Color(0xFFFFFDF0)),
                   ),
                 ),

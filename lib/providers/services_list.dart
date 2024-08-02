@@ -1,3 +1,4 @@
+import 'package:eventique/main.dart';
 import 'package:eventique/models/one_service.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -83,7 +84,7 @@ class AllServices with ChangeNotifier {
 //.........................http................................................
 
 class CategoryService {
-  final String apiUrl = 'http://192.168.1.102:8000/api/categories';
+  final String apiUrl = '$host/api/categories';
 
   Future<List<Category>> fetchCategories() async {
     print('I am in fetchCategoriessssssssssssssss and going to get them');
@@ -109,8 +110,8 @@ class CategoryService {
 }
 
 class ServicesService {
-  final String apiUrl1 = 'http://192.168.1.102:8000/api/services';
-  // final String apiUrl2 = 'http://192.168.1.102:8000/api/categories/1/services';
+  final String apiUrl1 = '$host/api/services';
+  // final String apiUrl2 = '$host/api/categories/1/services';
 
   Future<List<OneService>> fetchAllServices() async {
     final response = await http.get(
@@ -154,7 +155,7 @@ class ServicesService {
 
   Future<List<OneService>> fetchCategorizedServices(int categoryId) async {
     final String apiUrl2 =
-        'http://192.168.1.102:8000/api/categories/$categoryId/services';
+        '$host/api/categories/$categoryId/services';
     final response = await http.get(
       Uri.parse(apiUrl2),
       headers: {
@@ -196,7 +197,7 @@ class ServicesService {
 }
 
 class SearchService {
-  final String apiUrl1 = 'http://192.168.1.102:8000/api/search/all';
+  final String apiUrl1 = '$host/api/search/all';
 
   Future<List<OneService>> getSearchInAll(String text) async {
     print('I am in getSearchInAllllllllllllllll and going to get them');
@@ -244,7 +245,7 @@ class SearchService {
 
   Future<List<OneService>> getSearchInCategory(
       String text, int categoryId) async {
-    final String apiUrl2 = 'http://192.168.1.102:8000/api/search/$categoryId';
+    final String apiUrl2 = '$host/api/search/$categoryId';
 
     print('I am in getSearchInAllllllllllllllll and going to get them');
 

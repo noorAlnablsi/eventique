@@ -114,10 +114,10 @@ class EventTile extends StatelessWidget {
                 elevation: 6,
                 color: beige,
                 margin: const EdgeInsets.only(left: 8),
-                // child: Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                //   child: Icon(eventType.icon),
-                // ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  child: Icon(Icons.celebration),
+                ),
               ),
               Expanded(
                 child: Padding(
