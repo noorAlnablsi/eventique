@@ -134,8 +134,8 @@ class _YouAndUsPageState extends State<YouAndUsPage> {
                             carouselController: _controller,
                             options: CarouselOptions(
                               enlargeCenterPage: true,
-                              height: 400,
-                              viewportFraction: 0.8,
+                              height: 270,
+                              viewportFraction: 0.6,
                               onPageChanged: (index, reason) {
                                 setState(() {
                                   _current = index;
@@ -156,49 +156,48 @@ class _YouAndUsPageState extends State<YouAndUsPage> {
                       ),
                     ),
                     Gap(15),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: youAndUsData.eventServices!.length,
-                        itemBuilder: (context, i) {
-                          final service = youAndUsData.eventServices![i];
-                          return Column(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (ctx) => ServiceDetails(
-                                          serviceId: service.serviceId),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Color(0xFFDB8498),
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
+                    ListView.builder( shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: youAndUsData.eventServices!.length,
+                      itemBuilder: (context, i) {
+                        final service = youAndUsData.eventServices![i];
+                        return Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (ctx) => ServiceDetails(
+                                        serviceId: service.serviceId),
                                   ),
-                                  height: 80,
-                                  width: 337,
-                                  child: ListTile(
-                                    title: Text(
-                                      service.name ?? '',
-                                      style: TextStyle(),
-                                    ),
-                                    subtitle: Text("Parfait"),
-                                    leading: Icon(Icons.cake),
-                                    trailing: Icon(
-                                      Icons.arrow_forward_ios,
-                                    ),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color(0xFFDB8498),
+                                  ),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                height: 80,
+                                width: 337,
+                                child: ListTile(
+                                  title: Text(
+                                    service.name ?? '',
+                                    style: TextStyle(),
+                                  ),
+                                  subtitle: Text("Parfait"),
+                                  leading: Icon(Icons.cake),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios,
                                   ),
                                 ),
                               ),
-                              Gap(8)
-                            ],
-                          );
-                        },
-                      ),
+                            ),
+                            Gap(8)
+                          ],
+                        );
+                      },
                     ),
                   ],
                 ),
