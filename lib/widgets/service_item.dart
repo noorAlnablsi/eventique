@@ -35,7 +35,7 @@ class ServiceItem extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        if (cartProvider.chosenEventId != -1) {
+        if (cartProvider.chosenEventId!=-1) {
           Navigator.pop(context);
           Navigator.push(
             context,

@@ -2,18 +2,18 @@
 import 'package:eventique/models/service_in_order_details.dart';
 
 class OneOrder {
-  final String orderId;
-  final double orderPrice;
-  final double orderPaidPrice;
-  final List<ServiceInOrderDetails> orderServices;
-  final DateTime dateTime;
-  final String eventName;
+  final String? orderId;
+  final double? orderPrice;
+  final double? orderPaidPrice;
+  final List<ServiceInOrderDetails>? orderServices;
+  final DateTime? dateTime;
+  final String? eventName;
   OneOrder({
-    required this.orderServices,
-    required this.orderId,
-    required this.orderPrice,
-    required this.orderPaidPrice,
-    required this.dateTime,
-    required this.eventName,
+    this.orderServices,
+    this.orderId,
+    this.orderPrice,
+    this.orderPaidPrice,
+    this.dateTime,
+    this.eventName,
   });
 }

@@ -111,7 +111,7 @@ class CategoryService {
 
 class ServicesService {
   final String apiUrl1 = '$host/api/services';
-  // final String apiUrl2 = 'http://192.168.1.102:8000/api/categories/1/services';
+  // final String apiUrl2 = '$host/api/categories/1/services';
 
   Future<List<OneService>> fetchAllServices() async {
     final response = await http.get(
@@ -154,7 +154,8 @@ class ServicesService {
   }
 
   Future<List<OneService>> fetchCategorizedServices(int categoryId) async {
-    final String apiUrl2 = '$host/api/categories/$categoryId/services';
+    final String apiUrl2 =
+        '$host/api/categories/$categoryId/services';
     final response = await http.get(
       Uri.parse(apiUrl2),
       headers: {

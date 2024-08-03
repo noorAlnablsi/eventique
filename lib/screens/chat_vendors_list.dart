@@ -1,5 +1,6 @@
 //taghreed
 import 'package:eventique/color.dart';
+import 'package:eventique/providers/auth_provider.dart';
 import 'package:eventique/providers/theme_provider.dart';
 import 'package:eventique/providers/vendors_provider.dart';
 import 'package:eventique/widgets/chat/chat_list_item.dart';
@@ -15,6 +16,34 @@ class ChatVendorsListScreen extends StatefulWidget {
 
 class _ChatVendorsListScreenState extends State<ChatVendorsListScreen> {
   bool _isLoading = false;
+  Future<void> authenticateUser() async {
+    try {
+      // setState(() {
+      //   _loadingPackages = true;
+      // });
+      String firebaseToken =
+          Provider.of<Auth>(context, listen: false).fireToken;
+      print(firebaseToken);
+      await Provider.of<Auth>(context, listen: false)
+          .authenticateUserWithCustomToken(firebaseToken);
+      // setState(() {
+      //   _loadingPackages = false;
+      // });
+    } catch (error) {
+      // setState(() {
+      //   _loadingPackages = false;
+      // });
+      print(error);
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    //   authenticateUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

@@ -1,3 +1,5 @@
+import 'package:eventique/screens/one_you&us.dart';
+
 import '/color.dart';
 import 'package:eventique/screens/cart.dart';
 import 'package:eventique/screens/event_details.dart';
@@ -5,12 +7,11 @@ import 'package:eventique/providers/events.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class EventTile extends StatelessWidget {
-  const EventTile({
+class SharedEventTile extends StatelessWidget {
+  const SharedEventTile({
     super.key,
     required this.eventName,
     required this.eventDate,
-    required this.controller,
     required this.eventTypeId,
     required this.eventBudget,
     required this.eventId,
@@ -22,7 +23,6 @@ class EventTile extends StatelessWidget {
   final double eventBudget;
   final int eventId;
   final DateTime eventDate;
-  final int? controller;
   final int eventTypeId;
   final int guests;
   final TimeOfDay eventTime;
@@ -42,14 +42,8 @@ class EventTile extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (ctx) => EventDetails(
-                eventId: eventId,
-              ),
-            ),
-          );
+          Navigator.of(context)
+              .pushNamed(YouAndUsPage.routeName, arguments: eventId);
         },
         onLongPress: () async {
           await showDialog<bool>(
@@ -64,9 +58,7 @@ class EventTile extends StatelessWidget {
                     .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               content: Text(
-                controller == 1
-                    ? 'By deleting this event, you will cancel any accepted orders, and the money spent will not be refunded.'
-                    : 'Remove event from list?',
+                'Remove event from list?',
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge!
@@ -150,30 +142,6 @@ class EventTile extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  onPressed: () {
-                    controller == 1
-                        ? Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (ctx) => TestCart(
-                                eventBudget: eventBudget,
-                                eventId: eventId,
-                                eventName: eventName,
-                              ),
-                            ),
-                          )
-                        : print('navigate to share event');
-                  },
-                  icon: Icon(
-                    controller == 1 ? Icons.trolley : Icons.share,
-                    color: secondary,
-                    size: controller == 1 ? 32 : 24,
                   ),
                 ),
               ),

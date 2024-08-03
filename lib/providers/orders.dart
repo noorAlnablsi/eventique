@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:eventique/main.dart';
 import 'package:eventique/models/one_cartService.dart';
 import 'package:eventique/models/one_order.dart';
+import 'package:eventique/models/one_service.dart';
 import 'package:eventique/models/service_in_order_details.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -14,29 +15,17 @@ class Orders with ChangeNotifier {
   Orders(this.token, this.id) {
     fetchPendingOrders();
     fetchProcessedOrders();
-    // fetchprocessedOrders();
-    // fetchpendingOrders();
   }
 
   List<OneOrder> _orders = [];
   List<OneOrder> _pendingOrders = [];
   List<OneOrder> _processedOrders = [];
-
-  final OrderService _orderService = OrderService();
+  OneOrder _oneOrder = OneOrder();
 
   List<OneOrder> get orders => [..._orders];
   List<OneOrder> get processedOrders => [..._pendingOrders];
   List<OneOrder> get pendingOrders => [..._processedOrders];
-
-  // Future<void> fetchpendingOrders() async {
-  //   final fetchedorders = await _orderService.fetchpendingOrders(token);
-  //   _pendingOrders = fetchedorders;
-  // }
-
-  // Future<void> fetchprocessedOrders() async {
-  //   final fetchedorders = await _orderService.fetchprocessedOrders(token);
-  //   _processedOrders = fetchedorders;
-  // }
+  OneOrder get oneOrder => _oneOrder;
 
 //taghreed wrote this
   Future<void> addOrder(
@@ -83,7 +72,7 @@ class Orders with ChangeNotifier {
 
 //taghreed
   Future<void> fetchProcessedOrders() async {
-    final url = Uri.parse('$host/api/processed_orders/4');
+    final url = Uri.parse('$host/api/processed_orders/$id');
     print(url);
     try {
       final response = await http.get(
@@ -126,7 +115,7 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> fetchPendingOrders() async {
-    final url = Uri.parse('$host/api/pending_orders/4');
+    final url = Uri.parse('$host/api/pending_orders/$id');
     print(url);
     try {
       final response = await http.get(
@@ -161,94 +150,73 @@ class Orders with ChangeNotifier {
       throw error;
     }
   }
-}
 
-class OrderService {
-  final String apiUrl = '$host/api/';
-  final String apiUrl1 = '$host/api/';
-  final String apiUrl2 = '$host/api/';
+  Future<void> fetchOrderDetails(String id) async {
+    final url = Uri.parse('$host/api/order_details');
+    print(url);
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+          'locale': 'en',
+        },
+        body: {
+          'order_id': id,
+        },
+      );
 
-  void addOrder(String token) async {
-    print('I am in addOrderrrrrrrrr and going to get them');
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        print(responseData);
 
-    final response = await http.post(Uri.parse(apiUrl), headers: {
-      'Accept': 'application/json',
-      'locale': 'ar',
-      'Authorization': 'Bearer $token',
-    }, body: {});
-    if (response.statusCode == 200) {
-      print('I am in the addOrderrrrrrrrr 200');
-    } else {
-      print(response.body);
-      throw Exception('Failed addOrderrrrrrrrr');
-    }
-  }
+        // Parsing services
+        List<ServiceInOrderDetails> services = [];
+        if (responseData['services'] != null) {
+          services = (responseData['services'] as List).map((service) {
+            String imgUrl = (service['images'] as List).isNotEmpty
+                ? service['images'][0]['url']
+                : '';
 
-  Future<List<OneOrder>> fetchpendingOrders(String token) async {
-    print('I am in fetchpendingOrdersssssssss ');
+            return ServiceInOrderDetails(
+              orderServiceId: service['id'],
+              quantity: service['quantity'],
+              totalPrice: service['priceinpivot'].toDouble(),
+              imgUrl: imgUrl,
+              status: service['status'],
+              name: service['name'],
+            );
+          }).toList();
+        }
 
-    final response = await http.get(
-      Uri.parse(apiUrl1),
-      headers: {
-        'Accept': 'application/json',
-        'locale': 'ar',
-        'Authorization': 'Bearer $token',
-      },
-    );
-    if (response.statusCode == 200) {
-      print('Successfully fetched ');
-      final data = jsonDecode(response.body);
-      final orders = data['data'] as List;
-
-      return orders.map((e) {
-        final date = DateTime.parse(e['date']);
-
-        return OneOrder(
-          orderId: e['id'],
-          eventName: e['iddddddddddddddddddddddddd'],
-          orderPrice: e['iddddddddddddddddddddddddd'],
-          orderPaidPrice: e['iddddddddddddddddddddddddd'],
-          dateTime: date,
-          orderServices: [],
+        // Parsing order details
+        OneOrder orderDetails = OneOrder(
+          orderServices: services,
+          orderId: responseData['order_id'],
+          orderPrice: responseData['order_price'] != null
+              ? responseData['order_price'].toDouble()
+              : null,
+          orderPaidPrice: responseData['order_paid_price'] != null
+              ? responseData['order_paid_price'].toDouble()
+              : null,
+          dateTime: responseData['date_time'] != null
+              ? DateTime.parse(responseData['date_time'])
+              : null,
+          eventName: responseData['event_name'],
         );
-      }).toList();
-    } else {
-      print(response.body);
-      throw Exception('Faileddddddddd');
-    }
-  }
 
-  Future<List<OneOrder>> fetchprocessedOrders(String token) async {
-    print('I am in fetchprocessedOrdersssssssss ');
+        // Do something with the orderDetails, like updating the state or notifying listeners
+        _oneOrder = orderDetails;
+        print(_oneOrder);
 
-    final response = await http.get(
-      Uri.parse(apiUrl1),
-      headers: {
-        'Accept': 'application/json',
-        'locale': 'ar',
-        'Authorization': 'Bearer $token',
-      },
-    );
-    if (response.statusCode == 200) {
-      print('Successfully fetched ');
-      final data = jsonDecode(response.body);
-      final orders = data['data'] as List;
-
-      return orders.map((e) {
-        final date = DateTime.parse(e['date']);
-
-        return OneOrder(
-          orderId: e['id'],
-          eventName: e['iddddddddddddddddddddddddd'],
-          orderPrice: e['iddddddddddddddddddddddddd'],
-          orderPaidPrice: e['iddddddddddddddddddddddddd'],
-          dateTime: date,
-          orderServices: [],
-        );
-      }).toList();
-    } else {
-      print(response.body);
-      throw Exception('Faileddddddddd');
+        notifyListeners(); // Notify listeners about the update
+      } else {
+        print('Failed to load order details');
+      }
+    } catch (error) {
+      print(error);
+      throw error;
     }
   }
 }

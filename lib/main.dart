@@ -16,6 +16,7 @@ import 'package:eventique/screens/navigation_bar_page.dart';
 import 'package:eventique/screens/one_package_details.dart';
 import 'package:eventique/screens/one_you&us.dart';
 import 'package:eventique/screens/share_event_screen.dart';
+import 'package:eventique/screens/shared_events_for_one_user_screen.dart';
 import 'package:eventique/screens/wallet_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ import '/screens/email_rest_screen.dart';
 import '/screens/password_rest_screen.dart';
 import '/screens/vendor_profile_screen.dart';
 
-const String host = 'http://192.168.1.9:8000';
+const String host = 'http://192.168.1.106:8000';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -78,7 +79,7 @@ class MyApp extends StatelessWidget {
           create: (ctx) => AllServices(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => Reviews(),
+          create: (ctx) => Reviews(token),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Carts(),
@@ -87,13 +88,13 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Orders(token, id),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => Events(token),
+          create: (ctx) => Events(token, id),
         ),
         ChangeNotifierProvider.value(
           value: Saved(token),
         ),
         ChangeNotifierProvider.value(
-          value: AcceptedServicesPro(),
+          value: AcceptedServicesPro(token),
         ),
         ChangeNotifierProvider.value(
           value: WalletProvider(token, id),
@@ -108,7 +109,7 @@ class MyApp extends StatelessWidget {
           themeMode: themeProvider.getThemeMode(),
           debugShowCheckedModeBanner: false,
           home: auth.isAuthenticated ? NavigationBarPage() : AuthScreen(),
-          //home: WalletScreen(),
+          // home: AuthScreen(),
           routes: {
             AuthScreen.routeName: (ctx) => AuthScreen(),
             VerificationScreen.routeName: (ctx) => VerificationScreen(),
@@ -127,6 +128,8 @@ class MyApp extends StatelessWidget {
             OnePackageDetailsPage.routeName: (ctx) => OnePackageDetailsPage(),
             YouAndUsPage.routeName: (ctx) => YouAndUsPage(),
             WalletScreen.routeName: (ctx) => WalletScreen(),
+            SharedEventsForOneUserScreen.routeName: (ctx) =>
+                SharedEventsForOneUserScreen(),
           },
         ),
       ),

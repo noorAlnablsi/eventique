@@ -53,8 +53,11 @@ class Auth with ChangeNotifier {
     return -1;
   }
 
-  bool get isAuth {
-    return _loginToken != '';
+  String get fireToken {
+    if (_firebaseToken.isNotEmpty) {
+      return _firebaseToken;
+    }
+    return '';
   }
 
   Map<String, String> get userData {
@@ -178,6 +181,7 @@ class Auth with ChangeNotifier {
       _userData['userImage'] = responseData['data']['images'][0]['url'];
       print('userImage:${_userData['userImage']}');
       await _saveUserData();
+      await authenticateUserWithCustomToken(_firebaseToken);
       notifyListeners();
     } catch (error) {
       print("Error occurred: ${error.toString()}");
@@ -223,10 +227,27 @@ class Auth with ChangeNotifier {
       print('userImage:${_userData['userImage']}');
       await StorageManager.updateUserData(
           firebaseToken: _firebaseToken, loginToken: _loginToken);
+      await authenticateUserWithCustomToken(_firebaseToken);
       notifyListeners();
     } catch (error) {
       print(error.toString());
       throw (error);
+    }
+  }
+
+  Future<void> authenticateUserWithCustomToken(String customToken) async {
+    try {
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+      final UserCredential userCredential =
+          await _auth.signInWithCustomToken(customToken);
+      User? user = userCredential.user;
+      if (user != null) {
+        print('User authenticated successfully with Custom Token');
+      } else {
+        print('Failed to authenticate user');
+      }
+    } catch (e) {
+      print('Error during authentication: ${e.toString()}');
     }
   }
 

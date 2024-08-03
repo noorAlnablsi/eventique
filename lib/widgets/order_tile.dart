@@ -29,7 +29,9 @@ class OrderTile extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (ctx) => OrderDetails(
-                  eventName: order.eventName, services: order.orderServices),
+                id: order.orderId!,
+                eventName: order.eventName!,
+              ),
             ),
           );
         },
@@ -51,7 +53,7 @@ class OrderTile extends StatelessWidget {
                     const SizedBox(height: 5),
                     Text(
                       // 'Event: ${order.eventName}',
-                      order.eventName,
+                      order.eventName!,
                       softWrap: false,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -74,7 +76,7 @@ class OrderTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${order.orderPrice.toStringAsFixed(2)} \$',
+                      '${order.orderPrice!.toStringAsFixed(2)} \$',
                       softWrap: false,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -87,7 +89,7 @@ class OrderTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      '${order.dateTime.toLocal()}'.split(' ')[0],
+                      '${order.dateTime!.toLocal()}'.split(' ')[0],
                       softWrap: false,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis, // Format the date

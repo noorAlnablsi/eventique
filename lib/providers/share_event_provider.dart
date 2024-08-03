@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 class ShareEventProvider with ChangeNotifier {
   final String token;
   ShareEventProvider(this.token);
+
   Future<void> shareEvent(
       int id, String description, List<String> imgsUrls) async {
     final url = Uri.parse('$host/api/shares');
@@ -19,7 +20,7 @@ class ShareEventProvider with ChangeNotifier {
           'Accept': 'application/json',
           'Authorization': 'Bearer $token',
           'locale': 'en',
-          'Content-Type': 'application/json', // Added Content-Type header
+          'Content-Type': 'application/json',
         },
         body: jsonEncode({
           "event_id": id,

@@ -45,14 +45,14 @@ class OrdersScreen extends StatelessWidget {
                     tabs: const [
                       Tab(
                         child: Text(
-                          'Processed',
+                          'Pending',
                           style: TextStyle(
                               fontFamily: 'IrishGrover', fontSize: 20),
                         ),
                       ),
                       Tab(
                         child: Text(
-                          'Pending',
+                          'Processed',
                           style: TextStyle(
                               fontFamily: 'IrishGrover', fontSize: 20),
                         ),

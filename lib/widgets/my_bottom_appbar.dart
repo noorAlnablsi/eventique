@@ -47,10 +47,9 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
     TextTheme texttheme = Theme.of(context).textTheme;
 
     final reviewProvider = Provider.of<Reviews>(context);
-    final int selectedIndex =
-        Provider.of<AllServices>(context).indexForBotomContent;
+    final int selectedIndex =Provider.of<AllServices>(context).indexForBotomContent;
     final cartProvider = Provider.of<Carts>(context);
-    final quantity = cartProvider.getQuantity(widget.serviceId);
+     final quantity = cartProvider.getQuantity(widget.serviceId);
 
     return Padding(
       padding:
@@ -77,29 +76,33 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                   const Spacer(),
                   ElevatedButton(
                     onPressed: () {
-                      cartProvider.chosenEventId == -1
-                          ? showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  surfaceTintColor: beige,
-                                  backgroundColor: beige,
-                                  content: ChooseEvent(
-                                    imgUrl: widget.imgUrl,
-                                    name: widget.name,
-                                    price: widget.price,
-                                    serviceId: widget.serviceId,
-                                  ),
-                                );
-                              },
-                            )
-                          : {
-                              // Add service to cart
-                              Provider.of<Carts>(context, listen: false)
-                                  .addServiceToCart(widget.serviceId,
-                                      widget.price, widget.imgUrl, widget.name),
+                      cartProvider.chosenEventId==-1?
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            surfaceTintColor: beige,
+                            backgroundColor: beige,
+                            content: ChooseEvent(
+                              imgUrl: widget.imgUrl,
+                              name: widget.name,
+                              price: widget.price,
+                              serviceId: widget.serviceId,
+                            ),
+                            
+                          );
+                        },
+                      ):
 
-                              // Show snack bar
+                       {   // Add service to cart
+                              Provider.of<Carts>(context, listen: false)
+                                  .addServiceToCart(
+                                      widget.serviceId,
+                                      widget.price,
+                                      widget.imgUrl,
+                                      widget.name           ),
+
+                                           // Show snack bar
                               _scaffoldMessengerState?.showSnackBar(
                                 SnackBar(
                                   behavior: SnackBarBehavior.floating,
@@ -117,7 +120,8 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                                   duration: const Duration(seconds: 1),
                                 ),
                               )
-                            };
+                    };
+
                     },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(

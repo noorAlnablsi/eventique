@@ -122,8 +122,7 @@ class ServiceInOrderDetailsTile extends StatelessWidget {
                         ? Colors.green
                         : Color.fromARGB(205, 43, 43, 43),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                   child: Text(
                     service.status,
                     style: bodyMediumStyle.copyWith(color: Color(0xFFFFFDF0)),

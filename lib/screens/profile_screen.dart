@@ -124,11 +124,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: media.height * 0.03),
                   Center(
                     child: UserImagePicker(
-                        imagePickedFn: _uploadImage,
-                        defaultImageUrl: userInfo['userImage'],
-                        imageRadius: 100,
-                        iconRadius: 25,
-                        iconSize: 25),
+                      imagePickedFn: _uploadImage,
+                      defaultImageUrl: userInfo['userImage'],
+                      imageRadius: 100,
+                      iconRadius: 25,
+                      iconSize: 25,
+                    ),
                   ),
                   SizedBox(height: media.height * 0.04),
                   ProfileItem(

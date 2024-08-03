@@ -6,7 +6,11 @@ import 'package:http/http.dart' as http;
 
 class Events with ChangeNotifier {
   final String token;
-  Events(this.token) {
+  final int id;
+  Events(
+    this.token,
+    this.id,
+  ) {
     _fetchEventTypes();
     fetchPlanningEvents();
     fetchCompletedEvents();
@@ -14,11 +18,23 @@ class Events with ChangeNotifier {
   List<EventType> _eventTypes = [];
   List<OneEvent> _completedEvents = [];
   List<OneEvent> _planningEvents = [];
+  List<OneEvent> _sharedEvents = [
+    OneEvent(
+        eventId: 0,
+        name: 'name',
+        budget: 100.0,
+        guestsNumber: 5,
+        time: TimeOfDay.now(),
+        dateTime: DateTime.now(),
+        eventTypeId: 3)
+  ];
+  bool _hasOrder = false;
 
+  bool get hasOrder => _hasOrder;
   List<EventType> get eventTypes => _eventTypes;
-
   List<OneEvent> get completedEvents => [..._completedEvents];
   List<OneEvent> get planningEvents => [..._planningEvents];
+  List<OneEvent> get sharedEvents => [..._sharedEvents];
 
   final EventTypesService _eventTypesService = EventTypesService();
   Future<void> _fetchEventTypes() async {
@@ -27,37 +43,43 @@ class Events with ChangeNotifier {
     notifyListeners();
   }
 
-  final EventsService _eventsService = EventsService();
+  final EventsService eventsService = EventsService();
 
   void addEvent(String name, double budget, int guestsNumber, DateTime date,
       TimeOfDay time, int eventTypeId) {
-    _eventsService.addEvent(
+    eventsService.addEvent(
         name, budget, guestsNumber, date, time, eventTypeId, token);
     // _fetchEvents();
     notifyListeners();
   }
 
   Future<void> fetchPlanningEvents() async {
-    final fetchedEvents = await _eventsService.showPlanningEvent(token);
+    final fetchedEvents = await eventsService.showPlanningEvent(token);
     _planningEvents = fetchedEvents;
     notifyListeners();
   }
 
   Future<void> fetchCompletedEvents() async {
-    final fetchedEvents = await _eventsService.showCompletedEvent(token);
+    final fetchedEvents = await eventsService.showCompletedEvent(token);
     _completedEvents = fetchedEvents;
     notifyListeners();
   }
 
+  Future<void> fetchSharedEvents() async {
+    final fetchedEvents = await eventsService.showSharedEvent(token, id);
+    _sharedEvents = fetchedEvents;
+    notifyListeners();
+  }
+
   void deleteEvent(int eventId) {
-    _eventsService.deleteEvent(eventId, token);
+    eventsService.deleteEvent(eventId, token);
     // _fetchEvents();
     notifyListeners();
   }
 
   void editEvent(String? name, double? budget, int? guestsNumber,
       TimeOfDay? time, DateTime? dateTime, int? eventTypeId, int eventId) {
-    _eventsService.editEvent(name, budget, guestsNumber, dateTime, time,
+    eventsService.editEvent(name, budget, guestsNumber, dateTime, time,
         eventTypeId, token, eventId);
   }
 
@@ -67,6 +89,34 @@ class Events with ChangeNotifier {
 
   EventType getEventTypeById(int eventTypeId) {
     return _eventTypes.firstWhere((eventType) => eventType.id == eventTypeId);
+  }
+
+  //taghreed
+  Future<void> doesHasOrder(int id) async {
+    final url = Uri.parse('$host/api/check_orders/$id');
+    print(url);
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+          'locale': 'en',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        print(responseData);
+        _hasOrder = responseData['has_orders'];
+        notifyListeners(); // Notify listeners about the update
+      } else {
+        print('Failed to load order details');
+      }
+    } catch (error) {
+      print(error);
+      throw error;
+    }
   }
 }
 
@@ -196,6 +246,45 @@ class EventsService {
 
     final response = await http.get(
       Uri.parse(apiUrl2),
+      headers: {
+        'Accept': 'application/json',
+        'locale': 'ar',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) {
+      print('Successfully fetched events');
+      final data = jsonDecode(response.body);
+      final events = data['data'] as List;
+
+      return events.map((e) {
+        final date = DateTime.parse(e['date']);
+        final time = TimeOfDay(
+          hour: int.parse(e['time'].substring(0, 2)),
+          minute: int.parse(e['time'].substring(3, 5)),
+        );
+
+        return OneEvent(
+          eventId: e['id'],
+          name: e['name'],
+          budget: e['budget'].toDouble(), // Assuming budget is double
+          guestsNumber: e['guests'],
+          time: time,
+          dateTime: date,
+          eventTypeId: e['event_type_id'],
+        );
+      }).toList();
+    } else {
+      print(response.body);
+      throw Exception('Failed showEventttttttt');
+    }
+  }
+
+  Future<List<OneEvent>> showSharedEvent(String token, int id) async {
+    print('I am in show Shared Eventttttttt ');
+    final url = Uri.parse('$host/api/events/shared/$id');
+    final response = await http.get(
+      url,
       headers: {
         'Accept': 'application/json',
         'locale': 'ar',

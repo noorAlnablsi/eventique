@@ -41,7 +41,7 @@ class Carts with ChangeNotifier {
 
   void addServiceToCart(
       int serviceId, double servicePrice, String imgUrl, String name) {
-    if (chosenEventId == -1) {
+    if (chosenEventId==-1) {
       throw Exception('No event chosen');
     }
 

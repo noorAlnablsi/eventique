@@ -24,8 +24,43 @@ class _EventDetailsState extends State<EventDetails> {
 //controller
   final TextEditingController _changeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final bool hasOrder =
-      false; //if it has value the pen will disappear,should be null to show the pen
+  bool _isLoading = false;
+  bool _isInit = true;
+  Future<void> fetchAccepted(int eventId) async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      await Provider.of<AcceptedServicesPro>(context, listen: false)
+          .fetchAcceptedServices(eventId);
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (error) {
+      print(error);
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> fetchHasOrder(int eventId) async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      await Provider.of<Events>(context).doesHasOrder(widget.eventId);
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (error) {
+      print(error);
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
 //dispose controller
   @override
   void dispose() {
@@ -34,12 +69,28 @@ class _EventDetailsState extends State<EventDetails> {
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    if (_isInit) {
+      fetchHasOrder(widget.eventId);
+      fetchAccepted(widget.eventId);
+
+      _isInit = false;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final eventProvider = Provider.of<Events>(context, listen: true);
     final acceptedProvider =
         Provider.of<AcceptedServicesPro>(context, listen: true);
     final event = eventProvider.findEventById(widget.eventId);
+    final services = acceptedProvider.services;
+    final bool hasOrder = eventProvider
+        .hasOrder; //if it has value the pen will disappear,should be null to show the pen
     final TextStyle? bodyMediumStyle = Theme.of(context).textTheme.bodyMedium;
+    print(hasOrder);
     // ...................................................................show dialog.............................................................................
     //show dialog method
     Future showEditDialog(String changeText) {
@@ -346,14 +397,14 @@ class _EventDetailsState extends State<EventDetails> {
               secondString: '${event.budget} \$',
               onPressed: () => showEditDialog('Budget'),
             ),
-            acceptedProvider.services.isEmpty
+            services.isEmpty
                 ? SizedBox()
                 : Padding(
                     padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
                     child: MyPieChart(
                       totalPriceForOrder:
                           acceptedProvider.getTotalPriceOfAcceptedServices(),
-                      services: acceptedProvider.services,
+                      services: services,
                     ),
                   ),
             Padding(
@@ -378,9 +429,11 @@ class _EventDetailsState extends State<EventDetails> {
                 ],
               ),
             ),
-            AcceptedServices(
-              acceptedList: acceptedProvider.services,
-            ),
+            _isLoading
+                ? Center(child: CircularProgressIndicator())
+                : AcceptedServices(
+                    acceptedList: services,
+                  ),
           ],
         ),
       ),
