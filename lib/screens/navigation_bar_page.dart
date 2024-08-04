@@ -8,13 +8,14 @@ import 'package:eventique/screens/chat_vendors_list.dart';
 import 'package:eventique/screens/event_list.dart';
 import 'package:eventique/screens/home_screen.dart';
 import 'package:eventique/screens/orders_screen.dart';
-import 'package:eventique/screens/cart.dart';
 import 'package:eventique/screens/vendors_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:typicons_flutter/typicons_flutter.dart';
 
 class NavigationBarPage extends StatefulWidget {
   static const routeName = '/navigation';
+
+  const NavigationBarPage({super.key});
 
   @override
   State<NavigationBarPage> createState() => _NavigationBarPageState();
@@ -23,9 +24,9 @@ class NavigationBarPage extends StatefulWidget {
 class _NavigationBarPageState extends State<NavigationBarPage> {
   List Screen = [
     HomeScreen(),
-    VendorsScreen(),
-    EventListPage(),
-    OrdersScreen(),
+    const VendorsScreen(),
+    const EventListPage(),
+    const OrdersScreen(),
     ChatVendorsListScreen(),
   ];
 
@@ -36,7 +37,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
       appBar: AppBar(
         backgroundColor: white,
         surfaceTintColor: const Color(0xFFFFFDF0),
-        shadowColor: Color(0xFFFFFDF0),
+        shadowColor: const Color(0xFFFFFDF0),
         actions: [
           //wallet icon
           Container(
@@ -62,8 +63,10 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
                 color: primary,
               ),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: ((context) => WalletScreen())));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => const WalletScreen())));
               },
               padding: const EdgeInsets.only(bottom: 2),
             ),
@@ -114,7 +117,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
             );
           },
         ),
-        title: Padding(
+        title: const Padding(
           padding: EdgeInsets.only(left: 10),
           child: Text(
             '',
@@ -126,16 +129,16 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
           ),
         ),
       ),
-      drawer: MainDrawer(),
-      backgroundColor: Color.fromARGB(255, 255, 253, 240),
+      drawer: const MainDrawer(),
+      backgroundColor: const Color.fromARGB(255, 255, 253, 240),
       bottomNavigationBar: CurvedNavigationBar(
         index: _selctedIndex,
-        backgroundColor: Color.fromARGB(237, 251, 252, 244),
+        backgroundColor: const Color.fromARGB(237, 251, 252, 244),
         buttonBackgroundColor: primary,
         color: primary,
-        animationDuration: Duration(milliseconds: 300),
+        animationDuration: const Duration(milliseconds: 300),
         items: [
-          CurvedNavigationBarItem(
+          const CurvedNavigationBarItem(
               child: Icon(
                 Icons.home,
                 color: white,
@@ -143,7 +146,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
               label: 'Home',
               labelStyle: TextStyle(
                   color: Color.fromARGB(255, 223, 230, 228), fontSize: 12)),
-          CurvedNavigationBarItem(
+          const CurvedNavigationBarItem(
               child: Icon(
                 Icons.storefront,
                 color: white,
@@ -151,7 +154,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
               label: 'Vendors',
               labelStyle: TextStyle(
                   color: Color.fromARGB(255, 223, 230, 228), fontSize: 12)),
-          CurvedNavigationBarItem(
+          const CurvedNavigationBarItem(
               child: Icon(
                 Icons.format_align_left,
                 color: white,
@@ -159,7 +162,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
               label: 'EventList',
               labelStyle: TextStyle(
                   color: Color.fromARGB(255, 223, 230, 228), fontSize: 12)),
-          CurvedNavigationBarItem(
+          const CurvedNavigationBarItem(
               child: Icon(
                 Icons.list,
                 color: white,
@@ -167,7 +170,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
               label: 'Orders',
               labelStyle: TextStyle(
                   color: Color.fromARGB(255, 223, 230, 228), fontSize: 12)),
-          CurvedNavigationBarItem(
+          const CurvedNavigationBarItem(
               child: Icon(
                 Icons.chat_bubble,
                 color: white,

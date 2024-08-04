@@ -1,24 +1,23 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:eventique/providers/accepted_services.dart';
-import 'package:eventique/providers/saved.dart';
-import 'package:eventique/providers/share_event_provider.dart';
-import 'package:eventique/providers/vendors_provider.dart';
-import 'package:eventique/providers/wallet_provider.dart';
-import 'package:eventique/screens/chat_vendors_list.dart';
-import 'package:eventique/providers/home_provider.dart';
-import 'package:eventique/providers/carts.dart';
-import 'package:eventique/providers/events.dart';
-import 'package:eventique/providers/orders.dart';
-import 'package:eventique/providers/reviews.dart';
-import 'package:eventique/providers/services_list.dart';
-import 'package:eventique/screens/navigation_bar_page.dart';
-import 'package:eventique/screens/one_package_details.dart';
-import 'package:eventique/screens/one_you&us.dart';
-import 'package:eventique/screens/share_event_screen.dart';
-import 'package:eventique/screens/shared_events_for_one_user_screen.dart';
-import 'package:eventique/screens/wallet_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import '/providers/accepted_services.dart';
+import '/providers/saved.dart';
+import '/providers/share_event_provider.dart';
+import '/providers/vendors_provider.dart';
+import '/providers/wallet_provider.dart';
+import '/screens/chat_vendors_list.dart';
+import '/providers/home_provider.dart';
+import '/providers/carts.dart';
+import '/providers/events.dart';
+import '/providers/orders.dart';
+import '/providers/reviews.dart';
+import '/providers/services_list.dart';
+import '/screens/navigation_bar_page.dart';
+import '/screens/one_package_details.dart';
+import '/screens/one_you&us.dart';
+import '/screens/share_event_screen.dart';
+import '/screens/shared_events_for_one_user_screen.dart';
+import '/screens/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +36,7 @@ import '/screens/email_rest_screen.dart';
 import '/screens/password_rest_screen.dart';
 import '/screens/vendor_profile_screen.dart';
 
-const String host = 'http://192.168.1.106:8000';
+const String host = 'http://192.168.1.107:8000';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

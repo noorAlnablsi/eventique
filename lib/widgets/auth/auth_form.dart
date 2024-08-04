@@ -7,7 +7,7 @@ import '/widgets/auth/my_divider.dart';
 import '/widgets/pickers/user_image_picker.dart';
 
 class AuthForm extends StatefulWidget {
-  AuthForm(this.submitFn, this.isLoading);
+  const AuthForm(this.submitFn, this.isLoading, {super.key});
   final bool isLoading;
   final void Function(
     String email,
@@ -42,7 +42,7 @@ class _AuthFormState extends State<AuthForm> {
     FocusScope.of(context).unfocus();
     if (_userImage == null && !_isLogin) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Please upload an image'),
         ),
       );
@@ -76,14 +76,14 @@ class _AuthFormState extends State<AuthForm> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.all(20),
+              margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: white,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: onPrimary,
-                    offset: const Offset(
+                    offset: Offset(
                       1.0,
                       1.0,
                     ),
@@ -103,7 +103,7 @@ class _AuthFormState extends State<AuthForm> {
                     children: [
                       Text(
                         _isLogin ? "Login" : "SignUp",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'IrishGrover',
                           fontSize: 30,
                           color: onPrimary,
@@ -121,7 +121,7 @@ class _AuthFormState extends State<AuthForm> {
                         ),
                       if (!_isLogin)
                         TextFormField(
-                          key: ValueKey('username'),
+                          key: const ValueKey('username'),
                           validator: (value) {
                             if (value!.isEmpty || value.length < 4) {
                               return 'Please enter at least 4 characters';
@@ -129,10 +129,11 @@ class _AuthFormState extends State<AuthForm> {
                             return null;
                           },
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 15),
-                            label: Text('Username'),
-                            prefixIcon: Icon(Icons.person),
-                            prefixIconColor: Color.fromRGBO(87, 14, 87, 1),
+                            contentPadding: const EdgeInsets.only(left: 15),
+                            label: const Text('Username'),
+                            prefixIcon: const Icon(Icons.person),
+                            prefixIconColor:
+                                const Color.fromRGBO(87, 14, 87, 1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -146,7 +147,7 @@ class _AuthFormState extends State<AuthForm> {
                           height: size.height * 0.02,
                         ),
                       TextFormField(
-                        key: ValueKey('email'),
+                        key: const ValueKey('email'),
                         validator: (value) {
                           if (value!.isEmpty || !value.contains('@')) {
                             return 'Please enter a valid email';
@@ -155,10 +156,10 @@ class _AuthFormState extends State<AuthForm> {
                         },
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 15),
-                          label: Text('Email'),
-                          prefixIcon: Icon(Icons.email),
-                          prefixIconColor: Color.fromRGBO(87, 14, 87, 1),
+                          contentPadding: const EdgeInsets.only(left: 15),
+                          label: const Text('Email'),
+                          prefixIcon: const Icon(Icons.email),
+                          prefixIconColor: const Color.fromRGBO(87, 14, 87, 1),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -172,7 +173,7 @@ class _AuthFormState extends State<AuthForm> {
                       ),
                       TextFormField(
                         controller: _passwordController,
-                        key: ValueKey('password'),
+                        key: const ValueKey('password'),
                         validator: (value) {
                           if (value!.isEmpty || value.length < 7) {
                             return 'Please enter at least 7 characters';
@@ -182,8 +183,8 @@ class _AuthFormState extends State<AuthForm> {
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(left: 15),
                           prefixIcon: const Icon(Icons.lock),
-                          prefixIconColor: Color.fromRGBO(87, 14, 87, 1),
-                          label: Text('Password'),
+                          prefixIconColor: const Color.fromRGBO(87, 14, 87, 1),
+                          label: const Text('Password'),
                           isDense: true,
                           suffixIcon: IconButton(
                             onPressed: () =>
@@ -194,7 +195,7 @@ class _AuthFormState extends State<AuthForm> {
                                   : Icons.visibility,
                             ),
                           ),
-                          suffixIconColor: Color.fromRGBO(87, 14, 87, 1),
+                          suffixIconColor: const Color.fromRGBO(87, 14, 87, 1),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -210,7 +211,7 @@ class _AuthFormState extends State<AuthForm> {
                         ),
                       if (!_isLogin)
                         TextFormField(
-                          key: ValueKey('confirmPassword'),
+                          key: const ValueKey('confirmPassword'),
                           keyboardType: TextInputType.text,
                           obscureText: _isVisible,
                           validator: (value) {
@@ -224,8 +225,9 @@ class _AuthFormState extends State<AuthForm> {
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.only(left: 15),
                             prefixIcon: const Icon(Icons.lock),
-                            prefixIconColor: Color.fromRGBO(87, 14, 87, 1),
-                            label: Text('Confirm Password'),
+                            prefixIconColor:
+                                const Color.fromRGBO(87, 14, 87, 1),
+                            label: const Text('Confirm Password'),
                             isDense: true,
                             suffixIcon: IconButton(
                               onPressed: () =>
@@ -236,7 +238,8 @@ class _AuthFormState extends State<AuthForm> {
                                     : Icons.visibility,
                               ),
                             ),
-                            suffixIconColor: Color.fromRGBO(87, 14, 87, 1),
+                            suffixIconColor:
+                                const Color.fromRGBO(87, 14, 87, 1),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -267,12 +270,13 @@ class _AuthFormState extends State<AuthForm> {
                             ),
                           ],
                         ),
-                      if (widget.isLoading) CircularProgressIndicator(),
+                      if (widget.isLoading) const CircularProgressIndicator(),
                       if (!widget.isLoading)
                         ElevatedButton(
                           onPressed: _trySubmit,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromRGBO(87, 14, 87, 1),
+                            backgroundColor:
+                                const Color.fromRGBO(87, 14, 87, 1),
                             fixedSize:
                                 Size(size.width * 0.8, size.height * 0.06),
                             shape: RoundedRectangleBorder(
@@ -281,7 +285,7 @@ class _AuthFormState extends State<AuthForm> {
                           ),
                           child: Text(
                             _isLogin ? 'Login' : 'Sign Up',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'CENSCBK',
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -292,7 +296,7 @@ class _AuthFormState extends State<AuthForm> {
                       SizedBox(
                         height: size.height * 0.02,
                       ),
-                      MyDivider(),
+                      const MyDivider(),
                       SizedBox(
                         height: size.height * 0.02,
                       ),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:eventique/models/one_service.dart';
 
 class YouAndUs {

@@ -1,5 +1,5 @@
 //taghreed
-// ignore_for_file: avoid_print, unnecessary_string_interpolations, use_rethrow_when_possible, prefer_const_constructors, non_constant_identifier_names, unnecessary_nullable_for_final_variable_declarations, prefer_final_fields
+// ignore_for_file: avoid_print, unnecessary_string_interpolations, use_rethrow_when_possible, prefer_const_constructors, non_constant_identifier_names, unnecessary_nullable_for_final_variable_declarations, prefer_final_fields, unnecessary_null_comparison, no_leading_underscores_for_local_identifiers
 
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';

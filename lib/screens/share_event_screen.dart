@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 class ShareEventScreen extends StatefulWidget {
   static const routeName = '/share-event';
 
+  const ShareEventScreen({super.key});
+
   @override
   _ShareEventScreenState createState() => _ShareEventScreenState();
 }
@@ -26,7 +28,7 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
   Future<void> _shareEvent() async {
     if (_imageUrls.length < 3) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please upload at least three images')),
+        const SnackBar(content: Text('Please upload at least three images')),
       );
       return;
     }
@@ -60,13 +62,13 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
       backgroundColor: white,
       appBar: AppBar(
         backgroundColor: white,
-        shape: Border(
+        shape: const Border(
           bottom: BorderSide(
             color: primary,
             width: 1.6,
           ),
         ),
-        title: Padding(
+        title: const Padding(
           padding: EdgeInsets.only(left: 10),
           child: Text(
             'Share Event',
@@ -85,7 +87,7 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
             SizedBox(
               height: size.height * 0.02,
             ),
-            Text(
+            const Text(
               'Thank you for letting us be a part of',
               style: TextStyle(
                 color: primary,
@@ -93,7 +95,7 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
                 fontSize: 18,
               ),
             ),
-            Text(
+            const Text(
               'your wonderful moments',
               style: TextStyle(
                 color: primary,
@@ -108,7 +110,7 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
             SizedBox(
               height: size.height * 0.04,
             ),
-            Text(
+            const Text(
               'Tell us about your event in one word!',
               style: TextStyle(
                 color: primary,
@@ -120,7 +122,7 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
               height: size.height * 0.02,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 50),
               child: TextField(
                 controller: _descriptionController,
                 decoration: InputDecoration(
@@ -128,10 +130,10 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: darkBackground),
                   ),
-                  focusedBorder: UnderlineInputBorder(
+                  focusedBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: secondary),
                   ),
-                  errorBorder: UnderlineInputBorder(
+                  errorBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.red),
                   ),
                 ),
@@ -144,7 +146,7 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
               height: size.height * 0.04,
             ),
             _isLoading
-                ? CircularProgressIndicator()
+                ? const CircularProgressIndicator()
                 : ElevatedButton(
                     onPressed: _shareEvent,
                     style: ElevatedButton.styleFrom(
@@ -154,7 +156,7 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Share',
                       style: TextStyle(
                         fontFamily: 'IrishGrover',

@@ -7,11 +7,11 @@ import 'package:provider/provider.dart';
 
 class CartTile extends StatelessWidget {
   const CartTile({
-    Key? key,
+    super.key,
     required this.cart,
     required this.i,
     required this.eventId,
-  }) : super(key: key);
+  });
 
   final Map<int, OneCartService> cart;
   final int i;
@@ -134,11 +134,11 @@ class CartTile extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: bodyMediumStyle.copyWith(
-                                color: Color(0xffCCA0C7),
+                                color: const Color(0xffCCA0C7),
                               ),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Flexible(
                             fit: FlexFit.loose,
                             flex: 2,
@@ -158,7 +158,7 @@ class CartTile extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: bodyMediumStyle.copyWith(
-                                color: Color(0xffCCA0C7),
+                                color: const Color(0xffCCA0C7),
                               ),
                             ),
                           ),

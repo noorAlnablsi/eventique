@@ -2,7 +2,8 @@ import 'package:eventique/color.dart';
 import 'package:flutter/material.dart';
 
 class PasswordRestForm extends StatefulWidget {
-  PasswordRestForm(this.submitFn, this.isLoading, this.isLight);
+  const PasswordRestForm(this.submitFn, this.isLoading, this.isLight,
+      {super.key});
   final bool isLoading;
   final bool isLight;
   final void Function(
@@ -54,7 +55,7 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
               SizedBox(
                 width: size.width * 0.8,
                 child: TextFormField(
-                  key: ValueKey('oldPassword'),
+                  key: const ValueKey('oldPassword'),
                   validator: (value) {
                     if (value!.isEmpty || value.length < 7) {
                       return 'Please enter at least 7 characters';
@@ -64,8 +65,8 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 15),
                     prefixIcon: const Icon(Icons.lock),
-                    prefixIconColor: Color.fromRGBO(87, 14, 87, 1),
-                    label: Text('Old Password'),
+                    prefixIconColor: const Color.fromRGBO(87, 14, 87, 1),
+                    label: const Text('Old Password'),
                     isDense: true,
                     suffixIcon: IconButton(
                       onPressed: () => setState(() => _isVisible = !_isVisible),
@@ -73,7 +74,7 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
                         _isVisible ? Icons.visibility_off : Icons.visibility,
                       ),
                     ),
-                    suffixIconColor: Color.fromRGBO(87, 14, 87, 1),
+                    suffixIconColor: const Color.fromRGBO(87, 14, 87, 1),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -90,7 +91,7 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
                     ),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.red),
+                      borderSide: const BorderSide(color: Colors.red),
                     ),
                   ),
                   cursorColor: widget.isLight ? primary : darkBackground,
@@ -107,7 +108,7 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
                 width: size.width * 0.8,
                 child: TextFormField(
                   controller: _passwordController,
-                  key: ValueKey('password'),
+                  key: const ValueKey('password'),
                   validator: (value) {
                     if (value!.isEmpty || value.length < 7) {
                       return 'Please enter at least 7 characters';
@@ -117,8 +118,8 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 15),
                     prefixIcon: const Icon(Icons.lock),
-                    prefixIconColor: Color.fromRGBO(87, 14, 87, 1),
-                    label: Text('Password'),
+                    prefixIconColor: const Color.fromRGBO(87, 14, 87, 1),
+                    label: const Text('Password'),
                     isDense: true,
                     suffixIcon: IconButton(
                       onPressed: () => setState(() => _isVisible = !_isVisible),
@@ -126,7 +127,7 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
                         _isVisible ? Icons.visibility_off : Icons.visibility,
                       ),
                     ),
-                    suffixIconColor: Color.fromRGBO(87, 14, 87, 1),
+                    suffixIconColor: const Color.fromRGBO(87, 14, 87, 1),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -143,7 +144,7 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
                     ),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.red),
+                      borderSide: const BorderSide(color: Colors.red),
                     ),
                   ),
                   cursorColor: widget.isLight ? primary : darkBackground,
@@ -159,7 +160,7 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
               SizedBox(
                 width: size.width * 0.8,
                 child: TextFormField(
-                  key: ValueKey('confirmPassword'),
+                  key: const ValueKey('confirmPassword'),
                   keyboardType: TextInputType.text,
                   obscureText: _isVisible,
                   validator: (value) {
@@ -173,8 +174,8 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 15),
                     prefixIcon: const Icon(Icons.lock),
-                    prefixIconColor: Color.fromRGBO(87, 14, 87, 1),
-                    label: Text('Confirm Password'),
+                    prefixIconColor: const Color.fromRGBO(87, 14, 87, 1),
+                    label: const Text('Confirm Password'),
                     isDense: true,
                     suffixIcon: IconButton(
                       onPressed: () => setState(() => _isVisible = !_isVisible),
@@ -182,7 +183,7 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
                         _isVisible ? Icons.visibility_off : Icons.visibility,
                       ),
                     ),
-                    suffixIconColor: Color.fromRGBO(87, 14, 87, 1),
+                    suffixIconColor: const Color.fromRGBO(87, 14, 87, 1),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide(
@@ -201,7 +202,7 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
                     ),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(color: Colors.red),
+                      borderSide: const BorderSide(color: Colors.red),
                     ),
                   ),
                   cursorColor: widget.isLight ? primary : darkPrimary,
@@ -213,18 +214,18 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
               SizedBox(
                 height: size.height * 0.15,
               ),
-              if (widget.isLoading) CircularProgressIndicator(),
+              if (widget.isLoading) const CircularProgressIndicator(),
               if (!widget.isLoading)
                 ElevatedButton(
                   onPressed: _trySubmit,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(87, 14, 87, 1),
+                    backgroundColor: const Color.fromRGBO(87, 14, 87, 1),
                     fixedSize: Size(size.width * 0.8, size.height * 0.06),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Rest',
                     style: TextStyle(
                       fontFamily: 'CENSCBK',

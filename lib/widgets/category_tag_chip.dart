@@ -6,7 +6,7 @@ class CategoryTag extends StatelessWidget {
   final String title;
   final Color color;
 
-  const CategoryTag({required this.title, required this.color});
+  const CategoryTag({super.key, required this.title, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,9 @@ class CategoryTag extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: bodySmallStyle!.copyWith(
                 fontFamily: 'IrishGrover',
-                color: isSelected ? const Color(0xFFFFFDF0) : const Color(0xff662465)),
+                color: isSelected
+                    ? const Color(0xFFFFFDF0)
+                    : const Color(0xff662465)),
           ),
         ),
       ),

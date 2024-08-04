@@ -5,6 +5,7 @@ class VendorProfileItem extends StatelessWidget {
   String? title;
   String? subTitle;
   VendorProfileItem({
+    super.key,
     required this.title,
     required this.subTitle,
   });
@@ -14,7 +15,7 @@ class VendorProfileItem extends StatelessWidget {
     return ListTile(
       title: Text(
         title!,
-        style: TextStyle(
+        style: const TextStyle(
           color: secondary,
           fontSize: 18,
           fontFamily: 'CENSCBK',
@@ -23,7 +24,7 @@ class VendorProfileItem extends StatelessWidget {
       ),
       subtitle: Text(
         subTitle!,
-        style: TextStyle(
+        style: const TextStyle(
           color: primary,
           fontSize: 16,
           fontFamily: 'CENSCBK',

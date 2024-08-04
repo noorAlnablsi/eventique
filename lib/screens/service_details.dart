@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import '/color.dart';
 import 'package:eventique/providers/saved.dart';
 import 'package:eventique/widgets/image_slider.dart';
@@ -61,7 +63,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
       bottomNavigationBar: MyBottomAppBar(
         price: loadedService.price,
         serviceId: loadedService.serviceId,
-        imgUrl: loadedService.imgsUrl![0],
+        imgUrl: loadedService.imgsUrl[0],
         name: loadedService.name,
       ),
       body: LayoutBuilder(
@@ -104,7 +106,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                                   ),
                                   backgroundColor:
                                       const Color.fromARGB(255, 76, 27, 75),
-                                  content: Text(
+                                  content: const Text(
                                     'Removed From Saved',
                                     style: TextStyle(
                                       color: beige,
@@ -123,7 +125,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                                   ),
                                   backgroundColor:
                                       const Color.fromARGB(255, 76, 27, 75),
-                                  content: Text(
+                                  content: const Text(
                                     'Added To Saved',
                                     style: TextStyle(
                                       color: beige,
@@ -139,8 +141,8 @@ class _ServiceDetailsState extends State<ServiceDetails>
                                   const EdgeInsets.symmetric(horizontal: 16),
                               child: svaedProvider.savedServices
                                       .contains(loadedService)
-                                  ? Icon(Icons.bookmark, color: primary)
-                                  : Icon(Icons.bookmark_border,
+                                  ? const Icon(Icons.bookmark, color: primary)
+                                  : const Icon(Icons.bookmark_border,
                                       color: primary)),
                           tooltip: 'Add to Saved',
                         )
@@ -165,7 +167,7 @@ class _ServiceDetailsState extends State<ServiceDetails>
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: ImageSliderScreen(imgList: loadedService.imgsUrl!),
+                    child: ImageSliderScreen(imgList: loadedService.imgsUrl),
                   ),
                   MyTabBar(tabController: _tabController),
                 ];

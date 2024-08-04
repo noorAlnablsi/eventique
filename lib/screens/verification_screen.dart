@@ -1,4 +1,6 @@
 //taghreed
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'package:eventique/screens/navigation_bar_page.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,8 @@ import '/widgets/auth/otp_field.dart';
 
 class VerificationScreen extends StatefulWidget {
   static const routeName = '/verification_screen';
+
+  const VerificationScreen({super.key});
 
   @override
   State<VerificationScreen> createState() => _VerificationScreenState();
@@ -38,7 +42,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     c1.dispose();
     c2.dispose();
     c3.dispose();
@@ -49,7 +52,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   void startCountdown() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingSeconds > 0) {
         setState(() {
           _remainingSeconds--;
@@ -99,7 +102,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         Navigator.of(context).popAndPushNamed(AuthScreen.routeName);
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Your email has been changed successfully.'),
           backgroundColor: Colors.green,
         ),
@@ -111,7 +114,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         _isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('An error occurred while sign-up. Please try again.'),
           backgroundColor: Colors.red,
         ),
@@ -130,11 +133,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
       if (args.type == 'signup') {
         // await Provider.of<Auth>(context, listen: false)
         //     .resendSignUpVerificationCode(args.email.trim());
-        
       } else if (args.type == 'forgotPassword') {
         // await Provider.of<Auth>(context, listen: false)
         //     .resendForgetVerificationCode(args.email.trim());
-      
       } else if (args.type == 'resetEmail') {
         // await Provider.of<Auth>(context, listen: false)
         //     .resendRestVerificationCode(args.email.trim());
@@ -145,7 +146,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Verification code has been resent successfully.'),
           backgroundColor: Colors.green,
         ),
@@ -156,7 +157,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         _isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
               'An error occurred while resending the code. Please try again.'),
           backgroundColor: Colors.red,
@@ -180,7 +181,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             SizedBox(
               height: size.height * 0.15,
             ),
-            Text(
+            const Text(
               "Verification",
               style: TextStyle(
                 fontFamily: 'IrishGrover',
@@ -200,7 +201,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   text: TextSpan(
                     // style: TextStyle(backgroundColor: Colors.amber),
                     children: <TextSpan>[
-                      TextSpan(
+                      const TextSpan(
                         text:
                             ' we sent you a verification code to your\n email ',
                         style: TextStyle(
@@ -210,7 +211,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       ),
                       TextSpan(
                           text: args.email,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18,
                               fontFamily: 'CENSCBK',
                               fontWeight: FontWeight.bold,
@@ -256,7 +257,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 child: _remainingSeconds == 0
                     ? TextButton(
                         onPressed: () {},
-                        child: Text(
+                        child: const Text(
                           'Resend code again',
                           style: TextStyle(
                             fontFamily: 'CENSCBK',
@@ -270,15 +271,15 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         text: TextSpan(
                           // style: TextStyle(backgroundColor: Colors.amber),
                           children: <TextSpan>[
-                            TextSpan(
+                            const TextSpan(
                                 text: ' send in  ',
                                 style: TextStyle(
                                     fontFamily: 'CENSCBK',
                                     fontSize: 18,
                                     color: onPrimary)),
                             TextSpan(
-                              text: '$_remainingSeconds\s',
-                              style: TextStyle(
+                              text: '${_remainingSeconds}s',
+                              style: const TextStyle(
                                   fontFamily: 'CENSCBK',
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -291,7 +292,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               height: size.height * 0.15,
             ),
             _isLoading
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : ElevatedButton(
@@ -303,7 +304,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Verify',
                       style: TextStyle(
                         fontFamily: 'CENSCBK',

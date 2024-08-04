@@ -1,4 +1,6 @@
 //taghreed
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'package:eventique/screens/navigation_bar_page.dart';
 import '/color.dart';
@@ -17,6 +19,8 @@ import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {
   static const routeName = '/auth';
+
+  const AuthScreen({super.key});
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -43,7 +47,7 @@ class _AuthScreenState extends State<AuthScreen> {
         await Provider.of<Auth>(context, listen: false).login(email, password);
         Navigator.of(context).popAndPushNamed(NavigationBarPage.routeName);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('sign in completed successfully.'),
             backgroundColor: Colors.green,
           ),
@@ -77,7 +81,7 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
         );
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('OTP code sended successfully.'),
             backgroundColor: Colors.green,
           ),
@@ -86,7 +90,7 @@ class _AuthScreenState extends State<AuthScreen> {
     } catch (error) {
       print(error.toString());
       ScaffoldMessenger.of(ctx).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('An error occurred. Please try again.'),
           backgroundColor: Colors.red,
         ),

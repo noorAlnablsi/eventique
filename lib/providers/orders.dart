@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:eventique/main.dart';
 import 'package:eventique/models/one_cartService.dart';
 import 'package:eventique/models/one_order.dart';
-import 'package:eventique/models/one_service.dart';
 import 'package:eventique/models/service_in_order_details.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

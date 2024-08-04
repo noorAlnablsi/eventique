@@ -6,7 +6,8 @@ class ChatListItem extends StatefulWidget {
   final String name;
   final String imageUrl;
   final String vendorId;
-  ChatListItem({
+  const ChatListItem({
+    super.key,
     required this.name,
     required this.imageUrl,
     required this.vendorId,
@@ -32,7 +33,7 @@ class _ChatListItemState extends State<ChatListItem> {
       },
       child: Container(
         height: MediaQuery.of(context).size.height / 9,
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -44,7 +45,7 @@ class _ChatListItemState extends State<ChatListItem> {
                   : null,
               child: widget.imageUrl.isNotEmpty
                   ? null
-                  : Icon(
+                  : const Icon(
                       Icons.person,
                       size: 25,
                       color: white,
@@ -52,7 +53,7 @@ class _ChatListItemState extends State<ChatListItem> {
             ),
             Text(
               widget.name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'CENSCBK',
                 fontWeight: FontWeight.bold,
                 fontSize: 18,

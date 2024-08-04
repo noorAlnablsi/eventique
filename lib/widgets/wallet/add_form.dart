@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '/color.dart';
 
 class AddForm extends StatefulWidget {
-  AddForm(this.submitFn, this.isLoading);
+  const AddForm(this.submitFn, this.isLoading, {super.key});
   final bool isLoading;
   final void Function(
     int transactionAmount,
@@ -52,7 +52,7 @@ class _AddFormState extends State<AddForm> {
             SizedBox(
               width: size.width * 0.8,
               child: TextFormField(
-                key: ValueKey('cardNum'),
+                key: const ValueKey('cardNum'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a valid card number';
@@ -61,10 +61,10 @@ class _AddFormState extends State<AddForm> {
                 },
                 keyboardType: TextInputType.name,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 15),
-                  label: Text('card number'),
-                  prefixIcon: Icon(Icons.rectangle_rounded),
-                  prefixIconColor: Color.fromRGBO(87, 14, 87, 1),
+                  contentPadding: const EdgeInsets.only(left: 15),
+                  label: const Text('card number'),
+                  prefixIcon: const Icon(Icons.rectangle_rounded),
+                  prefixIconColor: const Color.fromRGBO(87, 14, 87, 1),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -80,7 +80,7 @@ class _AddFormState extends State<AddForm> {
             SizedBox(
               width: size.width * 0.8,
               child: TextFormField(
-                key: ValueKey('name'),
+                key: const ValueKey('name'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a valid name';
@@ -89,10 +89,10 @@ class _AddFormState extends State<AddForm> {
                 },
                 keyboardType: TextInputType.name,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 15),
-                  label: Text('Transaction name'),
-                  prefixIcon: Icon(Icons.edit),
-                  prefixIconColor: Color.fromRGBO(87, 14, 87, 1),
+                  contentPadding: const EdgeInsets.only(left: 15),
+                  label: const Text('Transaction name'),
+                  prefixIcon: const Icon(Icons.edit),
+                  prefixIconColor: const Color.fromRGBO(87, 14, 87, 1),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -108,7 +108,7 @@ class _AddFormState extends State<AddForm> {
             SizedBox(
               width: size.width * 0.8,
               child: TextFormField(
-                key: ValueKey('amount'),
+                key: const ValueKey('amount'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a valid amount';
@@ -117,10 +117,10 @@ class _AddFormState extends State<AddForm> {
                 },
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 15),
-                  label: Text('Amount'),
-                  prefixIcon: Icon(Icons.attach_money),
-                  prefixIconColor: Color.fromRGBO(87, 14, 87, 1),
+                  contentPadding: const EdgeInsets.only(left: 15),
+                  label: const Text('Amount'),
+                  prefixIcon: const Icon(Icons.attach_money),
+                  prefixIconColor: const Color.fromRGBO(87, 14, 87, 1),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -133,18 +133,18 @@ class _AddFormState extends State<AddForm> {
             SizedBox(
               height: size.height * 0.04,
             ),
-            if (widget.isLoading) CircularProgressIndicator(),
+            if (widget.isLoading) const CircularProgressIndicator(),
             if (!widget.isLoading)
               ElevatedButton(
                 onPressed: _trySubmit,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromRGBO(87, 14, 87, 1),
+                  backgroundColor: const Color.fromRGBO(87, 14, 87, 1),
                   fixedSize: Size(size.width * 0.8, size.height * 0.06),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Add To Wallet',
                   style: TextStyle(
                     fontFamily: 'CENSCBK',

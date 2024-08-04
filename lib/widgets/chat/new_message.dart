@@ -6,7 +6,7 @@ import 'package:eventique/color.dart';
 class NewMessage extends StatefulWidget {
   final String vendorId;
 
-  NewMessage(this.vendorId);
+  const NewMessage(this.vendorId, {super.key});
 
   @override
   State<NewMessage> createState() => _NewMessageState();
@@ -39,8 +39,8 @@ class _NewMessageState extends State<NewMessage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Row(
         children: [
           Expanded(
@@ -61,7 +61,7 @@ class _NewMessageState extends State<NewMessage> {
           ),
           IconButton(
             onPressed: _enteredMessage.trim().isEmpty ? null : _sendMessage,
-            icon: Icon(
+            icon: const Icon(
               Icons.send,
             ),
             color: primary,

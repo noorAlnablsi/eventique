@@ -6,7 +6,7 @@ import '/widgets/chat/messageBubble.dart';
 class Messages extends StatelessWidget {
   final String vendorId;
 
-  Messages(this.vendorId);
+  const Messages(this.vendorId, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,23 +18,23 @@ class Messages extends StatelessWidget {
           .snapshots(),
       builder: (ctx, chatSnapshot) {
         if (chatSnapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
         if (chatSnapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text('An error occurred, please try again later.'),
           );
         }
         if (!chatSnapshot.hasData || chatSnapshot.data == null) {
-          return Center(
+          return const Center(
             child: Text('No messages yet.'),
           );
         }
         final chatDocs = chatSnapshot.data!.docs;
         if (chatDocs.isEmpty) {
-          return Center(
+          return const Center(
             child: Text('Start a new chat.'),
           );
         }

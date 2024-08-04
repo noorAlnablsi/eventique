@@ -2,12 +2,13 @@ import 'package:eventique/providers/theme_provider.dart';
 import 'package:eventique/providers/wallet_provider.dart';
 import 'package:eventique/widgets/wallet/add_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '/color.dart';
 
 class WalletScreen extends StatefulWidget {
   static const routeName = '/wallet';
+
+  const WalletScreen({super.key});
 
   @override
   State<WalletScreen> createState() => _WalletScreenState();
@@ -61,7 +62,6 @@ class _WalletScreenState extends State<WalletScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchWalletAmount();
   }
@@ -86,7 +86,7 @@ class _WalletScreenState extends State<WalletScreen> {
           ),
         ),
         title: Padding(
-          padding: EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 10),
           child: Text(
             'My wallet',
             style: TextStyle(
@@ -106,14 +106,14 @@ class _WalletScreenState extends State<WalletScreen> {
             Container(
               height: size.height * 0.26,
               width: double.infinity,
-              margin: EdgeInsets.all(20),
+              margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: primary,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: white,
-                    offset: const Offset(
+                    offset: Offset(
                       1.0,
                       1.0,
                     ),
@@ -123,7 +123,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 ],
               ),
               child: Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -131,7 +131,7 @@ class _WalletScreenState extends State<WalletScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text(
+                        const Text(
                           'Avaliable balance',
                           style: TextStyle(
                               fontFamily: 'CENSCBK',
@@ -140,10 +140,10 @@ class _WalletScreenState extends State<WalletScreen> {
                               color: white),
                         ),
                         _loadingWalletAmount
-                            ? CircularProgressIndicator()
+                            ? const CircularProgressIndicator()
                             : Text(
                                 '$moneyAmount   S.P',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontFamily: 'CENSCBK',
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
@@ -162,7 +162,7 @@ class _WalletScreenState extends State<WalletScreen> {
             SizedBox(
               height: size.height * 0.02,
             ),
-            Text(
+            const Text(
               'Need more money? add to your \nwallet now',
               style: TextStyle(
                 fontSize: 20,

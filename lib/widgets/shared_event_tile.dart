@@ -96,8 +96,8 @@ class SharedEventTile extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Card(
-                shape: CircleBorder(
+              const Card(
+                shape: const CircleBorder(
                   side: BorderSide(
                     color: primary,
                     width: 1,
@@ -105,10 +105,9 @@ class SharedEventTile extends StatelessWidget {
                 ),
                 elevation: 6,
                 color: beige,
-                margin: const EdgeInsets.only(left: 8),
+                margin: EdgeInsets.only(left: 8),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                   child: Icon(Icons.celebration),
                 ),
               ),

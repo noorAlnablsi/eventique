@@ -66,16 +66,16 @@ class TestCart extends StatelessWidget {
                                       const VendorsScreen())));
                           cartProvider.chosenEventId = eventId;
                         },
-                        child: Icon(
-                          Icons.add,
-                          color: beige,
-                        ),
                         backgroundColor: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
                         elevation: 4,
                         tooltip: 'Add Service',
+                        child: const Icon(
+                          Icons.add,
+                          color: beige,
+                        ),
                       ),
                     ),
                   ],
@@ -104,12 +104,12 @@ class TestCart extends StatelessWidget {
                               height: 400, //500
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Color(0xFFFFFDF0),
+                                color: const Color(0xFFFFFDF0),
                                 boxShadow: [
                                   // Top-left shadow
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.7),
-                                    offset: Offset(5, 5),
+                                    offset: const Offset(5, 5),
                                     blurRadius: 2,
                                     spreadRadius:
                                         -3, // Negative to simulate inner shadow
@@ -117,7 +117,7 @@ class TestCart extends StatelessWidget {
                                   // Bottom-right shadow
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.7),
-                                    offset: Offset(-5, -5),
+                                    offset: const Offset(-5, -5),
                                     blurRadius: 2,
                                     spreadRadius:
                                         -3, // Negative to simulate inner shadow
@@ -125,7 +125,7 @@ class TestCart extends StatelessWidget {
                                 ],
                               ),
                               child: ListView.builder(
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 itemCount: cart.length,
                                 itemBuilder: (ctx, i) => CartTile(
                                     cart: cart, i: i, eventId: eventId),
@@ -143,19 +143,18 @@ class TestCart extends StatelessWidget {
                                       MaterialPageRoute(
                                           builder: ((context) =>
                                               const VendorsScreen())));
-                                  cartProvider.chosenEventId =
-                                      eventId;
+                                  cartProvider.chosenEventId = eventId;
                                 },
-                                child: Icon(
-                                  Icons.add,
-                                  color: beige,
-                                ),
                                 backgroundColor: Theme.of(context).primaryColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
                                 ),
                                 elevation: 4,
                                 tooltip: 'Add Service',
+                                child: const Icon(
+                                  Icons.add,
+                                  color: beige,
+                                ),
                               ),
                             ),
                           ]),
@@ -178,12 +177,12 @@ class TestCart extends StatelessWidget {
                               height: 400,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Color(0xFFFFFDF0),
+                                color: const Color(0xFFFFFDF0),
                                 boxShadow: [
                                   // Top-left shadow
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.7),
-                                    offset: Offset(5, 5),
+                                    offset: const Offset(5, 5),
                                     blurRadius: 2,
                                     spreadRadius:
                                         -3, // Negative to simulate inner shadow
@@ -191,21 +190,21 @@ class TestCart extends StatelessWidget {
                                   // Bottom-right shadow
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.7),
-                                    offset: Offset(-5, -5),
+                                    offset: const Offset(-5, -5),
                                     blurRadius: 2,
                                     spreadRadius:
                                         -3, // Negative to simulate inner shadow
                                   ),
                                 ],
                               ),
-                              padding: EdgeInsets.all(24),
+                              padding: const EdgeInsets.all(24),
                               child: Column(
                                 children: [
                                   Flexible(
                                     fit: FlexFit.loose,
                                     flex: 2,
                                     child: Text(
-                                      'Current Total: ${orderTotalPrice}\$',
+                                      'Current Total: $orderTotalPrice\$',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge!
@@ -215,17 +214,17 @@ class TestCart extends StatelessWidget {
                                               letterSpacing: 1),
                                     ),
                                   ),
-                                  SizedBox(height: 18),
+                                  const SizedBox(height: 18),
                                   MyPieChart(
                                     cart: cart,
                                     totalPriceForOrder: orderTotalPrice,
                                   ),
-                                  SizedBox(height: 38),
+                                  const SizedBox(height: 38),
                                   Flexible(
                                     fit: FlexFit.loose,
                                     flex: 2,
                                     child: Text(
-                                      'Event Budget: ${eventBudget}\$',
+                                      'Event Budget: $eventBudget\$',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge!
@@ -250,16 +249,16 @@ class TestCart extends StatelessWidget {
                                         fit: FlexFit.loose,
                                         flex: 2,
                                         child: Text(
-                                          '${availableBudget}\$',
+                                          '$availableBudget\$',
                                           softWrap: false,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                           style: bodyMediumStyle!.copyWith(
-                                            color: Color(0xffCCA0C7),
+                                            color: const Color(0xffCCA0C7),
                                           ),
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Flexible(
                                         fit: FlexFit.loose,
                                         flex: 2,
@@ -272,12 +271,12 @@ class TestCart extends StatelessWidget {
                                         ),
                                       ),
                                       Text(
-                                        '${exceededBudget}\$',
+                                        '$exceededBudget\$',
                                         softWrap: false,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: bodyMediumStyle!.copyWith(
-                                          color: Color(0xffCCA0C7),
+                                        style: bodyMediumStyle.copyWith(
+                                          color: const Color(0xffCCA0C7),
                                         ),
                                       ),
                                     ],
@@ -291,12 +290,8 @@ class TestCart extends StatelessWidget {
                             //eventId below in gettotalPrice and after and in clear cart
                             Provider.of<Orders>(context, listen: false)
                                 .addOrder(
-                                  
                               eventId,
                               cart.values.toList(),
-                              
-                            
-
                             );
                             cartProvider.clearCart(eventId);
                           },

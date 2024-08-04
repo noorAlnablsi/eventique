@@ -35,7 +35,7 @@ class WalletProvider with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       print(error);
-      throw error;
+      rethrow;
     }
   }
 
@@ -70,7 +70,7 @@ class WalletProvider with ChangeNotifier {
       notifyListeners();
     } catch (error) {
       print(error);
-      throw error;
+      rethrow;
     }
   }
 }

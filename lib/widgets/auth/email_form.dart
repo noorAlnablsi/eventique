@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '/color.dart';
 
 class EmailForm extends StatefulWidget {
-  EmailForm(this.submitFn, this.isLoading);
+  const EmailForm(this.submitFn, this.isLoading, {super.key});
   final bool isLoading;
   final void Function(
     String email,
@@ -44,7 +44,7 @@ class _EmailFormState extends State<EmailForm> {
               SizedBox(
                 width: size.width * 0.8,
                 child: TextFormField(
-                  key: ValueKey('email'),
+                  key: const ValueKey('email'),
                   validator: (value) {
                     if (value!.isEmpty || !value.contains('@')) {
                       return 'Please enter a valid email';
@@ -53,10 +53,10 @@ class _EmailFormState extends State<EmailForm> {
                   },
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(left: 15),
-                    label: Text('Email'),
-                    prefixIcon: Icon(Icons.email),
-                    prefixIconColor: Color.fromRGBO(87, 14, 87, 1),
+                    contentPadding: const EdgeInsets.only(left: 15),
+                    label: const Text('Email'),
+                    prefixIcon: const Icon(Icons.email),
+                    prefixIconColor: const Color.fromRGBO(87, 14, 87, 1),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -69,18 +69,18 @@ class _EmailFormState extends State<EmailForm> {
               SizedBox(
                 height: size.height * 0.2,
               ),
-              if (widget.isLoading) CircularProgressIndicator(),
+              if (widget.isLoading) const CircularProgressIndicator(),
               if (!widget.isLoading)
                 ElevatedButton(
                   onPressed: _trySubmit,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(87, 14, 87, 1),
+                    backgroundColor: const Color.fromRGBO(87, 14, 87, 1),
                     fixedSize: Size(size.width * 0.8, size.height * 0.06),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Send',
                     style: TextStyle(
                       fontFamily: 'CENSCBK',
