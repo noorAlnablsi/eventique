@@ -100,7 +100,8 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                                       widget.serviceId,
                                       widget.price,
                                       widget.imgUrl,
-                                      widget.name           ),
+                                      widget.name,
+                                      null,null),
 
                                            // Show snack bar
                               _scaffoldMessengerState?.showSnackBar(

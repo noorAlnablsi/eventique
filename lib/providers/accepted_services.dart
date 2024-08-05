@@ -80,7 +80,8 @@ class AcceptedServicesPro with ChangeNotifier {
         // Parsing services
         List<ServiceInOrderDetails> services = [];
         if (responseData['services'] != null) {
-          services = (responseData['services'] as List).map((service) {
+          services.addAll(
+            (responseData['services'] as List).map((service) {
             // Extract the image URL safely
             String imgUrl = '';
             if (service['images'] != null &&
@@ -97,7 +98,28 @@ class AcceptedServicesPro with ChangeNotifier {
               status: service['status'] ?? 'Unknown',
               name: service['name'] ?? 'Unnamed Service',
             );
-          }).toList();
+          }).toList()
+          );
+        }
+        if (responseData['customized_services'] != null) {
+          services.addAll(
+            (responseData['customized_services'] as List).map((customService) {
+            String imgUrl = (customService['service_images'] as List).isNotEmpty
+                ? customService['service_images'][0]['url']
+                : '';
+
+            return ServiceInOrderDetails(
+              orderServiceId: customService['customized_service_id'],
+              quantity: 1,
+              totalPrice: customService['price'].toDouble(),
+              imgUrl: imgUrl,
+              status: customService['status'],
+              name: customService['service_name'],
+              customDescription: customService['description'],
+              isCustom: true
+            );
+          }).toList(),
+          );
         }
         double totalAcceptedServicesPrice =
             (responseData['total_accepted_services_price'] ?? 0.0).toDouble();

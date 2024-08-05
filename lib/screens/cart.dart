@@ -128,7 +128,7 @@ class TestCart extends StatelessWidget {
                                 padding: const EdgeInsets.all(12),
                                 itemCount: cart.length,
                                 itemBuilder: (ctx, i) => CartTile(
-                                    cart: cart, i: i, eventId: eventId),
+                                    services: cart, i: i, eventId: eventId),
                               ),
                             ),
 
@@ -291,7 +291,7 @@ class TestCart extends StatelessWidget {
                             Provider.of<Orders>(context, listen: false)
                                 .addOrder(
                               eventId,
-                              cart.values.toList(),
+                              cart,
                             );
                             cartProvider.clearCart(eventId);
                           },

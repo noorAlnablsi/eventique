@@ -130,6 +130,30 @@ class MyApp extends StatelessWidget {
             SharedEventsForOneUserScreen.routeName: (ctx) =>
                 SharedEventsForOneUserScreen(),
           },
+          theme: ThemeData(
+            // useMaterial3: false,
+            primaryColor: Color(0xff662465),
+            scaffoldBackgroundColor: const Color(0xFFFFFDF0),
+            appBarTheme: const AppBarTheme(
+              color: Color(0xFFFFFDF0),
+            ),
+            textTheme: const TextTheme(
+              bodyLarge: TextStyle(
+                fontSize: 22.0,
+                fontFamily: 'Bahnschrift',
+                color: Color(0xff662465),
+              ),
+              bodyMedium: TextStyle(
+                  fontSize: 14.0,
+                  fontFamily: 'Bahnschrift',
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff662465)),
+              bodySmall: TextStyle(
+                  fontSize: 14.0,
+                  fontFamily: 'Bahnschrift',
+                  color: Color(0xff662465)),
+            ),
+          ),
         ),
       ),
     );

@@ -85,7 +85,9 @@ class AcceptedServices extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  acceptedList[i].name,
+                                   acceptedList[i].isCustom==null?
+                                  acceptedList[i].name:
+                                  '${acceptedList[i]} Customized',
                                   softWrap: false,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

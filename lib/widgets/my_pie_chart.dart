@@ -23,7 +23,8 @@ class MyPieChart extends StatelessWidget {
     required this.totalPriceForOrder,
   });
 
-  final Map<int, OneCartService>? cart;
+  // final Map<int, OneCartService>? cart;
+  final List<OneCartService>? cart;
   final List<ServiceInOrderDetails>? services;
   final double totalPriceForOrder;
 
@@ -32,15 +33,18 @@ class MyPieChart extends StatelessWidget {
     List<PieChartSectionData> sections = [];
 
     if (cart != null) {
-      sections = cart!.entries.map((entry) {
-        final cartService = entry.value;
+      sections = cart!.map((cartService) {
         final percentage = (cartService.totalPrice * 100) / totalPriceForOrder;
         final isSmallPercentage =
             percentage < 5; // Define a threshold for small percentage
         final isSmallVeryPercentage = percentage < 2;
 
         return PieChartSectionData(
-          color: colors[cartService.OneCartServiceId % colors.length],
+          color: colors[
+            cartService.isCustom==null?
+            cartService.OneCartServiceId % colors.length:
+            (cartService.OneCartServiceId+100) % colors.length
+            ],
           value: cartService.totalPrice,
           title: '${percentage.toStringAsFixed(1)}%',
           titleStyle: TextStyle(
@@ -53,7 +57,11 @@ class MyPieChart extends StatelessWidget {
             color: beige,
           ),
           borderSide: BorderSide(
-            color: colors[cartService.OneCartServiceId % colors.length]
+            color: colors[
+              cartService.isCustom==null?
+            cartService.OneCartServiceId % colors.length:
+            (cartService.OneCartServiceId+100) % colors.length
+              ]
                 .withOpacity(0.9),
             width: 1,
           ),
@@ -121,8 +129,7 @@ class MyPieChart extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: (cart != null
-                        ? cart!.entries.map((entry) {
-                            final cartService = entry.value;
+                        ? cart!.map((cartService) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 12),
                               child: Row(
@@ -140,7 +147,7 @@ class MyPieChart extends StatelessWidget {
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: Text(
-                                      '${cartService.name}',
+                                      cartService.name,
                                       style: const TextStyle(
                                           fontSize: 13,
                                           fontFamily: 'IrishGrover',
@@ -169,7 +176,7 @@ class MyPieChart extends StatelessWidget {
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: Text(
-                                      '${service.name}',
+                                      service.name,
                                       style: const TextStyle(
                                           fontSize: 13,
                                           fontFamily: 'IrishGrover',
