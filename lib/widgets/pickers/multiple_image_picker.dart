@@ -32,7 +32,12 @@ class _MultiImagePickerState extends State<MultiImagePicker> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('You can select a maximum of 5 images')),
+          SnackBar(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              behavior: SnackBarBehavior.floating,
+              content: Text('You can select a maximum of 5 images')),
         );
       }
     });
@@ -41,7 +46,12 @@ class _MultiImagePickerState extends State<MultiImagePicker> {
   Future<void> _uploadImages() async {
     if (_selectedImages.length < 3) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please select at least three images')),
+        SnackBar(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            behavior: SnackBarBehavior.floating,
+            content: Text('Please select at least three images')),
       );
       return;
     }
@@ -67,14 +77,24 @@ class _MultiImagePickerState extends State<MultiImagePicker> {
       widget.onImagesUploaded(imageUrls);
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Images uploaded successfully')),
+        SnackBar(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            behavior: SnackBarBehavior.floating,
+            content: Text('Images uploaded successfully')),
       );
       setState(() {
         _selectedImages = [];
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error uploading images: $e')),
+        SnackBar(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            behavior: SnackBarBehavior.floating,
+            content: Text('Error uploading images: $e')),
       );
     } finally {
       setState(() {

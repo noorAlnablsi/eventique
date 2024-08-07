@@ -61,33 +61,30 @@ class AcceptedServicesPro with ChangeNotifier {
   }
 
   Future<void> fetchAcceptedServices(int id) async {
-    final url = Uri.parse('$host/api/accepted_service_event/$id');
-    print(url);
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-          'locale': 'en',
-        },
-      );
+  final url = Uri.parse('$host/api/accepted_service_event/$id');
+  print(url);
+  try {
+    final response = await http.get(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+        'locale': 'en',
+      },
+    );
 
-      if (response.statusCode == 200) {
-        final responseData = json.decode(response.body);
-        print(responseData);
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      print(responseData);
 
-        // Parsing services
-        List<ServiceInOrderDetails> services = [];
-        if (responseData['services'] != null) {
-          services.addAll(
-            (responseData['services'] as List).map((service) {
-            // Extract the image URL safely
-            String imgUrl = '';
-            if (service['images'] != null &&
-                (service['images'] as List).isNotEmpty) {
-              imgUrl = service['images'][0]['url'] ?? '';
-            }
+      // Parsing services
+      List<ServiceInOrderDetails> services = [];
+      if (responseData['services'] != null) {
+        services.addAll(
+          (responseData['services'] as List).map((service) {
+            String imgUrl = (service['images'] as List?)?.isNotEmpty ?? false
+                ? (service['images'][0]['url'] ?? '')
+                : '';
 
             return ServiceInOrderDetails(
               // Handle nullable orderServiceId if it's present in the response
@@ -95,17 +92,17 @@ class AcceptedServicesPro with ChangeNotifier {
               quantity: service['quantity'] ?? 0,
               totalPrice: (service['price'] ?? 0.0).toDouble(),
               imgUrl: imgUrl,
-              status: service['status'] ?? 'Unknown',
+              status: 'accepted',
               name: service['name'] ?? 'Unnamed Service',
             );
-          }).toList()
-          );
-        }
-        if (responseData['customized_services'] != null) {
-          services.addAll(
-            (responseData['customized_services'] as List).map((customService) {
-            String imgUrl = (customService['service_images'] as List).isNotEmpty
-                ? customService['service_images'][0]['url']
+          }).toList(),
+        );
+      }
+      if (responseData['customized_services'] != null) {
+        services.addAll(
+          (responseData['customized_services'] as List).map((customService) {
+            String imgUrl = (customService['service_images'] as List?)?.isNotEmpty ?? false
+                ? (customService['service_images'][0]['url'] ?? '')
                 : '';
 
             return ServiceInOrderDetails(
@@ -113,29 +110,32 @@ class AcceptedServicesPro with ChangeNotifier {
               quantity: 1,
               totalPrice: customService['price'].toDouble(),
               imgUrl: imgUrl,
-              status: customService['status'],
-              name: customService['service_name'],
-              customDescription: customService['description'],
+              status: 'accepted',
+              name: customService['name'] ?? 'Unnamed Custom Service',
+              // name: 'nameee',
+              customDescription: customService['description'] ?? '',
               isCustom: true
             );
           }).toList(),
-          );
-        }
-        double totalAcceptedServicesPrice =
-            (responseData['total_accepted_services_price'] ?? 0.0).toDouble();
-
-        total = totalAcceptedServicesPrice;
-        // Do something with the services, like updating the state or notifying listeners
-        _services = services;
-        print(_services);
-
-        notifyListeners(); // Notify listeners about the update
-      } else {
-        print('Failed to load order details');
+        );
       }
-    } catch (error) {
-      print(error);
-      throw error;
+      double totalAcceptedServicesPrice =
+          (responseData['total_accepted_services_price'] ?? 0.0).toDouble();
+
+      total = totalAcceptedServicesPrice;
+      // Do something with the services, like updating the state or notifying listeners
+      _services = services;
+      print(_services);
+
+      notifyListeners(); // Notify listeners about the update
+    } else {
+      print('Failed to load order details');
     }
+  } catch (error) {
+    print(error);
+    throw error;
   }
+}
+
+
 }

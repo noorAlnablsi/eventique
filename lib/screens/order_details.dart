@@ -1,5 +1,3 @@
-//tasneem
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventique/models/service_in_order_details.dart';
 import 'package:eventique/providers/orders.dart';
 import 'package:eventique/widgets/service_in_orderdetails.dart';
@@ -14,39 +12,37 @@ class OrderDetails extends StatefulWidget {
   });
   final String id;
   final String eventName;
-  // final List<ServiceInOrderDetails> services;
 
   @override
   State<OrderDetails> createState() => _OrderDetailsState();
 }
 
 class _OrderDetailsState extends State<OrderDetails> {
-  bool _isLoading = false;
+  bool _isLoading = true;
   bool _isInit = true;
-  Future<void> fetchOrderDetails() async {
-    try {
-      setState(() {
-        _isLoading = true;
-      });
-      await Provider.of<Orders>(context, listen: false)
-          .fetchOrderDetails(widget.id);
-      setState(() {
-        _isLoading = false;
-      });
-    } catch (error) {
-      setState(() {
-        _isLoading = false;
-      });
-      print(error);
-    }
-  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_isInit) {
-      fetchOrderDetails();
+      _fetchOrderDetails();
       _isInit = false;
+    }
+  }
+
+  Future<void> _fetchOrderDetails() async {
+    try {
+      await Provider.of<Orders>(context, listen: false)
+          .fetchOrderDetails(widget.id);
+    } catch (error) {
+      // Handle error, if needed
+      print("Error fetching order details: $error");
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -54,6 +50,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   Widget build(BuildContext context) {
     final order = Provider.of<Orders>(context).oneOrder;
     final List<ServiceInOrderDetails>? services = order.orderServices;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -81,35 +78,53 @@ class _OrderDetailsState extends State<OrderDetails> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                widget.eventName,
-                softWrap: false,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(fontFamily: 'IrishGrover', fontSize: 18),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
               ),
-              ListView.builder(
-                padding: EdgeInsets.only(top: 8),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: services!.length,
-                itemBuilder: (ctx, i) => ServiceInOrderDetailsTile(
-                  service: services[i],
+            )
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.eventName,
+                      softWrap: false,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontFamily: 'IrishGrover', fontSize: 20),
+                    ),
+                    if (services == null || services.isEmpty)
+                      Center(
+                        child: Text(
+                          'No services available',
+                          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                fontFamily: 'IrishGrover',
+                                fontSize: 18,
+                                color: Colors.grey,
+                              ),
+                        ),
+                      )
+                    else
+                      ListView.builder(
+                        padding: EdgeInsets.only(top: 8),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: services.length,
+                        itemBuilder: (ctx, i) => ServiceInOrderDetailsTile(
+                          service: services[i],
+                        ),
+                      ),
+                  ],
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
+              ),
+            ),
     );
   }
 }

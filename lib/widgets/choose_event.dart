@@ -91,18 +91,24 @@ class _ChooseEventState extends State<ChooseEvent> {
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
                         leading: const Card(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(Icons.celebration,),
+                          ),
                           shape: CircleBorder(
                             side: BorderSide(
                               color: primary, // Stroke color
                               width: 1, // Stroke width
+                            
                             ),
                           ),
                           elevation: 6,
                           color: beige,
                         ),
+                        
                         title: Text(
                           event.name,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16)
                         ),
                         tileColor: _selectedEventId == event.eventId
                             ? Colors.grey[300]

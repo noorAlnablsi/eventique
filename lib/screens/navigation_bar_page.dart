@@ -137,47 +137,47 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
         buttonBackgroundColor: primary,
         color: primary,
         animationDuration: const Duration(milliseconds: 300),
-        items: [
-          const CurvedNavigationBarItem(
+        items: const [
+          CurvedNavigationBarItem(
               child: Icon(
                 Icons.home,
                 color: white,
               ),
               label: 'Home',
               labelStyle: TextStyle(
-                  color: Color.fromARGB(255, 223, 230, 228), fontSize: 12)),
-          const CurvedNavigationBarItem(
+                  color: beige, fontSize: 12,fontFamily: 'IrishGrover')),
+          CurvedNavigationBarItem(
               child: Icon(
                 Icons.storefront,
                 color: white,
               ),
-              label: 'Vendors',
+              label: 'Services',
               labelStyle: TextStyle(
-                  color: Color.fromARGB(255, 223, 230, 228), fontSize: 12)),
-          const CurvedNavigationBarItem(
+                  color: beige, fontSize: 12,fontFamily: 'IrishGrover')),
+          CurvedNavigationBarItem(
               child: Icon(
                 Icons.format_align_left,
                 color: white,
               ),
               label: 'EventList',
               labelStyle: TextStyle(
-                  color: Color.fromARGB(255, 223, 230, 228), fontSize: 12)),
-          const CurvedNavigationBarItem(
+                  color: beige, fontSize: 12,fontFamily: 'IrishGrover')),
+          CurvedNavigationBarItem(
               child: Icon(
                 Icons.list,
                 color: white,
               ),
               label: 'Orders',
               labelStyle: TextStyle(
-                  color: Color.fromARGB(255, 223, 230, 228), fontSize: 12)),
-          const CurvedNavigationBarItem(
+                  color: beige, fontSize: 12,fontFamily: 'IrishGrover')),
+          CurvedNavigationBarItem(
               child: Icon(
                 Icons.chat_bubble,
                 color: white,
               ),
               label: 'Chat',
               labelStyle: TextStyle(
-                  color: Color.fromARGB(255, 223, 230, 228), fontSize: 12))
+                  color: beige, fontSize: 12,fontFamily: 'IrishGrover'))
         ],
         onTap: (index) {
           setState(() {

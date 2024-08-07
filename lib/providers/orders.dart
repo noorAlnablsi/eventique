@@ -22,11 +22,11 @@ class Orders with ChangeNotifier {
   OneOrder _oneOrder = OneOrder();
 
   List<OneOrder> get orders => [..._orders];
-  List<OneOrder> get processedOrders => [..._pendingOrders];
-  List<OneOrder> get pendingOrders => [..._processedOrders];
+  List<OneOrder> get processedOrders => [..._processedOrders];
+  List<OneOrder> get pendingOrders => [..._pendingOrders];
   OneOrder get oneOrder => _oneOrder;
 
-Future<void> addOrder(int eventId, List<OneCartService> orderedServicesFromCart) async {
+Future<bool> addOrder(int eventId, List<OneCartService> orderedServicesFromCart) async {
   final url = Uri.parse('$host/api/insert_order');
   print(url);
   
@@ -75,12 +75,14 @@ Future<void> addOrder(int eventId, List<OneCartService> orderedServicesFromCart)
       throw Exception(responseData['Error']);
     }
     notifyListeners();
+    return true; // Return true on success
   } catch (error) {
     // Handle errors
     print('Error occurred: $error');
-    rethrow; // Optionally rethrow the error
+    return false; // Return false on failure
   }
 }
+
 
 
 //taghreed
@@ -210,7 +212,7 @@ Future<void> addOrder(int eventId, List<OneCartService> orderedServicesFromCart)
             String imgUrl = (customService['service_images'] as List).isNotEmpty
                 ? customService['service_images'][0]['url']
                 : '';
-
+print('now going to ServiceInOrderDetails');
             return ServiceInOrderDetails(
               orderServiceId: customService['customized_service_id'],
               quantity: 1,
@@ -218,7 +220,7 @@ Future<void> addOrder(int eventId, List<OneCartService> orderedServicesFromCart)
               imgUrl: imgUrl,
               status: customService['status'],
               name: customService['service_name'],
-              customDescription: customService['description'],
+              customDescription: customService['description']??'',
               isCustom: true,
             );
           }).toList(),

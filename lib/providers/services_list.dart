@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 class AllServices with ChangeNotifier {
   AllServices() {
-    _fetchCategories();
+    fetchCategories();
     fetchAllServices();
   }
 
@@ -19,7 +19,7 @@ class AllServices with ChangeNotifier {
   final ServicesService _servicesService = ServicesService();
   final SearchService _searchService = SearchService();
 
-  Future<void> _fetchCategories() async {
+  Future<void> fetchCategories() async {
     final fetchedCategories = await _categoryService.fetchCategories();
     _categories = fetchedCategories;
     notifyListeners();
@@ -45,6 +45,9 @@ class AllServices with ChangeNotifier {
   List<Category> get categories => [..._categories];
 
   void changeCategory(String newchoosedcategory) {
+    // print('in change category chosenname is $newchoosedcategory and its id ${_categories
+    //         .firstWhere((element) => element.name == chosenCategory)
+    //         .id}');
     chosenCategory = newchoosedcategory;
     if (newchoosedcategory == 'All') {
       fetchAllServices();
@@ -67,8 +70,19 @@ class AllServices with ChangeNotifier {
 // below we are handling the search
   //  List<OneService> searchResults=[];
   Future<List<OneService>> getSearchInAll(String text) async {
-    final fetchAllServices = await _searchService.getSearchInAll(text);
+    print('iam in search but noth the one belowwwwww');
+    // print('${_categories.firstWhere((element) => element.name == chosenCategory).id}');
+    print('gi=ot the id');
+    if(chosenCategory=='All'){
+      final fetchAllServices = await _searchService.getSearchInAll(text);
     return fetchAllServices;
+    }else{
+       final fetchAllServices = await _searchService.getSearchInCategory(text, _categories
+            .firstWhere((element) => element.name == chosenCategory)
+            .id);
+    return fetchAllServices;
+    }
+    
   }
 
 // below we are handling tab cahnging in service details
@@ -239,15 +253,18 @@ class SearchService {
         );
       }).toList();
     } else {
+      print(response.body);
       throw Exception('Failed to load categories');
+      
     }
   }
 
   Future<List<OneService>> getSearchInCategory(
+    
       String text, int categoryId) async {
     final String apiUrl2 = '$host/api/search/$categoryId';
 
-    print('I am in getSearchInAllllllllllllllll and going to get them');
+    print('I am in getSearchInCategory and going to get them');
 
     final response = await http.post(
       Uri.parse(apiUrl2),
@@ -259,7 +276,7 @@ class SearchService {
     );
 
     if (response.statusCode == 200) {
-      print('iam in getSearchInAlllllllllllllllllll 200');
+      print('iam in getSearchInCategory 200');
       final data = jsonDecode(response.body);
       final allServices = data['services'] as List;
 
@@ -286,7 +303,7 @@ class SearchService {
         );
       }).toList();
     } else {
-      throw Exception('Failed to load categories');
+      throw Exception('Failed to getSearchInCategory');
     }
   }
 }

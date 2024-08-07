@@ -15,29 +15,47 @@ class Saved with ChangeNotifier {
 
   List<OneService> get savedServices => [..._savedServices];
 
-  Future<void> fetchSaved() async {
-    final fetchedServices = await _service.fetchSaved(token);
-    _savedServices = fetchedServices;
-    notifyListeners();
+  bool containsService(int id) {
+  return _savedServices.any((element) => element.serviceId == id);
+}
+
+
+   Future<void> fetchSaved() async {
+    try {
+      final fetchedServices = await _service.fetchSaved(token);
+      _savedServices = fetchedServices;
+      notifyListeners();
+    } catch (e) {
+      // Handle fetch error
+      print(e);
+    }
   }
 
-  void add(int serviceId) {
-    _service.addSaved(serviceId, token);
-    // _service.fetchSaved(token);
-    notifyListeners();
+  Future<void> add(int serviceId) async {
+    try {
+      await _service.addSaved(serviceId, token);
+      await fetchSaved(); // Ensure the local list is updated
+    } catch (e) {
+      // Handle add error
+      print(e);
+    }
   }
 
-  void delete(int serviceId) {
-    _service.deleteSaved(serviceId,token);
-    // _service.fetchSaved(token);
-    notifyListeners();
+   Future<void> delete(int serviceId) async {
+    try {
+      await _service.deleteSaved(serviceId, token);
+      await fetchSaved(); // Ensure the local list is updated
+    } catch (e) {
+      // Handle delete error
+      print(e);
+    }
   }
 }
 
 class SavedService {
   final String apiUrl = '$host/api/favorites';
 
-  void addSaved(int serviceId, String token) async {
+  Future<void> addSaved(int serviceId, String token) async {
     print('I am in addSavedddddddddddddd ');
 
     final response = await http.post(
@@ -57,7 +75,7 @@ class SavedService {
     }
   }
 
-  void deleteSaved(int serviceId, String token) async {
+  Future<void> deleteSaved(int serviceId, String token) async {
     final String apiUrl ='$host/api/favorites/$serviceId';
     print('I am in deleteSaveddddddddd ');
 

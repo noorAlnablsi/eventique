@@ -87,7 +87,7 @@ class AcceptedServices extends StatelessWidget {
                                 Text(
                                    acceptedList[i].isCustom==null?
                                   acceptedList[i].name:
-                                  '${acceptedList[i]} Customized',
+                                  '${acceptedList[i].name} Customized',
                                   softWrap: false,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

@@ -135,7 +135,7 @@ class ServiceItem extends StatelessWidget {
                                 size: 18,
                               ),
                               Text(
-                                rating != null ? rating.toString() : '',
+                                rating != null ? rating!.toStringAsFixed(1) : '',
                                 style: bodyMediumStyle!.copyWith(
                                   color: const Color(0xffEBC25C),
                                   fontSize: 14,

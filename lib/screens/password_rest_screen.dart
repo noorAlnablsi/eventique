@@ -41,6 +41,10 @@ class _PasswordRestScreenState extends State<PasswordRestScreen> {
       );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
           content: Text('Password changed successfully.'),
           backgroundColor: Colors.green,
         ),
@@ -52,6 +56,10 @@ class _PasswordRestScreenState extends State<PasswordRestScreen> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
           content: Text('An error occurred. Please try again.'),
           backgroundColor: Colors.red,
         ),

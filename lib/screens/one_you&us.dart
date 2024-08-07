@@ -52,154 +52,305 @@ class _YouAndUsPageState extends State<YouAndUsPage> {
   @override
   Widget build(BuildContext context) {
     final youAndUsData = Provider.of<HomeProvider>(context).oneYourAndUs;
-    print('i am in youuuuuuu anddddd usssss screennnnn');
-    print('${youAndUsData.id}');
-    print('${youAndUsData.description}');
-    print('${youAndUsData.imagesUrl}');
-    print('${youAndUsData.eventServices}');
+    final TextStyle? bodyMediumStyle = Theme.of(context).textTheme.bodyMedium;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "You & Us",
-          style: TextStyle(
-            color: primary,
-            fontFamily: 'IrishGrover',
-            fontSize: 28,
+          "Order Details",
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(fontFamily: 'IrishGrover'),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(4.0),
+          child: Container(
+            height: 4.0,
+            alignment: Alignment.center,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                    width: 1.0,
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : youAndUsData == null
-              ? Center(child: Text('No data found!'))
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Divider(
-                      color: primary,
-                    ),
-                    Gap(10),
-                    Padding(
-                      padding: EdgeInsets.all(30.0),
-                      child: RichText(
-                        text: TextSpan(
-                          children: <TextSpan>[
-                            TextSpan(
-                                text:
-                                    'Our customers were thrilled, describing their event as a ',
-                                style: TextStyle(
-                                    fontFamily: 'Kanit',
-                                    color: primary,
-                                    fontSize: 16)),
-                            TextSpan(
-                                text: youAndUsData.description ?? '',
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    fontFamily: 'KaushanScript',
-                                    color: Color.fromARGB(251, 234, 61, 101))),
-                            TextSpan(
-                                text: ' experience ',
-                                style: TextStyle(
-                                    fontFamily: 'Kanit', color: primary)),
-                          ],
+              ? const Center(child: Text('No data found!'))
+              : SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: RichText(
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              const TextSpan(
+                                  text:
+                                      'Our customers were thrilled, describing their event as a ',
+                                  style: TextStyle(
+                                      // fontFamily: 'Kanit',
+                                      color: primary,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold)),
+                              TextSpan(
+                                  text: youAndUsData.description ?? '',
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'IrishGrover',
+                                      color: secondary)),
+                              const TextSpan(
+                                  text: ' experience ',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: primary)),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    youAndUsData.imagesUrl!.isNotEmpty
-                        ? CarouselSlider(
-                            items: youAndUsData.imagesUrl!.map((url) {
-                              return Builder(
-                                builder: (BuildContext context) {
-                                  return ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20.0)),
-                                    child: CachedNetworkImage(
-                                      width: double.infinity,
-                                      imageUrl: url,
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) => Container(
-                                        color: const Color.fromARGB(
-                                            255, 230, 230, 230),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Container(
-                                        color: const Color.fromARGB(
-                                            255, 230, 230, 230),
-                                      ),
+                      youAndUsData.imagesUrl!.isNotEmpty
+                          ? Container(
+                              margin: const EdgeInsets.all(24),
+                              child: Stack(
+                                children: <Widget>[
+                                  CarouselSlider(
+                                    items: youAndUsData.imagesUrl!
+                                        .map((item) => ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(20.0)),
+                                              child: CachedNetworkImage(
+                                                  width: double.infinity,
+                                                  imageUrl: item,
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (context, url) =>
+                                                      Container(
+                                                        color: const Color
+                                                            .fromARGB(
+                                                            255, 230, 230, 230),
+                                                      ),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      Container(
+                                                        color: const Color
+                                                            .fromARGB(
+                                                            255, 230, 230, 230),
+                                                      )),
+                                            ))
+                                        .toList(),
+                                    carouselController: _controller,
+                                    options: CarouselOptions(
+                                        enlargeCenterPage: true,
+                                        height: 347,
+                                        viewportFraction: 0.8,
+                                        enlargeFactor: 0.3,
+                                        onPageChanged: (index, reason) {
+                                          setState(() {
+                                            _current = index;
+                                          });
+                                        }),
+                                  ),
+                                  Positioned(
+                                    bottom: 8.0,
+                                    left: 0.0,
+                                    right: 0.0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: youAndUsData.imagesUrl!
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
+                                        return GestureDetector(
+                                          onTap: () => _controller
+                                              .animateToPage(entry.key),
+                                          child: Container(
+                                            width: 12.0,
+                                            height: 12.0,
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 8.0, horizontal: 4.0),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: (Theme.of(context)
+                                                        .primaryColor)
+                                                    .withOpacity(
+                                                        _current == entry.key
+                                                            ? 1.0
+                                                            : 0.3)),
+                                          ),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(),
+                      const Gap(20),
+                      const Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 6, horizontal: 40),
+                        child: Text(
+                          "Services ",
+                          style: TextStyle(
+                              fontSize: 22,
+                              color: primary,
+                              fontFamily: 'IrishGrover'),
+                        ),
+                      ),
+                      const Gap(15),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: youAndUsData.eventServices!.length,
+                        itemBuilder: (context, i) {
+                          final service = youAndUsData.eventServices![i];
+                          return
+                              // Column(
+                              //   children: [
+                              //     InkWell(
+                              // onTap: () {
+                              //   Navigator.of(context).push(
+                              //     MaterialPageRoute(
+                              //       builder: (ctx) => ServiceDetails(
+                              //           serviceId: service.serviceId),
+                              //     ),
+                              //   );
+                              // },
+                              //       child: Container(
+                              //         decoration: BoxDecoration(
+                              //           border: Border.all(
+                              //             color: const Color(0xFFDB8498),
+                              //           ),
+                              //           borderRadius: BorderRadius.circular(10.0),
+                              //         ),
+                              //         height: 80,
+                              //         width: 337,
+                              //         child: ListTile(
+                              //           title: Text(
+                              //             service.name ?? '',
+                              //             style: const TextStyle(),
+                              //           ),
+                              //           subtitle: const Text("Parfait"),
+                                        // leading: const Icon(Icons.cake),
+                                        // trailing: const Icon(
+                                        //   Icons.arrow_forward_ios,
+                                        // ),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     const Gap(8)
+                              //   ],
+                              // );
+
+                              Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                    color: Color(0xff662465), width: 1),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              margin: const EdgeInsets.fromLTRB(0, 14, 0, 8),
+                              color: beige,
+                              shadowColor: beige,
+                              surfaceTintColor: beige,
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (ctx) => ServiceDetails(
+                                          serviceId: service.serviceId),
                                     ),
                                   );
                                 },
-                              );
-                            }).toList(),
-                            carouselController: _controller,
-                            options: CarouselOptions(
-                              enlargeCenterPage: true,
-                              height: 270,
-                              viewportFraction: 0.6,
-                              onPageChanged: (index, reason) {
-                                setState(() {
-                                  _current = index;
-                                });
-                              },
-                            ),
-                          )
-                        : Container(),
-                    Gap(20),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Text(
-                        "Services ",
-                        style: TextStyle(
-                            fontSize: 28,
-                            color: primary,
-                            fontFamily: 'IrishGrover'),
-                      ),
-                    ),
-                    Gap(15),
-                    ListView.builder( shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: youAndUsData.eventServices!.length,
-                      itemBuilder: (context, i) {
-                        final service = youAndUsData.eventServices![i];
-                        return Column(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (ctx) => ServiceDetails(
-                                        serviceId: service.serviceId),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Color(0xFFDB8498),
-                                  ),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                height: 80,
-                                width: 337,
-                                child: ListTile(
-                                  title: Text(
-                                    service.name ?? '',
-                                    style: TextStyle(),
-                                  ),
-                                  subtitle: Text("Parfait"),
-                                  leading: Icon(Icons.cake),
-                                  trailing: Icon(
-                                    Icons.arrow_forward_ios,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      const Card(
+                                        shape: const CircleBorder(
+                                          side: BorderSide(
+                                            color: primary,
+                                            width: 1,
+                                          ),
+                                        ),
+                                        elevation: 6,
+                                        color: beige,
+                                        margin: EdgeInsets.only(left: 8),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 8),
+                                          child: Icon(Icons.celebration),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 18.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                service.name,
+                                                softWrap: false,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style:
+                                                    bodyMediumStyle!.copyWith(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w900,
+                                                  fontFamily: 'IrishGrover',
+                                                ),
+                                              ),
+                                              const SizedBox(height: 8),
+                                              Text(
+                                                service.vendorName ,
+                                                softWrap: false,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: bodyMediumStyle.copyWith(
+                                                  color: Color.fromRGBO(126, 116, 126, 1),
+                                                  fontFamily: 'IrishGrover',
+                                                  fontWeight: FontWeight.normal,
+                                                ),
+                                              ),
+                                       
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                       Padding(
+                                         padding: const EdgeInsets.symmetric(horizontal: 8),
+                                         child: Icon(
+                                            Icons.arrow_forward_ios,
+                                            size: 14,
+                                            color: primary,
+                                          ),
+                                       ),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                            Gap(8)
-                          ],
-                        );
-                      },
-                    ),
-                  ],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
     );
   }

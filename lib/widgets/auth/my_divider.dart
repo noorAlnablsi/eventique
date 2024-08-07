@@ -32,6 +32,10 @@ class _MyDividerState extends State<MyDivider> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
           content: Text('Google sign in completed successfully.'),
           backgroundColor: Colors.green,
         ),
@@ -48,6 +52,10 @@ class _MyDividerState extends State<MyDivider> {
       print('$error+++++++++++++++++++++++++++++++++++++++++++++++++++++');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
           content:
               Text('An error occurred with Google sign-in. Please try again.'),
           backgroundColor: Colors.red,
@@ -105,6 +113,10 @@ class _MyDividerState extends State<MyDivider> {
         print(error);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
+            shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
             content: Text('An error occurred. Please try again.'),
             backgroundColor: Colors.red,
           ),

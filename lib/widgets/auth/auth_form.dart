@@ -42,7 +42,11 @@ class _AuthFormState extends State<AuthForm> {
     FocusScope.of(context).unfocus();
     if (_userImage == null && !_isLogin) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
           content: Text('Please upload an image'),
         ),
       );

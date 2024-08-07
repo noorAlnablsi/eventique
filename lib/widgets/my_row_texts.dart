@@ -8,13 +8,13 @@ class MyTextRow extends StatelessWidget {
     required this.firstString,
     required this.secondString,
     required this.onPressed,
-    this.hasOrder,
+    required this.hasOrder,
   });
 
   final String firstString;
   final String secondString;
   final VoidCallback onPressed;
-  final bool? hasOrder;
+  final bool hasOrder;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class MyTextRow extends StatelessWidget {
                   letterSpacing: 1),
             ),
           ),
-          hasOrder != null
+          hasOrder ==true&& (firstString=='Time'||firstString=='Date')
               ? SizedBox()
               // Icon(Icons.edit,color: beige,)
               : IconButton(

@@ -13,6 +13,14 @@ final List<Color> colors = [
   const Color.fromARGB(255, 200, 179, 238),
   const Color(0xFFFF8A65),
   const Color(0xFF4FC3F7),
+  const Color.fromARGB(255, 231, 142, 172),
+  const Color.fromARGB(255, 120, 65, 130),
+  const Color.fromARGB(255, 83, 146, 198),
+  const Color.fromARGB(255, 9, 111, 101),
+  const Color.fromARGB(255, 245, 214, 167),
+  const Color.fromARGB(255, 107, 55, 203),
+  const Color.fromARGB(255, 168, 43, 6),
+  const Color.fromARGB(255, 173, 226, 251),
 ];
 
 class MyPieChart extends StatelessWidget {
@@ -114,7 +122,7 @@ class MyPieChart extends StatelessWidget {
               centerSpaceRadius: 60,
             ),
             swapAnimationDuration:
-                Duration(milliseconds: 3000), // Duration of the animation
+                const Duration(milliseconds: 3000), // Duration of the animation
             swapAnimationCurve: Curves.easeInOutQuint, // Animation curve
           ),
         ),

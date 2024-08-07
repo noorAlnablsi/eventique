@@ -23,19 +23,19 @@ class ServiceInOrderDetailsTile extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(0, 14, 0, 8),
       color: const Color(0xFFFFFDF0),
       elevation: 0,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
+      child: GestureDetector(
+        // borderRadius: BorderRadius.circular(20),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (ctx) => 
-              service.isCustom==null?
-              ServiceDetails(serviceId:service.orderServiceId! ):
-              CustomizedScreen(name: service.name, customDescription: service.customDescription!)
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (ctx) => 
+          //     service.isCustom==null?
+          //     ServiceDetails(serviceId:service.orderServiceId! ):
+          //     CustomizedScreen(name: service.name, customDescription: service.customDescription!)
 
-            ),
-          );
+          //   ),
+          // );
         },
         child: Padding(
           padding: const EdgeInsets.all(12),
