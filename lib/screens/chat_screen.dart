@@ -1,6 +1,4 @@
-//taghreed
 import 'package:eventique/screens/vendor_profile_screen.dart';
-import '/color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/chat/new_message.dart';
@@ -13,15 +11,16 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, String?> routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
-    final String vendorId = routeArgs['vendorId'] as String;
-    final String vendorName = routeArgs['vendorName'] as String;
-    final String vendorImageUrl = routeArgs['vendorImageUrl'] as String;
+    final String vendorId = routeArgs['vendorId']!;
+    final String vendorName = routeArgs['vendorName']!;
+    final String vendorImageUrl = routeArgs['vendorImageUrl']!;
+
     return Scaffold(
-      backgroundColor: white,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         shape: Border(
           bottom: BorderSide(
-            color: primary,
+            color: Colors.purple,
             width: 1.6,
           ),
         ),
@@ -30,7 +29,7 @@ class ChatScreen extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 25,
-                backgroundColor: darkBackground,
+                backgroundColor: Colors.grey,
                 backgroundImage: vendorImageUrl.isNotEmpty
                     ? NetworkImage(vendorImageUrl)
                     : null,
@@ -39,16 +38,14 @@ class ChatScreen extends StatelessWidget {
                     : Icon(
                         Icons.person,
                         size: 25,
-                        color: white,
+                        color: Colors.white,
                       ),
               ),
-              SizedBox(
-                width: 16,
-              ),
+              SizedBox(width: 16),
               Text(
                 vendorName,
                 style: TextStyle(
-                  color: primary,
+                  color: Colors.purple,
                   fontSize: 24,
                   fontFamily: 'IrishGrover',
                 ),
@@ -62,7 +59,7 @@ class ChatScreen extends StatelessWidget {
             );
           },
         ),
-        backgroundColor: white,
+        backgroundColor: Colors.white,
       ),
       body: Container(
         child: Column(

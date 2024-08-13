@@ -78,7 +78,7 @@ class _CreateEventState extends State<CreateEvent> {
               onPrimary: beige,
               surface: beige,
             ),
-            dialogTheme: DialogTheme(
+            dialogTheme: const DialogTheme(
               backgroundColor: beige,
             ),
           ),
@@ -382,7 +382,7 @@ class _CreateEventState extends State<CreateEvent> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       backgroundColor: const Color.fromARGB(255, 76, 27, 75),
-                      content: Text(
+                      content: const Text(
                         'Created successfully',
                         style: TextStyle(
                           color: beige,
@@ -404,7 +404,7 @@ class _CreateEventState extends State<CreateEvent> {
             ),
             backgroundColor: primaryColor,
           ),
-          child: SizedBox(
+          child: const SizedBox(
             width: double.infinity,
             child: Center(
               child: Text(
@@ -423,10 +423,10 @@ class _CreateEventState extends State<CreateEvent> {
   }
 }
 
-final borderSideWithFocusColor = BorderSide(color: primary);
+final borderSideWithFocusColor = const BorderSide(color: primary);
 final borderSideWithoutFocusColor = BorderSide(color: primary.withOpacity(0.7));
 final textStyle =
-    TextStyle(fontSize: 16, color: primary, fontWeight: FontWeight.bold);
+    const TextStyle(fontSize: 16, color: primary, fontWeight: FontWeight.bold);
 final hintTextStyle = TextStyle(fontSize: 16, color: primary.withOpacity(0.4));
 
 final textFieldDecoration = InputDecoration(

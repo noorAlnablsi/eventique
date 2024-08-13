@@ -8,7 +8,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class MyStaggeredGridView extends StatelessWidget {
   final int packageId;
-  MyStaggeredGridView({required this.packageId});
+  const MyStaggeredGridView({super.key, required this.packageId});
   @override
   Widget build(BuildContext context) {
     final packageData =
@@ -26,7 +26,7 @@ class MyStaggeredGridView extends StatelessWidget {
         width: 178.08,
         firsttext: packageServices[i].name,
         secondtext: packageServices[i].vendorName,
-        image: packageServices[i].imgsUrl![0],
+        image: packageServices[i].imgsUrl[0],
         serviceId: packageServices[i].serviceId,
       ),
       // ItemCard(

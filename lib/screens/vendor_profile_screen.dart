@@ -2,7 +2,7 @@
 import 'package:eventique/color.dart';
 import 'package:eventique/models/vendor_model.dart';
 import 'package:eventique/providers/vendors_provider.dart';
-import 'package:eventique/screens/chats_screen.dart';
+import 'package:eventique/screens/chat_screen.dart';
 import 'package:eventique/widgets/categories_list.dart';
 import 'package:eventique/widgets/vendors/vendor_profile_item.dart';
 import 'package:flutter/cupertino.dart';

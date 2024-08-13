@@ -23,16 +23,23 @@ class _NewMessageState extends State<NewMessage> {
         .collection('users')
         .doc(user!.uid)
         .get();
-    FirebaseFirestore.instance.collection('chat').add(
+
+    final chatId = user.uid + '_' + widget.vendorId;
+
+    FirebaseFirestore.instance
+        .collection('chats')
+        .doc(chatId)
+        .collection('messages')
+        .add(
       {
         'text': _enteredMessage,
         'createdAt': Timestamp.now(),
         'userId': user.uid,
         'userName': userData['username'],
         'userImage': userData['image_url'],
-        'vendorId': widget.vendorId, // Add vendorId to message
       },
     );
+
     _controller.clear();
   }
 
@@ -64,7 +71,7 @@ class _NewMessageState extends State<NewMessage> {
             icon: const Icon(
               Icons.send,
             ),
-            color: primary,
+            color: Colors.purple,
           ),
         ],
       ),

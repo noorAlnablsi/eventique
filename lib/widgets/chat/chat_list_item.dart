@@ -1,5 +1,5 @@
 import 'package:eventique/color.dart';
-import 'package:eventique/screens/chats_screen.dart';
+import 'package:eventique/screens/chat_screen.dart';
 import 'package:flutter/material.dart';
 
 class ChatListItem extends StatefulWidget {

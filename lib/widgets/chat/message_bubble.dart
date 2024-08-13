@@ -1,15 +1,14 @@
-import 'package:eventique/color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class MessageBubble extends StatelessWidget {
-  var message;
-  var userName;
-  var userImage;
-  bool isMe;
-  final key;
+  final String message;
+  final String userName;
+  final String userImage;
+  final bool isMe;
+  final Key key;
+
   MessageBubble(this.message, this.userName, this.userImage, this.isMe,
-      {this.key});
+      {required this.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,20 +32,20 @@ class MessageBubble extends StatelessWidget {
               bottomLeft: !isMe ? Radius.circular(0) : Radius.circular(10),
               bottomRight: isMe ? Radius.circular(0) : Radius.circular(10),
             ),
-            color: isMe ? lightPurple : Colors.grey[300],
+            color: isMe ? Colors.purple[300] : Colors.grey[300],
           ),
           width: 140,
           child: Column(
             children: [
               Text(
                 userName,
-                style: TextStyle(color: onPrimary),
+                style: TextStyle(color: Colors.white),
                 textAlign: isMe ? TextAlign.end : TextAlign.start,
               ),
               Text(
                 message,
                 style: TextStyle(
-                  color: white,
+                  color: Colors.white,
                 ),
               ),
             ],

@@ -29,7 +29,7 @@ import '/screens/enter_email_screen.dart';
 import '/screens/home_screen.dart';
 import '/screens/new_password_screen.dart';
 import '/screens/verification_screen.dart';
-import '/screens/chats_screen.dart';
+import 'screens/chat_screen.dart';
 import '/screens/profile_screen.dart';
 import '/screens/settings_screen.dart';
 import '/screens/email_rest_screen.dart';
@@ -39,6 +39,7 @@ import '/screens/vendor_profile_screen.dart';
 const String host = 'http://192.168.1.107:8000';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   final authProvider = Auth();
@@ -116,7 +117,7 @@ class MyApp extends StatelessWidget {
             NewPasswordScreen.routeName: (ctx) => NewPasswordScreen(),
             NavigationBarPage.routeName: (context) => NavigationBarPage(),
             HomeScreen.routeName: (ctx) => HomeScreen(),
-            ChatVendorsListScreen.routeName: (ctx) => ChatVendorsListScreen(),
+            ChatListScreen.routeName: (ctx) => ChatListScreen(),
             ChatScreen.routeName: (ctx) => ChatScreen(),
             ProfileScreen.routeName: (ctx) => ProfileScreen(),
             VendorProfileScreen.routeName: (ctx) => VendorProfileScreen(),

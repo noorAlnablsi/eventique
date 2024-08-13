@@ -27,7 +27,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
     const VendorsScreen(),
     const EventListPage(),
     const OrdersScreen(),
-    ChatVendorsListScreen(),
+    ChatListScreen(),
   ];
 
   int _selctedIndex = 0;
