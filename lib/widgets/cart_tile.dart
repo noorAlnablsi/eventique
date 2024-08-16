@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eventique/models/one_cartService.dart';
+import 'package:eventique/screens/customized_screen.dart';
 import 'package:eventique/screens/service_details.dart';
 import 'package:eventique/providers/carts.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +9,13 @@ import 'package:provider/provider.dart';
 class CartTile extends StatelessWidget {
   const CartTile({
     super.key,
-    required this.cart,
+    required this.services,
     required this.i,
     required this.eventId,
   });
 
-  final Map<int, OneCartService> cart;
+  // final Map<int, OneCartService> cart;
+  final List<OneCartService> services;
   final int i;
   final int eventId;
 
@@ -21,7 +23,7 @@ class CartTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<Carts>(context);
 
-    final service = cart[cart.keys.toList()[i]]!;
+    // final service = cart[cart.keys.toList()[i]]!;
     final TextStyle? bodyMediumStyle = Theme.of(context).textTheme.bodyMedium;
 
     return Card(
@@ -38,9 +40,11 @@ class CartTile extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (ctx) => ServiceDetails(
-                serviceId: cart.keys.toList()[i],
-              ),
+              builder: (ctx) => 
+              services[i].isCustom==null?
+              ServiceDetails(serviceId: services[i].OneCartServiceId):
+              CustomizedScreen(name:services[i].name ,customDescription: services[i].customDescription!,)
+
             ),
           );
         },
@@ -72,7 +76,7 @@ class CartTile extends StatelessWidget {
                                 .copyWith(fontWeight: FontWeight.w500)),
                         onPressed: () {
                           cartProvider.removeServiceFromCart(
-                              eventId, cart.keys.toList()[i]);
+                              eventId, services[i].OneCartServiceId,services[i].isCustom);
                           Navigator.of(context).pop();
                         },
                       ),
@@ -86,7 +90,7 @@ class CartTile extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: CachedNetworkImage(
-                  imageUrl: service.imgUrl,
+                  imageUrl: services[i].imgUrl,
                   height: 80,
                   width: 66,
                   fit: BoxFit.cover,
@@ -105,7 +109,9 @@ class CartTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        service.name,
+                        services[i].isCustom==null?
+                        services[i].name:
+                        '${services[i].name} Customized',
                         softWrap: false,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -129,7 +135,7 @@ class CartTile extends StatelessWidget {
                             fit: FlexFit.loose,
                             flex: 2,
                             child: Text(
-                              '${service.totalPrice.toStringAsFixed(1)}\$',
+                              '${services[i].totalPrice.toStringAsFixed(1)}\$',
                               softWrap: false,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -153,7 +159,7 @@ class CartTile extends StatelessWidget {
                           Flexible(
                             fit: FlexFit.loose,
                             child: Text(
-                              '${service.quantity}',
+                              '${services[i].quantity}',
                               softWrap: false,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

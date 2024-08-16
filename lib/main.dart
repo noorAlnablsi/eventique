@@ -1,5 +1,10 @@
-// ignore_for_file: prefer_const_constructors
-
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'firebase_options.dart';
 import '/providers/accepted_services.dart';
 import '/providers/saved.dart';
 import '/providers/share_event_provider.dart';
@@ -18,10 +23,6 @@ import '/screens/one_you&us.dart';
 import '/screens/share_event_screen.dart';
 import '/screens/shared_events_for_one_user_screen.dart';
 import '/screens/wallet_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/provider.dart';
-import 'firebase_options.dart';
 import '/providers/theme_provider.dart';
 import '/providers/auth_provider.dart';
 import '/screens/auth_screen.dart';
@@ -37,13 +38,97 @@ import '/screens/password_rest_screen.dart';
 import '/screens/vendor_profile_screen.dart';
 
 const String host = 'http://192.168.1.107:8000';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('Handling a background message: ${message.messageId}');
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // Set up background message handler
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   final authProvider = Auth();
   await authProvider.loadUserData();
+
+  // Initialize Firebase Messaging and configure local notifications
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  // Request permissions for iOS
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    badge: true,
+    sound: true,
+    provisional: false,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print('User granted permission');
+  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    print('User granted provisional permission');
+  } else {
+    print('User declined or has not accepted permission');
+  }
+
+  // Get the FCM token
+  String? token = await messaging.getToken();
+  print("FCM Token: $token");
+
+  // Send FCM token to the backend
+  if (token != null) {
+    await sendTokenToBackend(token, authProvider.token);
+  }
+
+  // Initialize Flutter Local Notifications
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
+  // Handle messages when the app is in the foreground
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+
+    if (notification != null && android != null) {
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            'your_channel_id', // You need to define this channel in AndroidManifest.xml
+            'your_channel_name',
+            channelDescription: 'your_channel_description',
+            icon: android.smallIcon,
+          ),
+        ),
+      );
+    }
+  });
+
+  // Handle notification when the app is opened from a terminated state
+  FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+    if (message != null) {
+      print('Notification clicked with message: ${message.data}');
+      // Handle the notification
+      // For example, navigate to a specific screen:
+      // navigatorKey.currentState?.pushNamed('/yourRoute');
+    }
+  });
 
   runApp(
     ChangeNotifierProvider<ThemeProvider>(
@@ -51,6 +136,29 @@ Future<void> main() async {
       child: MyApp(authProvider: authProvider),
     ),
   );
+}
+
+Future<void> sendTokenToBackend(String token, String? userToken) async {
+  final url = '$host/api/updateFCM';
+  try {
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $userToken',
+      },
+      body: '{"fcm_token": "$token"}',
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      print('Token sent to backend successfully');
+    } else {
+      print(
+          'Failed to send token to backend. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error sending token to backend: $e');
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -73,7 +181,7 @@ class MyApp extends StatelessWidget {
           value: HomeProvider(),
         ),
         ChangeNotifierProvider.value(
-          value: VendorsProvider(),
+          value: VendorsProvider(token),
         ),
         ChangeNotifierProvider(
           create: (ctx) => AllServices(),
@@ -108,8 +216,8 @@ class MyApp extends StatelessWidget {
           title: 'EvenTique',
           themeMode: themeProvider.getThemeMode(),
           debugShowCheckedModeBanner: false,
+          navigatorKey: navigatorKey, // Add the navigator key
           home: auth.isAuthenticated ? NavigationBarPage() : AuthScreen(),
-          // home: AuthScreen(),
           routes: {
             AuthScreen.routeName: (ctx) => AuthScreen(),
             VerificationScreen.routeName: (ctx) => VerificationScreen(),

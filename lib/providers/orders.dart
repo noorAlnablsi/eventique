@@ -22,52 +22,133 @@ class Orders with ChangeNotifier {
   OneOrder _oneOrder = OneOrder();
 
   List<OneOrder> get orders => [..._orders];
-  List<OneOrder> get processedOrders => [..._pendingOrders];
-  List<OneOrder> get pendingOrders => [..._processedOrders];
+  List<OneOrder> get processedOrders => [..._processedOrders];
+  List<OneOrder> get pendingOrders => [..._pendingOrders];
   OneOrder get oneOrder => _oneOrder;
 
-//taghreed wrote this
-  Future<void> addOrder(
-      int eventId, List<OneCartService> orderdServicesFromCart) async {
-    final url = Uri.parse('$host/api/insert_order');
-    print(url);
-    try {
-      final List<Map<String, dynamic>> orderDetails =
-          orderdServicesFromCart.map((service) {
-        return {
+Future<bool> addOrder(int eventId, List<OneCartService> orderedServicesFromCart) async {
+  final url = Uri.parse('$host/api/insert_order');
+  print(url);
+  
+  try {
+    final List<Map<String, dynamic>> services = [];
+    final List<Map<String, dynamic>> customizedServices = [];
+    
+    // Iterate over ordered services and sort them into the appropriate lists
+    for (var service in orderedServicesFromCart) {
+      if (service.isCustom == null) {
+        services.add({
           'id': service.OneCartServiceId,
           'quantity': service.quantity,
-        };
-      }).toList();
-      final response = await http.post(
-        url,
-        headers: {
-          'Accept': 'application/json',
-          'locale': 'en',
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json'
-        },
-        body: json.encode({
-          'user_id': id,
-          'event_id': eventId,
-          'services': orderDetails,
-        }),
-      );
+        });
+      } else {
+        customizedServices.add({
+          'price': service.totalPrice,
+          'description': service.customDescription ?? '',
+          'service_id': service.OneCartServiceId,
+        });
+      }
+    }
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'locale': 'en',
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json'
+      },
+      body: json.encode({
+        'user_id': id,
+        'event_id': eventId,
+        'services': services,
+        'customized_services': customizedServices,
+      }),
+    );
+    final responseData = json.decode(response.body);
+    print(responseData);
+
+    if (responseData['message'] =='You do not have enough money' ) {
+      throw Exception('no ya helo');
+    }
+
+    if (responseData == null) {
+      throw Exception('No response data');
+    }
+    if (responseData['Status'] == 'Failed') {
+      throw Exception(responseData['Error']);
+    }
+    notifyListeners();
+    return true; // Return true on success
+  } catch (error) {
+    // Handle errors
+    print('Error occurred: $error');
+    return false; // Return false on failure
+  }
+}
+
+Future<bool> orderPackage(int eventId, int packageId) async {
+  print('i am in order package $eventId and packageId $packageId');
+  final url = Uri.parse('$host/api/order_package');
+  print(url);
+  
+  try {
+    final response = await http.post(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'locale': 'en',
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'user_id': id.toString(),
+        'package_id': packageId.toString(),
+        'event_id': eventId.toString(),
+      }),
+    );
+    
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}'); // Log the response body
+
+    // Handle the response based on its content type
+    if (response.headers['content-type']!.contains('application/json')) {
+      // If the response is JSON
       final responseData = json.decode(response.body);
+      
       print(responseData);
 
-      if (responseData == null) {
-        throw Exception();
+      if (responseData['message'] == 'You do not have enough money') {
+        throw Exception('You do not have enough money');
       }
+
+      if (responseData == null) {
+        throw Exception('No response data');
+      }
+
       if (responseData['Status'] == 'Failed') {
         throw Exception(responseData['Error']);
       }
-      notifyListeners();
-    } catch (error) {
-      print(error);
-      throw error;
+    } else {
+      // If the response is plain text
+      if (response.body.contains('Order created successfully')) {
+        // Handle success case based on response text
+        return true; // Return true on success
+      } else {
+        throw Exception('Order failed with unexpected response');
+      }
     }
+    
+    notifyListeners();
+    return true; // Return true on success
+  } catch (error) {
+    // Handle errors
+    print('Error occurred: $error');
+    return false; // Return false on failure
   }
+}
+
+
 
 //taghreed
   Future<void> fetchProcessedOrders() async {
@@ -173,7 +254,8 @@ class Orders with ChangeNotifier {
         // Parsing services
         List<ServiceInOrderDetails> services = [];
         if (responseData['services'] != null) {
-          services = (responseData['services'] as List).map((service) {
+          services.addAll(
+            (responseData['services'] as List).map((service) {
             String imgUrl = (service['images'] as List).isNotEmpty
                 ? service['images'][0]['url']
                 : '';
@@ -186,7 +268,28 @@ class Orders with ChangeNotifier {
               status: service['status'],
               name: service['name'],
             );
-          }).toList();
+          }).toList(),
+          ) ;
+        }
+        if (responseData['customized_services'] != null) {
+          services.addAll(
+            (responseData['customized_services'] as List).map((customService) {
+            String imgUrl = (customService['service_images'] as List).isNotEmpty
+                ? customService['service_images'][0]['url']
+                : '';
+print('now going to ServiceInOrderDetails');
+            return ServiceInOrderDetails(
+              orderServiceId: customService['customized_service_id'],
+              quantity: 1,
+              totalPrice: customService['price'].toDouble(),
+              imgUrl: imgUrl,
+              status: customService['status'],
+              name: customService['service_name'],
+              customDescription: customService['description']??'',
+              isCustom: true,
+            );
+          }).toList(),
+          );
         }
 
         // Parsing order details

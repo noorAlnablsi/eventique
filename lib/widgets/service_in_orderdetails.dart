@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eventique/models/service_in_order_details.dart';
+import 'package:eventique/screens/customized_screen.dart';
+import 'package:eventique/screens/service_details.dart';
 import 'package:flutter/material.dart';
 
 class ServiceInOrderDetailsTile extends StatelessWidget {
@@ -19,9 +23,20 @@ class ServiceInOrderDetailsTile extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(0, 14, 0, 8),
       color: const Color(0xFFFFFDF0),
       elevation: 0,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: () {},
+      child: GestureDetector(
+        // borderRadius: BorderRadius.circular(20),
+        onTap: () {
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (ctx) => 
+          //     service.isCustom==null?
+          //     ServiceDetails(serviceId:service.orderServiceId! ):
+          //     CustomizedScreen(name: service.name, customDescription: service.customDescription!)
+
+          //   ),
+          // );
+        },
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
@@ -51,7 +66,9 @@ class ServiceInOrderDetailsTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        service.name,
+                        service.isCustom==null?
+                        service.name:
+                        '${service.name} Customized',
                         softWrap: false,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

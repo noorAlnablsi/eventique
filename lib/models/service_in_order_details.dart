@@ -29,12 +29,18 @@ class ServiceInOrderDetails {
   final String imgUrl;
   final String status;
   final String name;
+   bool? isCustom;
+   String? customDescription;
 
   ServiceInOrderDetails(
-      {required this.status,
+      {
+      required this.status,
       required this.name,
       this.orderServiceId,
       required this.quantity,
       required this.totalPrice,
-      required this.imgUrl});
+      required this.imgUrl,
+      this.isCustom,
+      this.customDescription,
+      });
 }

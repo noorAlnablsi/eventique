@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eventique/color.dart';
+import 'package:eventique/providers/auth_provider.dart';
 import 'package:eventique/widgets/chat/message_bubble.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Messages extends StatelessWidget {
   final String vendorId;
@@ -10,7 +13,7 @@ class Messages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
+    final userId = Provider.of<Auth>(context, listen: false).userId.toString();
     final chatId = userId + '_' + vendorId;
 
     return StreamBuilder(
@@ -33,26 +36,45 @@ class Messages extends StatelessWidget {
         }
         if (!chatSnapshot.hasData || chatSnapshot.data == null) {
           return const Center(
-            child: Text('No messages yet.'),
+            child: Text(
+              'No messages yet.',
+              style: TextStyle(
+                fontFamily: 'CENSCBK',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: primary,
+              ),
+            ),
           );
         }
         final chatDocs = chatSnapshot.data!.docs;
         if (chatDocs.isEmpty) {
           return const Center(
-            child: Text('Start a new chat.'),
+            child: Text(
+              'Start a new chat.',
+              style: TextStyle(
+                fontFamily: 'CENSCBK',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: primary,
+              ),
+            ),
           );
         }
         return ListView.builder(
           reverse: true,
           itemCount: chatDocs.length,
           itemBuilder: (ctx, i) {
-            return MessageBubble(
-              chatDocs[i]['text'],
-              chatDocs[i]['userName'],
-              chatDocs[i]['userImage'],
-              chatDocs[i]['userId'] == FirebaseAuth.instance.currentUser!.uid,
-              key: ValueKey(chatDocs[i].id),
-            );
+            if (chatDocs[i]['messageType'] == 'normal')
+              return MessageBubble(
+                chatDocs[i]['text'],
+                chatDocs[i]['userName'],
+                chatDocs[i]['userImage'],
+                chatDocs[i].data().containsKey('userId') &&
+                    chatDocs[i]['userId'] == userId,
+                key: ValueKey(chatDocs[i].id),
+              );
+            if (chatDocs[i]['messageType'] == 'service') return Text("service");
           },
         );
       },

@@ -13,6 +13,14 @@ final List<Color> colors = [
   const Color.fromARGB(255, 200, 179, 238),
   const Color(0xFFFF8A65),
   const Color(0xFF4FC3F7),
+  const Color.fromARGB(255, 231, 142, 172),
+  const Color.fromARGB(255, 120, 65, 130),
+  const Color.fromARGB(255, 83, 146, 198),
+  const Color.fromARGB(255, 9, 111, 101),
+  const Color.fromARGB(255, 245, 214, 167),
+  const Color.fromARGB(255, 107, 55, 203),
+  const Color.fromARGB(255, 168, 43, 6),
+  const Color.fromARGB(255, 173, 226, 251),
 ];
 
 class MyPieChart extends StatelessWidget {
@@ -23,7 +31,8 @@ class MyPieChart extends StatelessWidget {
     required this.totalPriceForOrder,
   });
 
-  final Map<int, OneCartService>? cart;
+  // final Map<int, OneCartService>? cart;
+  final List<OneCartService>? cart;
   final List<ServiceInOrderDetails>? services;
   final double totalPriceForOrder;
 
@@ -32,15 +41,18 @@ class MyPieChart extends StatelessWidget {
     List<PieChartSectionData> sections = [];
 
     if (cart != null) {
-      sections = cart!.entries.map((entry) {
-        final cartService = entry.value;
+      sections = cart!.map((cartService) {
         final percentage = (cartService.totalPrice * 100) / totalPriceForOrder;
         final isSmallPercentage =
             percentage < 5; // Define a threshold for small percentage
         final isSmallVeryPercentage = percentage < 2;
 
         return PieChartSectionData(
-          color: colors[cartService.OneCartServiceId % colors.length],
+          color: colors[
+            cartService.isCustom==null?
+            cartService.OneCartServiceId % colors.length:
+            (cartService.OneCartServiceId+100) % colors.length
+            ],
           value: cartService.totalPrice,
           title: '${percentage.toStringAsFixed(1)}%',
           titleStyle: TextStyle(
@@ -53,7 +65,11 @@ class MyPieChart extends StatelessWidget {
             color: beige,
           ),
           borderSide: BorderSide(
-            color: colors[cartService.OneCartServiceId % colors.length]
+            color: colors[
+              cartService.isCustom==null?
+            cartService.OneCartServiceId % colors.length:
+            (cartService.OneCartServiceId+100) % colors.length
+              ]
                 .withOpacity(0.9),
             width: 1,
           ),
@@ -106,7 +122,7 @@ class MyPieChart extends StatelessWidget {
               centerSpaceRadius: 60,
             ),
             swapAnimationDuration:
-                Duration(milliseconds: 3000), // Duration of the animation
+                const Duration(milliseconds: 3000), // Duration of the animation
             swapAnimationCurve: Curves.easeInOutQuint, // Animation curve
           ),
         ),
@@ -121,8 +137,7 @@ class MyPieChart extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: (cart != null
-                        ? cart!.entries.map((entry) {
-                            final cartService = entry.value;
+                        ? cart!.map((cartService) {
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 12),
                               child: Row(
@@ -140,7 +155,7 @@ class MyPieChart extends StatelessWidget {
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: Text(
-                                      '${cartService.name}',
+                                      cartService.name,
                                       style: const TextStyle(
                                           fontSize: 13,
                                           fontFamily: 'IrishGrover',
@@ -169,7 +184,7 @@ class MyPieChart extends StatelessWidget {
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: Text(
-                                      '${service.name}',
+                                      service.name,
                                       style: const TextStyle(
                                           fontSize: 13,
                                           fontFamily: 'IrishGrover',

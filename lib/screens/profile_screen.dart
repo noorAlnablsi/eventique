@@ -28,6 +28,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Provider.of<Auth>(context, listen: false).updateUserName(newName);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
         content: Text('name updated successfully.'),
         backgroundColor: Colors.green,
       ),

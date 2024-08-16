@@ -61,7 +61,7 @@ class VendorProfileScreen extends StatelessWidget {
                   height: size.width * 0.02,
                 ),
                 Text(
-                  vendorInfo.name,
+                  vendorInfo.companyName,
                   style: TextStyle(
                     fontSize: 24,
                     fontFamily: 'IrishGrover',
@@ -84,7 +84,7 @@ class VendorProfileScreen extends StatelessWidget {
                     ChatScreen.routeName,
                     arguments: {
                       'vendorId': vendorInfo.id,
-                      'vendorName': vendorInfo.name,
+                      'vendorName': vendorInfo.companyName,
                       'vendorImageUrl': vendorInfo.imageUrl,
                     },
                   );
@@ -110,9 +110,16 @@ class VendorProfileScreen extends StatelessWidget {
                 VendorProfileItem(
                     title: 'Location', subTitle: vendorInfo.location),
                 VendorProfileItem(
-                    title: 'Working hours',
-                    subTitle: vendorInfo.days + vendorInfo.time),
-                VendorProfileItem(title: 'phone', subTitle: vendorInfo.phone),
+                  title: 'Working hours',
+                  subTitle: vendorInfo.workHours.isNotEmpty
+                      ? vendorInfo.workHours
+                          .map((workHour) =>
+                              '${workHour.day}: ${workHour.hoursFrom} - ${workHour.hoursTo}')
+                          .join('\n')
+                      : 'No working hours provided',
+                ),
+                VendorProfileItem(
+                    title: 'phone', subTitle: vendorInfo.phoneNumber),
               ],
             ),
           )

@@ -1,3 +1,4 @@
+import 'package:eventique/color.dart';
 import 'package:flutter/material.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -32,20 +33,29 @@ class MessageBubble extends StatelessWidget {
               bottomLeft: !isMe ? Radius.circular(0) : Radius.circular(10),
               bottomRight: isMe ? Radius.circular(0) : Radius.circular(10),
             ),
-            color: isMe ? Colors.purple[300] : Colors.grey[300],
+            color: isMe ? lightPurple : Colors.grey[300],
           ),
-          width: 140,
+          width: MediaQuery.of(context).size.width / 2,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 userName,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                  color: primary,
+                  fontFamily: 'CENSCBK',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                ),
                 textAlign: isMe ? TextAlign.end : TextAlign.start,
               ),
               Text(
                 message,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: white,
+                  fontFamily: 'CENSCBK',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
             ],

@@ -74,17 +74,17 @@ class HomeProvider with ChangeNotifier {
           fetchedServices.add(OneService(
             serviceId: service['id'], // Use 'id' directly from service object
             categoryId: service['category_id'],
-            name: service['name']['en'] ?? '', // Handle potential null value
+            name: service['name'] ?? '', // Handle potential null value
             rating: service['rating'] != null
                 ? service['rating'].toDouble()
                 : 0.0, // Convert to double
             vendorName:
-                service['vendorName'] ?? '', // Handle potential null value
+                service['company_name'] , // Handle potential null value
             imgsUrl: serviceImageUrls,
             price: service['price'] != null
                 ? service['price'].toDouble()
                 : 0.0, // Convert to double
-            description: service['description']['en'] ??
+            description: service['description'] ??
                 '', // Handle potential null value
           ));
         });

@@ -1,3 +1,4 @@
+import 'package:eventique/color.dart';
 import 'package:eventique/screens/vendor_profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,11 @@ class ChatScreen extends StatelessWidget {
     final String vendorImageUrl = routeArgs['vendorImageUrl']!;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: white,
       appBar: AppBar(
         shape: Border(
           bottom: BorderSide(
-            color: Colors.purple,
+            color: primary,
             width: 1.6,
           ),
         ),
@@ -29,7 +30,7 @@ class ChatScreen extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 25,
-                backgroundColor: Colors.grey,
+                backgroundColor: darkBackground,
                 backgroundImage: vendorImageUrl.isNotEmpty
                     ? NetworkImage(vendorImageUrl)
                     : null,
@@ -38,14 +39,14 @@ class ChatScreen extends StatelessWidget {
                     : Icon(
                         Icons.person,
                         size: 25,
-                        color: Colors.white,
+                        color: white,
                       ),
               ),
               SizedBox(width: 16),
               Text(
                 vendorName,
                 style: TextStyle(
-                  color: Colors.purple,
+                  color: primary,
                   fontSize: 24,
                   fontFamily: 'IrishGrover',
                 ),
@@ -59,7 +60,7 @@ class ChatScreen extends StatelessWidget {
             );
           },
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: white,
       ),
       body: Container(
         child: Column(

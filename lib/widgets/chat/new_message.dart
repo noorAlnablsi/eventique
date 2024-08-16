@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eventique/providers/auth_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:eventique/color.dart';
+import 'package:provider/provider.dart';
 
 class NewMessage extends StatefulWidget {
   final String vendorId;
@@ -18,14 +20,15 @@ class _NewMessageState extends State<NewMessage> {
 
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
-    final user = FirebaseAuth.instance.currentUser;
-    final userData = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .get();
-
-    final chatId = user.uid + '_' + widget.vendorId;
-
+    final provider = Provider.of<Auth>(context, listen: false);
+    final userData = provider.userData;
+    final userId = provider.userId.toString();
+    print('this is user id: $userId');
+    final ids = [userId, widget.vendorId]..sort(); // Sort the IDs
+    final chatId = ids.join('_'); // Generate consistent chatId
+    print('Sending message with chatId: $chatId');
+    print(
+        'text: $_enteredMessage \n createdAt: ${Timestamp.now()},userId: $userId,recieverId:${widget.vendorId},userName: ${userData['userName']},userImage: ${userData['userImage']}, messageType: normal');
     FirebaseFirestore.instance
         .collection('chats')
         .doc(chatId)
@@ -34,12 +37,15 @@ class _NewMessageState extends State<NewMessage> {
       {
         'text': _enteredMessage,
         'createdAt': Timestamp.now(),
-        'userId': user.uid,
-        'userName': userData['username'],
-        'userImage': userData['image_url'],
+        'userId': userId,
+        'recieverId': widget.vendorId,
+        'userName': userData['userName'],
+        'userImage': userData['userImage'],
+        'messageType': 'normal',
       },
     );
-
+    final snap = await FirebaseFirestore.instance.collection('chats').get();
+    print(snap.docs.length);
     _controller.clear();
   }
 
@@ -53,9 +59,11 @@ class _NewMessageState extends State<NewMessage> {
           Expanded(
             child: TextField(
               controller: _controller,
+              cursorColor: primary,
               decoration: InputDecoration(
                 hintText: 'Send a message ...',
                 border: OutlineInputBorder(
+                  borderSide: BorderSide(color: primary),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -71,7 +79,7 @@ class _NewMessageState extends State<NewMessage> {
             icon: const Icon(
               Icons.send,
             ),
-            color: Colors.purple,
+            color: primary,
           ),
         ],
       ),

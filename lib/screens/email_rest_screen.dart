@@ -43,6 +43,10 @@ class _EmailRestScreenState extends State<EmailRestScreen> {
       );
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
           content: Text('OTP code sended successfully.'),
           backgroundColor: Colors.green,
         ),
@@ -54,6 +58,10 @@ class _EmailRestScreenState extends State<EmailRestScreen> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
           content: Text('An error occurred. Please try again.'),
           backgroundColor: Colors.red,
         ),

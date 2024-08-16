@@ -170,7 +170,7 @@ class Auth with ChangeNotifier {
       print('signUpToken:$_signUpToken');
       _loginToken = responseData['logginToken'];
       print('loginToken:$_loginToken');
-      _firebaseToken = responseData['firebaseToken'];
+      // _firebaseToken = responseData['firebaseToken'];
       print('firebaseToken:$_firebaseToken');
       _userId = responseData['data']['id'];
       print('userId:$_userId');
@@ -181,7 +181,7 @@ class Auth with ChangeNotifier {
       _userData['userImage'] = responseData['data']['images'][0]['url'];
       print('userImage:${_userData['userImage']}');
       await _saveUserData();
-      await authenticateUserWithCustomToken(_firebaseToken);
+      // await authenticateUserWithCustomToken(_firebaseToken);
       notifyListeners();
     } catch (error) {
       print("Error occurred: ${error.toString()}");
@@ -215,7 +215,7 @@ class Auth with ChangeNotifier {
       }
       _loginToken = responseData['loginToken'];
       print('loginToken:$_loginToken');
-      _firebaseToken = responseData['firebaseToken'];
+      // _firebaseToken = responseData['firebaseToken'];
       print('firebaseToken:$_firebaseToken');
       _userId = responseData['data']['id'];
       print('userId:$_userId');
@@ -227,7 +227,7 @@ class Auth with ChangeNotifier {
       print('userImage:${_userData['userImage']}');
       await StorageManager.updateUserData(
           firebaseToken: _firebaseToken, loginToken: _loginToken);
-      await authenticateUserWithCustomToken(_firebaseToken);
+      //  await authenticateUserWithCustomToken(_firebaseToken);
       notifyListeners();
     } catch (error) {
       print(error.toString());
@@ -235,21 +235,21 @@ class Auth with ChangeNotifier {
     }
   }
 
-  Future<void> authenticateUserWithCustomToken(String customToken) async {
-    try {
-      final FirebaseAuth _auth = FirebaseAuth.instance;
-      final UserCredential userCredential =
-          await _auth.signInWithCustomToken(customToken);
-      User? user = userCredential.user;
-      if (user != null) {
-        print('User authenticated successfully with Custom Token');
-      } else {
-        print('Failed to authenticate user');
-      }
-    } catch (e) {
-      print('Error during authentication: ${e.toString()}');
-    }
-  }
+  // Future<void> authenticateUserWithCustomToken(String customToken) async {
+  //   try {
+  //     final FirebaseAuth _auth = FirebaseAuth.instance;
+  //     final UserCredential userCredential =
+  //         await _auth.signInWithCustomToken(customToken);
+  //     User? user = userCredential.user;
+  //     if (user != null) {
+  //       print('User authenticated successfully with Custom Token');
+  //     } else {
+  //       print('Failed to authenticate user');
+  //     }
+  //   } catch (e) {
+  //     print('Error during authentication: ${e.toString()}');
+  //   }
+  // }
 
   Future<void> forgetVerificationCode(String email, String code) async {
     final url = Uri.parse('$host/api/verAuthOTP');

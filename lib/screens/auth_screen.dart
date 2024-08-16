@@ -47,7 +47,11 @@ class _AuthScreenState extends State<AuthScreen> {
         await Provider.of<Auth>(context, listen: false).login(email, password);
         Navigator.of(context).popAndPushNamed(NavigationBarPage.routeName);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            behavior: SnackBarBehavior.floating,
             content: Text('sign in completed successfully.'),
             backgroundColor: Colors.green,
           ),
@@ -81,7 +85,11 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
         );
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            behavior: SnackBarBehavior.floating,
             content: Text('OTP code sended successfully.'),
             backgroundColor: Colors.green,
           ),
@@ -90,7 +98,11 @@ class _AuthScreenState extends State<AuthScreen> {
     } catch (error) {
       print(error.toString());
       ScaffoldMessenger.of(ctx).showSnackBar(
-        const SnackBar(
+        SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
           content: Text('An error occurred. Please try again.'),
           backgroundColor: Colors.red,
         ),

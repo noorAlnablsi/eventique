@@ -28,7 +28,14 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
   Future<void> _shareEvent() async {
     if (_imageUrls.length < 3) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please upload at least three images')),
+        
+         SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
+          content:const Text('Please upload at least three images'),
+          ),
       );
       return;
     }

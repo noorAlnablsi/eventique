@@ -100,7 +100,8 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                                       widget.serviceId,
                                       widget.price,
                                       widget.imgUrl,
-                                      widget.name           ),
+                                      widget.name,
+                                      null,null),
 
                                            // Show snack bar
                               _scaffoldMessengerState?.showSnackBar(
@@ -184,12 +185,12 @@ class _MyBottomAppBarState extends State<MyBottomAppBar> {
                       color: primarycolor,
                     ),
                     onPressed: () {
-                      if (_commentController.text.isNotEmpty) {
+                      if (_commentController.text.trim().isNotEmpty) {
                         reviewProvider.addReview(
                           widget.serviceId,
                           _commentController.text,
-                          'https://cdn.pixabay.com/photo/2014/10/23/18/05/burger-500054_1280.jpg',
-                          'me',
+                          'https://cdn.pixabay.com/photo/2014/10/23/18/05/burger-500054_1280.jpg',//not needed
+                          'me',//not needed
                         );
                         _commentController.clear();
                         // Close the keyboard

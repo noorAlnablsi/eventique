@@ -1,3 +1,6 @@
+//in the following,there is addServiceToCart method and it uses isCustom property,so when calling this widget,you should
+//pass them if you are comming from chat,(if from my bottom app bar there is no need)
+
 import 'package:eventique/providers/auth_provider.dart';
 
 import '/color.dart';
@@ -8,25 +11,29 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ChooseEvent extends StatefulWidget {
-  const ChooseEvent({
+   ChooseEvent({
     super.key,
     required this.imgUrl,
     required this.name,
     required this.price,
     required this.serviceId,
+    this.isCustom,
+    this.customDescription
   });
 
   final int serviceId;
   final double price;
   final String imgUrl;
   final String name;
+  bool? isCustom;
+  String? customDescription ;
 
   @override
   State<ChooseEvent> createState() => _ChooseEventState();
 }
 
 class _ChooseEventState extends State<ChooseEvent> {
-  String? _selectedEventId;
+  int? _selectedEventId;
 
   @override
   @override
@@ -84,32 +91,38 @@ class _ChooseEventState extends State<ChooseEvent> {
                         contentPadding: const EdgeInsets.symmetric(
                             horizontal: 16, vertical: 8),
                         leading: const Card(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Icon(Icons.celebration,),
+                          ),
                           shape: CircleBorder(
                             side: BorderSide(
                               color: primary, // Stroke color
                               width: 1, // Stroke width
+                            
                             ),
                           ),
                           elevation: 6,
                           color: beige,
                         ),
+                        
                         title: Text(
                           event.name,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16)
                         ),
                         tileColor: _selectedEventId == event.eventId
                             ? Colors.grey[300]
                             : null,
                         onTap: () {
                           setState(() {
-                            _selectedEventId = event.eventId.toString();
+                            _selectedEventId = event.eventId;
                           });
                           cartProvider.changeChosenEvent(event.eventId);
 
                           // Add service to cart
                           Provider.of<Carts>(context, listen: false)
                               .addServiceToCart(widget.serviceId, widget.price,
-                                  widget.imgUrl, widget.name);
+                                  widget.imgUrl, widget.name,widget.isCustom,widget.customDescription);
 
                           //pop the popup
                           Navigator.of(context).pop();

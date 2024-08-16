@@ -87,8 +87,7 @@ class _EventDetailsState extends State<EventDetails> {
         Provider.of<AcceptedServicesPro>(context, listen: true);
     final event = eventProvider.findEventById(widget.eventId);
     final services = acceptedProvider.services;
-    final bool hasOrder = eventProvider
-        .hasOrder; //if it has value the pen will disappear,should be null to show the pen
+    final bool hasOrder = eventProvider.hasOrder; //if it has value the pen will disappear,should be null to show the pen
     final TextStyle? bodyMediumStyle = Theme.of(context).textTheme.bodyMedium;
     print(hasOrder);
     // ...................................................................show dialog.............................................................................
@@ -376,26 +375,31 @@ class _EventDetailsState extends State<EventDetails> {
               firstString: 'Name',
               secondString: event.name,
               onPressed: () => showEditDialog('Name'),
+              hasOrder: hasOrder,
             ),
             MyTextRow(
               firstString: 'Time',
               secondString: event.time.format(context),
               onPressed: () => _selectTime(context),
+              hasOrder: hasOrder,
             ),
             MyTextRow(
               firstString: 'Date',
               secondString: '${event.dateTime.toLocal()}'.split(' ')[0],
               onPressed: () => _selectDate(context),
+              hasOrder: hasOrder,
             ),
             MyTextRow(
               firstString: 'Guests',
               secondString: '${event.guestsNumber} Person',
               onPressed: () => showEditDialog('Guests'),
+              hasOrder: hasOrder,
             ),
             MyTextRow(
               firstString: 'Budget',
               secondString: '${event.budget} \$',
               onPressed: () => showEditDialog('Budget'),
+              hasOrder: hasOrder,
             ),
             services.isEmpty
                 ? SizedBox()
@@ -430,7 +434,10 @@ class _EventDetailsState extends State<EventDetails> {
               ),
             ),
             _isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 60),
+                  child: Center(child: CircularProgressIndicator()),
+                )
                 : AcceptedServices(
                     acceptedList: services,
                   ),

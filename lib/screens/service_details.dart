@@ -1,5 +1,3 @@
-// ignore_for_file: deprecated_member_use
-
 import '/color.dart';
 import 'package:eventique/providers/saved.dart';
 import 'package:eventique/widgets/image_slider.dart';
@@ -19,9 +17,10 @@ class ServiceDetails extends StatefulWidget {
   State<ServiceDetails> createState() => _ServiceDetailsState();
 }
 
-class _ServiceDetailsState extends State<ServiceDetails>
-    with SingleTickerProviderStateMixin {
+class _ServiceDetailsState extends State<ServiceDetails> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  bool _isLoading = true;
+  bool _isSaving = false; // Add a separate loading state for saving
 
   @override
   void initState() {
@@ -29,12 +28,12 @@ class _ServiceDetailsState extends State<ServiceDetails>
     _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSelection);
 
-    // Ensure the first tab is selected when the screen is re-entered
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _tabController.index = 0; // Reset to the first tab
-      Provider.of<AllServices>(context, listen: false)
-          .changeIndexforBottom(0); // Update provider as well
+      _tabController.index = 0;
+      Provider.of<AllServices>(context, listen: false).changeIndexforBottom(0);
     });
+
+    _fetchData();
   }
 
   @override
@@ -42,6 +41,21 @@ class _ServiceDetailsState extends State<ServiceDetails>
     _tabController.removeListener(_handleTabSelection);
     _tabController.dispose();
     super.dispose();
+  }
+
+  Future<void> _fetchData() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    await Provider.of<AllServices>(context, listen: false).fetchAllServices();
+    await Provider.of<Saved>(context, listen: false).fetchSaved();
+
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   void _handleTabSelection() {
@@ -53,11 +67,81 @@ class _ServiceDetailsState extends State<ServiceDetails>
     });
   }
 
+  Future<void> _handleSaved() async {
+    setState(() {
+      _isSaving = true;
+    });
+
+    final savedProvider = Provider.of<Saved>(context, listen: false);
+    bool isAdded;
+
+    if (savedProvider.containsService(widget.serviceId)) {
+      try {
+        await savedProvider.delete(widget.serviceId);
+        isAdded = false;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            backgroundColor: const Color.fromARGB(255, 76, 27, 75),
+            content: const Text(
+              'Removed From Saved',
+              style: TextStyle(color: beige),
+            ),
+            duration: const Duration(seconds: 1),
+          ),
+        );
+      } catch (error) {
+        print("Error deleting service: $error");
+        return;
+      }
+    } else {
+      try {
+        await savedProvider.add(widget.serviceId);
+        isAdded = true;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            backgroundColor: const Color.fromARGB(255, 76, 27, 75),
+            content: const Text(
+              'Added To Saved',
+              style: TextStyle(color: beige),
+            ),
+            duration: const Duration(seconds: 1),
+          ),
+        );
+      } catch (error) {
+        print("Error adding service: $error");
+        return;
+      }
+    }
+
+    await _fetchData();
+    setState(() {
+      _isSaving = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final loadedService = Provider.of<AllServices>(context, listen: false)
         .findById(widget.serviceId);
     final svaedProvider = Provider.of<Saved>(context);
+
+    if (_isLoading || _isSaving) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(
+            color: primary,
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       bottomNavigationBar: MyBottomAppBar(
@@ -70,15 +154,14 @@ class _ServiceDetailsState extends State<ServiceDetails>
         builder: (BuildContext context, BoxConstraints constraints) {
           return Theme(
             data: Theme.of(context).copyWith(
-              useMaterial3: false, // Disable Material 3 for NestedScrollView
+              useMaterial3: false,
             ),
             child: NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
                 return <Widget>[
                   Theme(
                     data: Theme.of(context).copyWith(
-                      useMaterial3: true, // Enable Material 3 for SliverAppBar
+                      useMaterial3: true,
                     ),
                     child: SliverAppBar(
                       pinned: true,
@@ -86,66 +169,20 @@ class _ServiceDetailsState extends State<ServiceDetails>
                       flexibleSpace: FlexibleSpaceBar(
                         title: Text(
                           loadedService.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(fontFamily: 'IrishGrover'),
+                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontFamily: 'IrishGrover'),
                         ),
                       ),
                       actions: [
                         IconButton(
-                          onPressed: () {
-                            if (svaedProvider.savedServices
-                                .contains(loadedService)) {
-                              svaedProvider.delete(widget.serviceId);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  behavior: SnackBarBehavior.floating,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 76, 27, 75),
-                                  content: const Text(
-                                    'Removed From Saved',
-                                    style: TextStyle(
-                                      color: beige,
-                                    ),
-                                  ),
-                                  duration: const Duration(seconds: 1),
-                                ),
-                              );
-                            } else {
-                              svaedProvider.add(widget.serviceId);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  behavior: SnackBarBehavior.floating,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 76, 27, 75),
-                                  content: const Text(
-                                    'Added To Saved',
-                                    style: TextStyle(
-                                      color: beige,
-                                    ),
-                                  ),
-                                  duration: const Duration(seconds: 1),
-                                ),
-                              );
-                            }
-                          },
+                          onPressed: _handleSaved,
                           icon: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: svaedProvider.savedServices
-                                      .contains(loadedService)
-                                  ? const Icon(Icons.bookmark, color: primary)
-                                  : const Icon(Icons.bookmark_border,
-                                      color: primary)),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: svaedProvider.containsService(widget.serviceId)
+                                ? const Icon(Icons.bookmark, color: primary)
+                                : const Icon(Icons.bookmark_border, color: primary),
+                          ),
                           tooltip: 'Add to Saved',
-                        )
+                        ),
                       ],
                       bottom: PreferredSize(
                         preferredSize: const Size.fromHeight(4.0),
@@ -186,3 +223,5 @@ class _ServiceDetailsState extends State<ServiceDetails>
     );
   }
 }
+
+

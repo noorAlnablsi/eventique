@@ -4,6 +4,10 @@ class OneCartService {
   final int quantity;
   final double totalPrice;
   final String imgUrl, name;
+  bool? isCustom;
+  String? customDescription;
+
+
 
   OneCartService({
     required this.OneCartServiceId,
@@ -11,5 +15,7 @@ class OneCartService {
     required this.totalPrice,
     required this.imgUrl,
     required this.name,
+    this.isCustom,
+    this.customDescription,
   });
 }

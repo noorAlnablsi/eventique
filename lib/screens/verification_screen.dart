@@ -102,7 +102,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
         Navigator.of(context).popAndPushNamed(AuthScreen.routeName);
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
           content: Text('Your email has been changed successfully.'),
           backgroundColor: Colors.green,
         ),
@@ -114,7 +118,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
         _isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
           content: Text('An error occurred while sign-up. Please try again.'),
           backgroundColor: Colors.red,
         ),
@@ -146,7 +154,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
           content: Text('Verification code has been resent successfully.'),
           backgroundColor: Colors.green,
         ),
@@ -157,7 +169,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
         _isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+         SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
           content: Text(
               'An error occurred while resending the code. Please try again.'),
           backgroundColor: Colors.red,

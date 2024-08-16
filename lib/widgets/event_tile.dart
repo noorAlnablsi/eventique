@@ -1,3 +1,5 @@
+import 'package:eventique/screens/share_event_screen.dart';
+
 import '/color.dart';
 import 'package:eventique/screens/cart.dart';
 import 'package:eventique/screens/event_details.dart';
@@ -51,7 +53,9 @@ class EventTile extends StatelessWidget {
             ),
           );
         },
+        
         onLongPress: () async {
+           controller == 1?
           await showDialog<bool>(
             context: context,
             builder: (context) => AlertDialog(
@@ -64,9 +68,7 @@ class EventTile extends StatelessWidget {
                     .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               content: Text(
-                controller == 1
-                    ? 'By deleting this event, you will cancel any accepted orders, and the money spent will not be refunded.'
-                    : 'Remove event from list?',
+                 'By deleting this event, we will not cancel any accepted orders, and the money spent will not be refunded.',
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge!
@@ -97,7 +99,8 @@ class EventTile extends StatelessWidget {
                 ),
               ],
             ),
-          );
+          ):
+          print('do nothing');
         },
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -168,7 +171,12 @@ class EventTile extends StatelessWidget {
                               ),
                             ),
                           )
-                        : print('navigate to share event');
+                        : Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (ctx) => ShareEventScreen()
+                            ),
+                          );
                   },
                   icon: Icon(
                     controller == 1 ? Icons.trolley : Icons.share,
