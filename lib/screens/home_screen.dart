@@ -132,50 +132,54 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: size.width * 0.4,
                       child: ListView.builder(
+                        
                         scrollDirection: Axis.horizontal,
                         itemCount: loadedPackages.length,
                         itemBuilder: (ctx, i) {
-                          return InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                OnePackageDetailsPage.routeName,
-                                arguments: loadedPackages[i].id,
-                              );
-                            },
-                            child: Stack(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Image.asset(
-                                    'images/${i % totalImages}.jpg', // Use modulo to cycle through images
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (BuildContext context,
-                                        Object exception,
-                                        StackTrace? stackTrace) {
-                                      print(
-                                          'Failed to load image: ${i % totalImages}.jpg');
-                                      return Container(
-                                        color: const Color.fromARGB(
-                                            255, 230, 230, 230),
-                                      );
-                                    },
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                  OnePackageDetailsPage.routeName,
+                                  arguments: loadedPackages[i].id,
+                                );
+                              },
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.asset(
+                                      'assets/images/${i % totalImages}.jpg', // Use modulo to cycle through images
+                                      width:size.width*0.55,
+                                      height: size.width*0.5,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (BuildContext context,
+                                          Object exception,
+                                          StackTrace? stackTrace) {
+                                        print(
+                                            'Failed to load image: ${i % totalImages}.jpg');
+                                        return Container(
+                                          color: const Color.fromARGB(
+                                              255, 230, 230, 230),
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                                Positioned(
-                                    bottom: 16,
-                                    left: 94,
-                                    child: Text(
-                                      loadedPackages[i].name ??
-                                          'Birthday',
-                                      style: TextStyle(
-                                          color: primary,
-                                          fontFamily: 'CENSCBK',
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
-                                    ))
-                              ],
+                                  Positioned(
+                                      bottom: 16,
+                                      left: 94,
+                                      child: Text(
+                                        loadedPackages[i].name ??
+                                            'Birthday',
+                                        style: TextStyle(
+                                            color: primary,
+                                            fontFamily: 'CENSCBK',
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                      ))
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -265,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           const Gap(15),
                                           Text(
-                                            loadedYouAndUs[index].description!,
+                                            'perfect',
                                             style: const TextStyle(
                                                 fontSize: 16,
                                                 color: primary,

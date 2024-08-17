@@ -77,7 +77,7 @@ class Messages extends StatelessWidget {
               );
             if (chatDocs[i]['messageType'] == 'service')
                 return CustomizeTile(
-                  serviceImage: "chatDocs[i]['serviceImage']",
+                  serviceImage: chatDocs[i]['serviceImage'],
                   serviceId: (chatDocs[i]['serviceId']).toString(),
                   serviceName: chatDocs[i]['service'],
                   serviceDes: chatDocs[i]['description'],

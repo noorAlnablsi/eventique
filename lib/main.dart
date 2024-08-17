@@ -37,7 +37,7 @@ import '/screens/email_rest_screen.dart';
 import '/screens/password_rest_screen.dart';
 import '/screens/vendor_profile_screen.dart';
 
-const String host = 'http://192.168.1.107:8000';
+const String host = 'http://192.168.43.184:8000';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -239,8 +239,32 @@ class MyApp extends StatelessWidget {
             SharedEventsForOneUserScreen.routeName: (ctx) =>
                 SharedEventsForOneUserScreen(),
           },
+           theme: ThemeData(
+          // useMaterial3: false,
+          primaryColor: Color(0xff662465),
+          scaffoldBackgroundColor: const Color(0xFFFFFDF0),
+          appBarTheme: const AppBarTheme(
+            color: Color(0xFFFFFDF0),
+          ),
+          textTheme: const TextTheme(
+            bodyLarge: TextStyle(
+                fontSize: 22.0,
+                fontFamily: 'Bahnschrift',
+                color: Color(0xff662465),),
+            bodyMedium: TextStyle(
+                fontSize: 14.0,
+                fontFamily: 'Bahnschrift',
+                fontWeight: FontWeight.bold,
+                color: Color(0xff662465)),
+            bodySmall: TextStyle(
+                fontSize: 14.0,
+                fontFamily: 'Bahnschrift',
+                color: Color(0xff662465)),
+          ),
+        ),
         ),
       ),
     );
+    
   }
 }

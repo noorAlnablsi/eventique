@@ -7,6 +7,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class HomeProvider with ChangeNotifier {
+  HomeProvider(){
+    fetchPackages();
+    fetchYouAndUs();
+  }
   List<Package> _packages = [];
   List<YouAndUs> _youAndUs = [];
   YouAndUs _oneYouAndUs = YouAndUs();

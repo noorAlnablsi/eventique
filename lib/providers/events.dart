@@ -133,7 +133,7 @@ class EventTypesService {
       Uri.parse(apiUrl),
       headers: {
         'Accept': 'application/json',
-        'locale': 'ar',
+        'locale': 'en',
       },
     );
     if (response.statusCode == 200) {
@@ -166,7 +166,7 @@ class EventsService {
 
     final response = await http.post(Uri.parse(apiUrl), headers: {
       'Accept': 'application/json',
-      'locale': 'ar',
+      'locale': 'en',
       'Authorization': 'Bearer $token',
     }, body: {
       "name": name,
@@ -192,7 +192,7 @@ class EventsService {
       Uri.parse(apiUrl2),
       headers: {
         'Accept': 'application/json',
-        'locale': 'ar',
+        'locale': 'en',
         'Authorization': 'Bearer $token',
       },
     );
@@ -211,7 +211,7 @@ class EventsService {
       Uri.parse(apiUrl1),
       headers: {
         'Accept': 'application/json',
-        'locale': 'ar',
+        'locale': 'en',
         'Authorization': 'Bearer $token',
       },
     );
@@ -251,7 +251,7 @@ class EventsService {
       Uri.parse(apiUrl2),
       headers: {
         'Accept': 'application/json',
-        'locale': 'ar',
+        'locale': 'en',
         'Authorization': 'Bearer $token',
       },
     );
@@ -290,7 +290,7 @@ class EventsService {
     url,
     headers: {
       'Accept': 'application/json',
-      'locale': 'ar',
+      'locale': 'en',
       'Authorization': 'Bearer $token',
     },
   );
@@ -365,7 +365,7 @@ class EventsService {
       Uri.parse(apiUrl),
       headers: {
         'Accept': 'application/json',
-        'locale': 'ar',
+        'locale': 'en',
         'Authorization': 'Bearer $token',
       },
       body: body,

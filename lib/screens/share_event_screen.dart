@@ -26,7 +26,7 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
   }
 
   Future<void> _shareEvent() async {
-    if (_imageUrls.length < 3) {
+    if (_imageUrls.length < 1) {
       ScaffoldMessenger.of(context).showSnackBar(
         
          SnackBar(
@@ -45,6 +45,7 @@ class _ShareEventScreenState extends State<ShareEventScreen> {
       setState(() {
         _isLoading = true;
       });
+      print(id);
       await Provider.of<ShareEventProvider>(context, listen: false)
           .shareEvent(id, description, _imageUrls);
       setState(() {

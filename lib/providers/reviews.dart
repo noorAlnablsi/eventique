@@ -87,7 +87,7 @@ class ReviewsService {
     print('iam in addReviewwwwwwwww');
     final response = await http.post(Uri.parse(apiUrl), headers: {
       'Accept': 'application/json',
-      'locale': 'ar',
+      'locale': 'en',
       'Authorization': 'Bearer $token',
     }, body: {
       "rate": rate.toString(),
@@ -111,7 +111,7 @@ class ReviewsService {
       Uri.parse(apiUrl),
       headers: {
         'Accept': 'application/json',
-        'locale': 'ar',
+        'locale': 'en',
         'Authorization': 'Bearer $token',
       },
     );
@@ -131,7 +131,7 @@ class ReviewsService {
       Uri.parse(apiUrl),
       headers: {
         'Accept': 'application/json',
-        'locale': 'ar',
+        'locale': 'en',
         'Authorization': 'Bearer $token',
       },
     );

@@ -57,7 +57,7 @@ class _YouAndUsPageState extends State<YouAndUsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Order Details",
+          "Event Details",
           style: Theme.of(context)
               .textTheme
               .bodyLarge!
@@ -103,7 +103,7 @@ class _YouAndUsPageState extends State<YouAndUsPage> {
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold)),
                               TextSpan(
-                                  text: youAndUsData.description ?? '',
+                                  text: 'perfect',
                                   style: const TextStyle(
                                       fontSize: 18,
                                       fontFamily: 'IrishGrover',

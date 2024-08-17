@@ -1,7 +1,10 @@
 import 'package:eventique/color.dart';
+import 'package:eventique/widgets/choose_event.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:eventique/providers/carts.dart';
 
-class CustomizeTile extends StatelessWidget {
+class CustomizeTile extends StatefulWidget {
   final String serviceId;
   final String serviceName;
   final String serviceImage;
@@ -24,14 +27,35 @@ class CustomizeTile extends StatelessWidget {
       required this.key});
 
   @override
+  State<CustomizeTile> createState() => _CustomizeTileState();
+}
+
+class _CustomizeTileState extends State<CustomizeTile> {
+  @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<Carts>(context);
+    ScaffoldMessengerState? _scaffoldMessengerState;
+
+    // @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _scaffoldMessengerState = ScaffoldMessenger.of(context);
+  }
+
+  @override
+  void dispose() {
+    _scaffoldMessengerState?.hideCurrentSnackBar();
+    super.dispose();
+  }
+
+    
     return Row(
-      mainAxisAlignment: isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment: widget.isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
       children: [
-        if (!isMe)
+        if (!widget.isMe)
           CircleAvatar(
             backgroundImage: NetworkImage(
-              userImage,
+              widget.userImage,
             ),
           ),
         Container(
@@ -42,8 +66,8 @@ class CustomizeTile extends StatelessWidget {
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
-              bottomLeft: !isMe ? Radius.circular(0) : Radius.circular(10),
-              bottomRight: isMe ? Radius.circular(0) : Radius.circular(10),
+              bottomLeft: !widget.isMe ? Radius.circular(0) : Radius.circular(10),
+              bottomRight: widget.isMe ? Radius.circular(0) : Radius.circular(10),
             ),
             color: white,
           ),
@@ -52,14 +76,14 @@ class CustomizeTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                userName,
+                widget.userName,
                 style: TextStyle(
                   color: primary,
                   fontFamily: 'CENSCBK',
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                 ),
-                textAlign: isMe ? TextAlign.end : TextAlign.start,
+                textAlign: widget.isMe ? TextAlign.end : TextAlign.start,
               ),
               Text(
                 'Original service',
@@ -71,7 +95,7 @@ class CustomizeTile extends StatelessWidget {
                 ),
               ),
               Text(
-                serviceName,
+                widget.serviceName,
                 style: TextStyle(
                   color: primary,
                   fontFamily: 'CENSCBK',
@@ -89,7 +113,7 @@ class CustomizeTile extends StatelessWidget {
                 ),
               ),
               Text(
-                serviceName,
+                widget.serviceName,
                 style: TextStyle(
                   color: primary,
                   fontFamily: 'CENSCBK',
@@ -101,7 +125,7 @@ class CustomizeTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    price,
+                    widget.price,
                     style: TextStyle(
                       color: primary,
                       fontFamily: 'CENSCBK',
@@ -113,7 +137,58 @@ class CustomizeTile extends StatelessWidget {
                   //   width: 10,
                   // ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      cartProvider.chosenEventId==-1?
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            surfaceTintColor: beige,
+                            backgroundColor: beige,
+                            content: ChooseEvent(
+                              imgUrl: widget.serviceImage,
+                              name: widget.serviceName,
+                              price: double.parse(widget.price) ,
+                              serviceId:int.parse(widget.serviceId),
+                              isCustom: true,
+                              customDescription: widget.serviceDes,
+                            ),
+                            
+                          );
+                        },
+                      ):
+
+                       {   // Add service to cart
+                              Provider.of<Carts>(context, listen: false)
+                                  .addServiceToCart(
+                                      int.parse(widget.serviceId) ,
+                                      double.parse(widget.price),
+                                      widget.userImage,
+                                      widget.serviceName,
+                                      true,
+                                      widget.serviceDes
+                                      ),
+
+                                           // Show snack bar
+                              _scaffoldMessengerState?.showSnackBar(
+                                SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 76, 27, 75),
+                                  content: Text(
+                                    'Added successfully',
+                                    style: TextStyle(
+                                      color: beige,
+                                    ),
+                                  ),
+                                  duration: const Duration(seconds: 1),
+                                ),
+                              )
+                    };
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(87, 14, 87, 1),
                       fixedSize:

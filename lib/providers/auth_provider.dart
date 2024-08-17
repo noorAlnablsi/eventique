@@ -50,7 +50,7 @@ class Auth with ChangeNotifier {
     if (_userId != 0) {
       return _userId;
     }
-    return -1;
+    return 4;
   }
 
   String get fireToken {
@@ -191,6 +191,7 @@ class Auth with ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     final url = Uri.parse('$host/api/login');
+    print(url);
     print(_signUpToken);
     try {
       final response = await http.post(
@@ -215,7 +216,7 @@ class Auth with ChangeNotifier {
       }
       _loginToken = responseData['loginToken'];
       print('loginToken:$_loginToken');
-      // _firebaseToken = responseData['firebaseToken'];
+       _firebaseToken = responseData['firebaseToken'];
       print('firebaseToken:$_firebaseToken');
       _userId = responseData['data']['id'];
       print('userId:$_userId');

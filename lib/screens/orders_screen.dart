@@ -134,7 +134,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ),
           )
         : ListView.builder(
-          reverse: true,
+          // reverse: true,
             padding: EdgeInsets.only(bottom: 40.0),
             itemCount: orders.length,
             itemBuilder: (ctx, i) {

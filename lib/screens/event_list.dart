@@ -117,7 +117,7 @@ class _EventListPageState extends State<EventListPage> {
                       Stack(children: [
                         buildEventList(eventProvider.planningEvents, context, 1),
                         Positioned(
-                          bottom: 32,
+                          bottom: 100,
                           right: 32,
                           child: FloatingActionButton(
                             onPressed: () {

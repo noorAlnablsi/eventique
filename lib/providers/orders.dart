@@ -232,6 +232,7 @@ Future<bool> orderPackage(int eventId, int packageId) async {
   }
 
   Future<void> fetchOrderDetails(String id) async {
+    print('iam in fetchOrderDetails');
     final url = Uri.parse('$host/api/order_details');
     print(url);
     try {
@@ -246,6 +247,7 @@ Future<bool> orderPackage(int eventId, int packageId) async {
           'order_id': id,
         },
       );
+      print(response.body);
 
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
