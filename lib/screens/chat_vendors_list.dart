@@ -53,10 +53,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
     final vendorsProvider = Provider.of<VendorsProvider>(context);
     final vendors = vendorsProvider.vendorsList;
-
+    print(vendors);
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(

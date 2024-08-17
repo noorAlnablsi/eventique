@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eventique/color.dart';
 import 'package:eventique/providers/auth_provider.dart';
+import 'package:eventique/widgets/chat/customize_tile.dart';
 import 'package:eventique/widgets/chat/message_bubble.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,20 @@ class Messages extends StatelessWidget {
                     chatDocs[i]['userId'] == userId,
                 key: ValueKey(chatDocs[i].id),
               );
-            if (chatDocs[i]['messageType'] == 'service') return Text("service");
+            if (chatDocs[i]['messageType'] == 'service')
+                return CustomizeTile(
+                  serviceImage: "chatDocs[i]['serviceImage']",
+                  serviceId: (chatDocs[i]['serviceId']).toString(),
+                  serviceName: chatDocs[i]['service'],
+                  serviceDes: chatDocs[i]['description'],
+                  price: (chatDocs[i]['price']).toString(),
+                  userName: chatDocs[i]['companyName'],
+                  userImage: chatDocs[i]['logo'],
+                  isMe: chatDocs[i].data().containsKey('recieverId') &&
+                      chatDocs[i]['recieverId'] ==
+                          userId, // Check if sender is user
+                  key: ValueKey(chatDocs[i].id));
+           
           },
         );
       },
