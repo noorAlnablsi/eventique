@@ -53,54 +53,53 @@ class EventTile extends StatelessWidget {
             ),
           );
         },
-        
         onLongPress: () async {
-           controller == 1?
-          await showDialog<bool>(
-            context: context,
-            builder: (context) => AlertDialog(
-              backgroundColor: const Color(0xFFFFFDF0),
-              title: Text(
-                'Delete this event?',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              content: Text(
-                 'By deleting this event, we will not cancel any accepted orders, and the money spent will not be refunded.',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Cancel',
+          controller == 1
+              ? await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    backgroundColor: const Color(0xFFFFFDF0),
+                    title: Text(
+                      'Delete this event?',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.w500)),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: Text('Continue',
+                          .bodyLarge!
+                          .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    content: Text(
+                      'By deleting this event, we will not cancel any accepted orders, and the money spent will not be refunded.',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.w500)),
-                  onPressed: () {
-                    Provider.of<Events>(context, listen: false)
-                        .deleteEvent(eventId);
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ),
-          ):
-          print('do nothing');
+                          .bodyLarge!
+                          .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Cancel',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(fontWeight: FontWeight.w500)),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text('Continue',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(fontWeight: FontWeight.w500)),
+                        onPressed: () {
+                          Provider.of<Events>(context, listen: false)
+                              .deleteEvent(eventId);
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                )
+              : print('do nothing');
         },
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -171,11 +170,9 @@ class EventTile extends StatelessWidget {
                               ),
                             ),
                           )
-                        : Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (ctx) => ShareEventScreen()
-                            ),
+                        : Navigator.of(context).pushNamed(
+                            ShareEventScreen.routeName,
+                            arguments: eventId,
                           );
                   },
                   icon: Icon(

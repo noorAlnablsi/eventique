@@ -44,6 +44,7 @@ class _YouAndUsPageState extends State<YouAndUsPage> {
     super.didChangeDependencies();
     if (_isInit) {
       final id = ModalRoute.of(context)!.settings.arguments as int;
+      print(id);
       fetchDetails(id);
       _isInit = false;
     }
@@ -90,7 +91,7 @@ class _YouAndUsPageState extends State<YouAndUsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(30.0,30,30,0),
+                        padding: const EdgeInsets.fromLTRB(30.0, 30, 30, 0),
                         child: RichText(
                           text: TextSpan(
                             children: <TextSpan>[
@@ -103,7 +104,7 @@ class _YouAndUsPageState extends State<YouAndUsPage> {
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold)),
                               TextSpan(
-                                  text: 'perfect',
+                                  text: youAndUsData.description ?? 'perfect',
                                   style: const TextStyle(
                                       fontSize: 18,
                                       fontFamily: 'IrishGrover',
@@ -242,10 +243,10 @@ class _YouAndUsPageState extends State<YouAndUsPage> {
                               //             style: const TextStyle(),
                               //           ),
                               //           subtitle: const Text("Parfait"),
-                                        // leading: const Icon(Icons.cake),
-                                        // trailing: const Icon(
-                                        //   Icons.arrow_forward_ios,
-                                        // ),
+                              // leading: const Icon(Icons.cake),
+                              // trailing: const Icon(
+                              //   Icons.arrow_forward_ios,
+                              // ),
                               //         ),
                               //       ),
                               //     ),
@@ -318,29 +319,30 @@ class _YouAndUsPageState extends State<YouAndUsPage> {
                                               ),
                                               const SizedBox(height: 8),
                                               Text(
-                                                service.vendorName ,
+                                                service.vendorName,
                                                 softWrap: false,
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: bodyMediumStyle.copyWith(
-                                                  color: Color.fromRGBO(126, 116, 126, 1),
+                                                  color: Color.fromRGBO(
+                                                      126, 116, 126, 1),
                                                   fontFamily: 'IrishGrover',
                                                   fontWeight: FontWeight.normal,
                                                 ),
                                               ),
-                                       
                                             ],
                                           ),
                                         ),
                                       ),
-                                       Padding(
-                                         padding: const EdgeInsets.symmetric(horizontal: 8),
-                                         child: Icon(
-                                            Icons.arrow_forward_ios,
-                                            size: 14,
-                                            color: primary,
-                                          ),
-                                       ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8),
+                                        child: Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: 14,
+                                          color: primary,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),

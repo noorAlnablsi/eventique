@@ -42,6 +42,7 @@ class SharedEventTile extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: () {
+          print(eventId);
           Navigator.of(context)
               .pushNamed(YouAndUsPage.routeName, arguments: eventId);
         },

@@ -274,7 +274,10 @@ class _AuthFormState extends State<AuthForm> {
                             ),
                           ],
                         ),
-                      if (widget.isLoading) const CircularProgressIndicator(),
+                      if (widget.isLoading)
+                        const CircularProgressIndicator(
+                          color: primary,
+                        ),
                       if (!widget.isLoading)
                         ElevatedButton(
                           onPressed: _trySubmit,

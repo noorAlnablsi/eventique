@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final homeProvider = Provider.of<HomeProvider>(context);
     final loadedPackages = homeProvider.allPackages;
     final loadedYouAndUs = homeProvider.allYouAndUs;
-        int totalImages = 8;
+    int totalImages = 8;
 
     return Scaffold(
       backgroundColor: white,
@@ -127,12 +127,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: size.width * 0.04,
                     ),
-   //here..............................................................................................................
+                    //here..............................................................................................................
 
                     SizedBox(
                       height: size.width * 0.4,
                       child: ListView.builder(
-                        
                         scrollDirection: Axis.horizontal,
                         itemCount: loadedPackages.length,
                         itemBuilder: (ctx, i) {
@@ -151,8 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     borderRadius: BorderRadius.circular(16),
                                     child: Image.asset(
                                       'assets/images/${i % totalImages}.jpg', // Use modulo to cycle through images
-                                      width:size.width*0.55,
-                                      height: size.width*0.5,
+                                      width: size.width * 0.55,
+                                      height: size.width * 0.5,
                                       fit: BoxFit.cover,
                                       errorBuilder: (BuildContext context,
                                           Object exception,
@@ -170,8 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       bottom: 16,
                                       left: 94,
                                       child: Text(
-                                        loadedPackages[i].name ??
-                                            'Birthday',
+                                        loadedPackages[i].name ?? 'Birthday',
                                         style: TextStyle(
                                             color: primary,
                                             fontFamily: 'CENSCBK',
@@ -269,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           const Gap(15),
                                           Text(
-                                            'perfect',
+                                            loadedYouAndUs[index].description!,
                                             style: const TextStyle(
                                                 fontSize: 16,
                                                 color: primary,

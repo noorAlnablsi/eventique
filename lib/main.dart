@@ -37,7 +37,7 @@ import '/screens/email_rest_screen.dart';
 import '/screens/password_rest_screen.dart';
 import '/screens/vendor_profile_screen.dart';
 
-const String host = 'http://192.168.43.184:8000';
+const String host = 'http://192.168.1.107:8000';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -180,35 +180,44 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: HomeProvider(),
         ),
-        ChangeNotifierProvider.value(
-          value: VendorsProvider(token),
+        ChangeNotifierProxyProvider<Auth, VendorsProvider>(
+          create: (_) => VendorsProvider(token),
+          update: (context, auth, previous) => VendorsProvider(auth.token),
         ),
         ChangeNotifierProvider(
           create: (ctx) => AllServices(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Reviews(token),
+        ChangeNotifierProxyProvider<Auth, Reviews>(
+          create: (_) => Reviews(token),
+          update: (context, auth, previous) => Reviews(auth.token),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Carts(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Orders(token, id),
+        ChangeNotifierProxyProvider<Auth, Orders>(
+          create: (_) => Orders(token, id),
+          update: (context, auth, previous) => Orders(auth.token, auth.userId),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Events(token, id),
+        ChangeNotifierProxyProvider<Auth, Events>(
+          create: (_) => Events(token, id),
+          update: (context, auth, previous) => Events(auth.token, auth.userId),
         ),
-        ChangeNotifierProvider.value(
-          value: Saved(token),
+        ChangeNotifierProxyProvider<Auth, Saved>(
+          create: (_) => Saved(token),
+          update: (context, auth, previous) => Saved(auth.token),
         ),
-        ChangeNotifierProvider.value(
-          value: AcceptedServicesPro(token),
+        ChangeNotifierProxyProvider<Auth, AcceptedServicesPro>(
+          create: (_) => AcceptedServicesPro(token),
+          update: (context, auth, previous) => AcceptedServicesPro(auth.token),
         ),
-        ChangeNotifierProvider.value(
-          value: WalletProvider(token, id),
+        ChangeNotifierProxyProvider<Auth, WalletProvider>(
+          create: (_) => WalletProvider(token, id),
+          update: (context, auth, previous) =>
+              WalletProvider(auth.token, auth.userId),
         ),
-        ChangeNotifierProvider.value(
-          value: ShareEventProvider(token),
+        ChangeNotifierProxyProvider<Auth, ShareEventProvider>(
+          create: (_) => ShareEventProvider(token),
+          update: (context, auth, previous) => ShareEventProvider(auth.token),
         ),
       ],
       child: Consumer<Auth>(
@@ -239,32 +248,32 @@ class MyApp extends StatelessWidget {
             SharedEventsForOneUserScreen.routeName: (ctx) =>
                 SharedEventsForOneUserScreen(),
           },
-           theme: ThemeData(
-          // useMaterial3: false,
-          primaryColor: Color(0xff662465),
-          scaffoldBackgroundColor: const Color(0xFFFFFDF0),
-          appBarTheme: const AppBarTheme(
-            color: Color(0xFFFFFDF0),
-          ),
-          textTheme: const TextTheme(
-            bodyLarge: TextStyle(
+          theme: ThemeData(
+            // useMaterial3: false,
+            primaryColor: Color(0xff662465),
+            scaffoldBackgroundColor: const Color(0xFFFFFDF0),
+            appBarTheme: const AppBarTheme(
+              color: Color(0xFFFFFDF0),
+            ),
+            textTheme: const TextTheme(
+              bodyLarge: TextStyle(
                 fontSize: 22.0,
                 fontFamily: 'Bahnschrift',
-                color: Color(0xff662465),),
-            bodyMedium: TextStyle(
-                fontSize: 14.0,
-                fontFamily: 'Bahnschrift',
-                fontWeight: FontWeight.bold,
-                color: Color(0xff662465)),
-            bodySmall: TextStyle(
-                fontSize: 14.0,
-                fontFamily: 'Bahnschrift',
-                color: Color(0xff662465)),
+                color: Color(0xff662465),
+              ),
+              bodyMedium: TextStyle(
+                  fontSize: 14.0,
+                  fontFamily: 'Bahnschrift',
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff662465)),
+              bodySmall: TextStyle(
+                  fontSize: 14.0,
+                  fontFamily: 'Bahnschrift',
+                  color: Color(0xff662465)),
+            ),
           ),
-        ),
         ),
       ),
     );
-    
   }
 }

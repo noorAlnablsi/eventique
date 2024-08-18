@@ -6,15 +6,12 @@ import 'package:eventique/screens/navigation_bar_page.dart';
 import '/color.dart';
 import '/providers/auth_provider.dart';
 import '/models/verifications_arguments.dart';
-import '/screens/home_screen.dart';
 import '/screens/verification_screen.dart';
 import '/widgets/auth/auth_form.dart';
 import '/widgets/auth/circular_shape.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -27,7 +24,6 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  final _auth = FirebaseAuth.instance;
   bool _isLoading = false;
   Future<void> _submitAuthForm(
     String email,
