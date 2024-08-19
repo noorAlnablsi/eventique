@@ -174,6 +174,7 @@ class EventTile extends StatelessWidget {
                             ShareEventScreen.routeName,
                             arguments: eventId,
                           );
+                    print('in event tile the id :$eventId');
                   },
                   icon: Icon(
                     controller == 1 ? Icons.trolley : Icons.share,

@@ -108,6 +108,7 @@ Widget buildEventList(
           itemCount: events.length,
           itemBuilder: (ctx, i) {
             return SharedEventTile(
+              youAndUsId: events[i].youAndUsId!,
               eventDate: events[i].dateTime,
               eventName: events[i].name,
               eventTypeId: events[i].eventTypeId,

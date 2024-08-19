@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class OneEvent {
+  int? youAndUsId;
   final int eventId;
   final String name;
   final double budget;
@@ -10,6 +11,7 @@ class OneEvent {
   final int eventTypeId;
 
   OneEvent({
+    this.youAndUsId,
     required this.eventId,
     required this.name,
     required this.budget,

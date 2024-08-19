@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 class SharedEventTile extends StatelessWidget {
   const SharedEventTile({
     super.key,
+    required this.youAndUsId,
     required this.eventName,
     required this.eventDate,
     required this.eventTypeId,
@@ -18,7 +19,7 @@ class SharedEventTile extends StatelessWidget {
     required this.guests,
     required this.eventTime,
   });
-
+  final int youAndUsId;
   final String eventName;
   final double eventBudget;
   final int eventId;
@@ -30,7 +31,7 @@ class SharedEventTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextStyle? bodyMediumStyle = Theme.of(context).textTheme.bodyMedium;
-
+    print(eventId);
     return Card(
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Color(0xff662465), width: 1),
@@ -44,7 +45,7 @@ class SharedEventTile extends StatelessWidget {
         onTap: () {
           print(eventId);
           Navigator.of(context)
-              .pushNamed(YouAndUsPage.routeName, arguments: eventId);
+              .pushNamed(YouAndUsPage.routeName, arguments: youAndUsId);
         },
         onLongPress: () async {
           await showDialog<bool>(

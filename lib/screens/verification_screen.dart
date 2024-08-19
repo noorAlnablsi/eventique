@@ -93,6 +93,25 @@ class _VerificationScreenState extends State<VerificationScreen> {
           NewPasswordScreen.routeName,
           arguments: args.email,
         );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            behavior: SnackBarBehavior.floating,
+            content: Text('Sign up completed successfully.'),
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          behavior: SnackBarBehavior.floating,
+          content: Text('Your password has been changed successfully.'),
+          backgroundColor: Colors.green,
+        ));
       } else if (args.type == 'resetEmail') {
         await Provider.of<Auth>(context, listen: false)
             .RestVerificationCode(args.email.trim(), verificationCode.trim());
@@ -100,17 +119,16 @@ class _VerificationScreenState extends State<VerificationScreen> {
           _isLoading = false;
         });
         Navigator.of(context).popAndPushNamed(AuthScreen.routeName);
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           behavior: SnackBarBehavior.floating,
           content: Text('Your email has been changed successfully.'),
           backgroundColor: Colors.green,
-        ),
-      );
+        ));
+      }
     } catch (error) {
       print(error.toString());
       setState(() {
@@ -118,7 +136,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         _isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
+        SnackBar(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -154,7 +172,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
+        SnackBar(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -169,7 +187,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         _isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
+        SnackBar(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

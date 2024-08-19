@@ -63,13 +63,12 @@ class Events with ChangeNotifier {
   }
 
   void deleteEvent(int eventId) {
-  eventsService.deleteEvent(eventId, token).then((_) {
-    fetchPlanningEvents();
-    fetchCompletedEvents();
-  });
-  notifyListeners();
-}
-
+    eventsService.deleteEvent(eventId, token).then((_) {
+      fetchPlanningEvents();
+      fetchCompletedEvents();
+    });
+    notifyListeners();
+  }
 
   void editEvent(String? name, double? budget, int? guestsNumber,
       TimeOfDay? time, DateTime? dateTime, int? eventTypeId, int eventId) {
@@ -77,7 +76,7 @@ class Events with ChangeNotifier {
         eventTypeId, token, eventId);
   }
 
-   OneEvent findEventById(int eventId) {
+  OneEvent findEventById(int eventId) {
     try {
       return _planningEvents.firstWhere((event) => event.eventId == eventId);
     } catch (e) {
@@ -284,49 +283,47 @@ class EventsService {
   }
 
   Future<List<OneEvent>> showSharedEvent(String token, int id) async {
-  print('I am in show Shared Eventttttttt ');
-  final url = Uri.parse('$host/api/getYouAndUsByUser/$id');
-  final response = await http.get(
-    url,
-    headers: {
-      'Accept': 'application/json',
-      'locale': 'en',
-      'Authorization': 'Bearer $token',
-    },
-  );
-  if (response.statusCode == 200) {
-    print('Successfully fetched shared events');
-    print(response.body);
-    final data = jsonDecode(response.body);
+    print('I am in show Shared Eventttttttt ');
+    final url = Uri.parse('$host/api/getYouAndUsByUser/$id');
+    print(url);
+    final response = await http.get(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'locale': 'en',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) {
+      print('Successfully fetched shared events');
+      print(response.body);
+      final data = jsonDecode(response.body);
+      final events = data['youandus'] as List;
+      return events.map((e) {
+        final event = e['event'];
+        final youandusId = e['id'];
+        final date = DateTime.parse(event['date']);
+        final time = TimeOfDay(
+          hour: int.parse(event['time'].substring(0, 2)),
+          minute: int.parse(event['time'].substring(3, 5)),
+        );
 
-    // Access the 'youandus' key instead of 'data'
-    final events = data['youandus'] as List;
-
-    return events.map((e) {
-      // Access the nested 'event' object
-      final event = e['event'];
-      final date = DateTime.parse(event['date']);
-      final time = TimeOfDay(
-        hour: int.parse(event['time'].substring(0, 2)),
-        minute: int.parse(event['time'].substring(3, 5)),
-      );
-
-      return OneEvent(
-        eventId: event['id'],
-        name: event['name'],
-        budget: event['budget'].toDouble(), // Assuming budget is double
-        guestsNumber: event['guests'],
-        time: time,
-        dateTime: date,
-        eventTypeId: event['event_type_id'],
-      );
-    }).toList();
-  } else {
-    print(response.body);
-    throw Exception('Failed showEventttttttt');
+        return OneEvent(
+          youAndUsId: youandusId,
+          eventId: event['id'],
+          name: event['name'],
+          budget: event['budget'].toDouble(),
+          guestsNumber: event['guests'],
+          time: time,
+          dateTime: date,
+          eventTypeId: event['event_type_id'],
+        );
+      }).toList();
+    } else {
+      print(response.body);
+      throw Exception('Failed showEventttttttt');
+    }
   }
-}
-
 
   void editEvent(
       String? name,
